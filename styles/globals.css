@@ -1,0 +1,286 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.646 0.222 41.116); /* Vibrant orange */
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.398 0.07 227.392); /* Vibrant blue */
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116); /* Orange */
+  --chart-2: oklch(0.6 0.118 184.704); /* Teal */
+  --chart-3: oklch(0.398 0.07 227.392); /* Blue */
+  --chart-4: oklch(0.828 0.189 84.429); /* Green */
+  --chart-5: oklch(0.769 0.188 70.08); /* Yellow */
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.646 0.222 41.116); /* Orange */
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  
+  /* Additional vibrant colors for agents */
+  --farm-agent: oklch(0.646 0.222 41.116); /* Orange */
+  --water-agent: oklch(0.398 0.07 227.392); /* Blue */
+  --power-agent: oklch(0.828 0.189 84.429); /* Green */
+  --welfare-agent: oklch(0.769 0.188 70.08); /* Yellow */
+  --market-agent: oklch(0.577 0.245 27.325); /* Red */
+  --education-agent: oklch(0.6 0.118 184.704); /* Teal */
+  --coordinator-agent: oklch(0.708 0 0); /* Purple */
+  
+  /* Vibrant gradient colors */
+  --gradient-start: #ff6b35; /* Vibrant orange */
+  --gradient-middle: #f7931e; /* Bright orange */
+  --gradient-end: #ffcc00; /* Vibrant yellow */
+  
+  /* Animation duration */
+  --animation-duration: 1s;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.646 0.222 41.116); /* Vibrant orange */
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.398 0.07 227.392); /* Vibrant blue */
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.646 0.222 41.116); /* Orange */
+  --chart-2: oklch(0.6 0.118 184.704); /* Teal */
+  --chart-3: oklch(0.398 0.07 227.392); /* Blue */
+  --chart-4: oklch(0.828 0.189 84.429); /* Green */
+  --chart-5: oklch(0.769 0.188 70.08); /* Yellow */
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.646 0.222 41.116); /* Orange */
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+  
+  /* Additional vibrant colors for agents in dark mode */
+  --farm-agent: oklch(0.646 0.222 41.116); /* Orange */
+  --water-agent: oklch(0.398 0.07 227.392); /* Blue */
+  --power-agent: oklch(0.828 0.189 84.429); /* Green */
+  --welfare-agent: oklch(0.769 0.188 70.08); /* Yellow */
+  --market-agent: oklch(0.577 0.245 27.325); /* Red */
+  --education-agent: oklch(0.6 0.118 184.704); /* Teal */
+  --coordinator-agent: oklch(0.708 0 0); /* Purple */
+}
+
+/* High Contrast Mode */
+.high-contrast {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #000000;
+  --card-foreground: #ffffff;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
+  --primary: #ffff00;
+  --primary-foreground: #000000;
+  --secondary: #000000;
+  --secondary-foreground: #ffffff;
+  --muted: #333333;
+  --muted-foreground: #cccccc;
+  --accent: #00ffff;
+  --accent-foreground: #000000;
+  --destructive: #ff0000;
+  --destructive-foreground: #ffffff;
+  --border: #ffffff;
+  --input: #ffffff;
+  --ring: #ffff00;
+}
+
+/* Grayscale Mode */
+.grayscale-mode {
+  filter: grayscale(100%);
+}
+
+/* No Focus Outline */
+.no-focus-outline *:focus {
+  outline: none !important;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Agent colors */
+  --color-farm-agent: var(--farm-agent);
+  --color-water-agent: var(--water-agent);
+  --color-power-agent: var(--power-agent);
+  --color-welfare-agent: var(--welfare-agent);
+  --color-market-agent: var(--market-agent);
+  --color-education-agent: var(--education-agent);
+  --color-coordinator-agent: var(--coordinator-agent);
+  
+  /* Animation duration */
+  --duration-animation: var(--animation-duration);
+}
+
+/* Animation speed controls */
+* {
+  animation-duration: var(--duration-animation) !important;
+  transition-duration: var(--duration-animation) !important;
+}
+
+/* Voice-only mode */
+.voice-only .visual-content {
+  display: none !important;
+}
+
+.voice-only .audio-content {
+  display: block !important;
+}
+
+.audio-content {
+  display: none;
+}
+
+/* Vibrant gradients for buttons and cards */
+.vibrant-gradient {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+  color: white;
+}
+
+.vibrant-card {
+  background: linear-gradient(135deg, oklch(0.95 0.05 41.116), oklch(0.95 0.05 227.392));
+  border: 1px solid oklch(0.85 0.1 41.116);
+}
+
+/* Colorful button variants */
+.btn-colorful-primary {
+  @apply bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600;
+}
+
+.btn-colorful-secondary {
+  @apply bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600;
+}
+
+.btn-colorful-success {
+  @apply bg-gradient-to-r from-green-500 to-teal-500 text-white hover:from-green-600 hover:to-teal-600;
+}
+
+.btn-colorful-warning {
+  @apply bg-gradient-to-r from-yellow-500 to-orange-500 text-white hover:from-yellow-600 hover:to-orange-600;
+}
+
+/* Vibrant card styles */
+.card-vibrant {
+  @apply bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200 dark:from-blue-900/20 dark:to-purple-900/20 dark:border-blue-800;
+}
+
+.card-vibrant-primary {
+  @apply bg-gradient-to-br from-orange-50 to-red-50 border-orange-200 dark:from-orange-900/20 dark:to-red-900/20 dark:border-orange-800;
+}
+
+.card-vibrant-secondary {
+  @apply bg-gradient-to-br from-green-50 to-teal-50 border-green-200 dark:from-green-900/20 dark:to-teal-900/20 dark:border-green-800;
+}
+
+.card-vibrant-accent {
+  @apply bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200 dark:from-purple-900/20 dark:to-indigo-900/20 dark:border-purple-800;
+}
+
+/* Skip to content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000000;
+  color: #ffffff;
+  padding: 8px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, oklch(0.98 0.02 30) 0%, oklch(0.98 0.01 200) 50%, oklch(0.98 0.02 30) 100%);
+  }
+  
+  /* Vibrant button styles */
+  .btn-vibrant {
+    @apply bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600;
+  }
+  
+  /* Colorful card styles */
+  .card-colorful {
+    @apply bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200;
+  }
+}

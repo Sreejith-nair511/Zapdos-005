@@ -1,0 +1,83 @@
+"use client"
+import { I18nProvider } from "@/components/i18n-provider"
+import { LiveMetrics } from "@/components/live-metrics"
+import { InsightPanels } from "@/components/insight-panels"
+import { AlertsFeed } from "@/components/alerts-feed"
+import { EdgeGatewayCard } from "@/components/edge-gateway-card"
+import { SchemeBoard } from "@/components/scheme-board"
+import { SentimentMap } from "@/components/sentiment-map"
+import { AnalyticsCharts } from "@/components/analytics-charts"
+import { EthicsPanel } from "@/components/ethics-panel"
+import { MaintenanceSection } from "@/components/maintenance-section"
+import { RoadmapTimeline } from "@/components/roadmap-timeline"
+import { CommunityFeedback } from "@/components/community-feedback"
+import { AgentArchitecture } from "@/components/agent-architecture"
+import { HeroIndiaMap } from "@/components/hero-india-map"
+import { LiveAIFeed } from "@/components/live-ai-feed"
+import { AccessibilitySuite } from "@/components/accessibility-suite"
+import { DevRibbon } from "@/components/dev-ribbon"
+import { OfficerHeader } from "@/components/officer-header"
+import { Chatbot } from "@/components/chatbot"
+import { AgentControlConsole } from "@/components/agent-control-console"
+
+function DashboardInner() {
+  return (
+    <main className="mx-auto max-w-6xl px-4 py-6 md:py-8 grid gap-6 soft-tricolor-bg" role="main">
+      <OfficerHeader />
+
+      {/* Multi-Agent Architecture Visualization */}
+      <AgentArchitecture />
+      
+      {/* Interactive India Map */}
+      <HeroIndiaMap />
+
+      <LiveMetrics />
+
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
+        <InsightPanels />
+        <div className="flex flex-col gap-4">
+          <AlertsFeed />
+          <LiveAIFeed />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="card-vibrant-primary">
+          <EdgeGatewayCard />
+        </div>
+        <div className="card-vibrant-secondary">
+          <SchemeBoard />
+        </div>
+        <div className="card-vibrant-accent">
+          <SentimentMap />
+        </div>
+      </div>
+
+      {/* Agent Control Console */}
+      <AgentControlConsole />
+
+      <AnalyticsCharts />
+      <EthicsPanel />
+      <MaintenanceSection />
+      <RoadmapTimeline />
+      <CommunityFeedback />
+      
+      {/* Accessibility Suite */}
+      <AccessibilitySuite />
+      
+      {/* Developer Features */}
+      <DevRibbon />
+      
+      {/* Chatbot */}
+      <Chatbot />
+    </main>
+  )
+}
+
+export default function Page() {
+  return (
+    <I18nProvider>
+      <DashboardInner />
+    </I18nProvider>
+  )
+}
