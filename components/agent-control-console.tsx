@@ -146,67 +146,69 @@ export function AgentControlConsole() {
   })
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            <Zap className="h-5 w-5" />
+    <Card className="w-full bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm">
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+          <span className="flex items-center gap-2 text-base sm:text-lg bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
+            <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
             Agent Control Console
           </span>
           <Button 
             variant="outline" 
             size="sm" 
             onClick={() => setShowLogs(!showLogs)}
+            className="text-xs sm:text-sm"
           >
             {showLogs ? "Hide Logs" : "Show Logs"}
           </Button>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6 p-3 sm:p-6">
         {/* Agent Controls */}
-        <div className="space-y-4">
-          <h3 className="font-medium flex items-center gap-2">
+        <div className="space-y-3 sm:space-y-4">
+          <h3 className="font-medium flex items-center gap-2 text-base sm:text-lg bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
             <Play className="h-4 w-4" />
             Agent Management
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {agents.map(agent => (
               <motion.div
                 key={agent.id}
-                className="rounded-lg border p-4"
+                className="rounded-lg border p-3 sm:p-4 bg-card/50 hover:bg-card/70 transition-colors"
                 whileHover={{ scale: 1.02 }}
               >
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="font-medium">{agent.name}</h4>
-                    <p className="text-sm text-muted-foreground">
+                    <h4 className="font-medium text-sm sm:text-base">{agent.name}</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       Last active: {agent.lastActive}
                     </p>
                   </div>
                   <Badge 
                     variant={agent.status === "active" ? "default" : "secondary"}
-                    className={agent.status === "active" ? "bg-green-100 text-green-800" : ""}
+                    className={`text-xs ${agent.status === "active" ? "bg-green-100 text-green-800" : ""}`}
                   >
                     {agent.status}
                   </Badge>
                 </div>
                 
                 <div className="mt-3 flex justify-between items-center">
-                  <span className="text-sm">
+                  <span className="text-xs sm:text-sm">
                     {agent.eventsProcessed} events
                   </span>
                   <Button 
                     size="sm" 
                     variant={agent.status === "active" ? "secondary" : "default"}
                     onClick={() => toggleAgentStatus(agent.id)}
+                    className="h-7 sm:h-8 text-xs sm:text-sm"
                   >
-                    {agent.status === "active" ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                    {agent.status === "active" ? <Pause className="h-3 w-3 sm:h-4 sm:w-4" /> : <Play className="h-3 w-3 sm:h-4 sm:w-4" />}
                   </Button>
                 </div>
                 
                 <div className="mt-3">
-                  <label className="text-sm text-muted-foreground">Alert Frequency</label>
+                  <label className="text-xs sm:text-sm text-muted-foreground">Alert Frequency</label>
                   <div className="flex items-center gap-2 mt-1">
                     <Input 
                       type="range" 
@@ -214,9 +216,9 @@ export function AgentControlConsole() {
                       max="30" 
                       value={agent.alertFrequency}
                       onChange={(e) => updateAlertFrequency(agent.id, parseInt(e.target.value))}
-                      className="flex-1"
+                      className="flex-1 h-1.5 sm:h-2"
                     />
-                    <span className="text-sm w-10">{agent.alertFrequency}/hr</span>
+                    <span className="text-xs sm:text-sm w-10">{agent.alertFrequency}/hr</span>
                   </div>
                 </div>
               </motion.div>
@@ -225,32 +227,32 @@ export function AgentControlConsole() {
         </div>
         
         {/* Scenario Controls */}
-        <div className="space-y-4">
-          <h3 className="font-medium flex items-center gap-2">
+        <div className="space-y-3 sm:space-y-4">
+          <h3 className="font-medium flex items-center gap-2 text-base sm:text-lg bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
             <RotateCcw className="h-4 w-4" />
             Scenario Simulation
           </h3>
           
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             <Select value={selectedScenario} onValueChange={setSelectedScenario}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[140px] sm:w-[180px] text-xs sm:text-sm">
                 <SelectValue placeholder="Select scenario" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="drought">Drought</SelectItem>
-                <SelectItem value="festival">Festival</SelectItem>
-                <SelectItem value="market">Market Shock</SelectItem>
+                <SelectItem value="drought" className="text-xs sm:text-sm">Drought</SelectItem>
+                <SelectItem value="festival" className="text-xs sm:text-sm">Festival</SelectItem>
+                <SelectItem value="market" className="text-xs sm:text-sm">Market Shock</SelectItem>
               </SelectContent>
             </Select>
             
-            <Button onClick={replayScenario} disabled={!selectedScenario}>
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Replay Scenario
+            <Button onClick={replayScenario} disabled={!selectedScenario} className="text-xs sm:text-sm">
+              <RotateCcw className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              Replay
             </Button>
             
-            <Button onClick={injectMockEvent} variant="outline">
-              <Calendar className="h-4 w-4 mr-2" />
-              Inject Custom Event
+            <Button onClick={injectMockEvent} variant="outline" className="text-xs sm:text-sm">
+              <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              Inject Event
             </Button>
           </div>
         </div>
@@ -258,81 +260,81 @@ export function AgentControlConsole() {
         {/* Log Viewer */}
         {showLogs && (
           <motion.div 
-            className="space-y-4"
+            className="space-y-3 sm:space-y-4"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
           >
-            <h3 className="font-medium flex items-center gap-2">
+            <h3 className="font-medium flex items-center gap-2 text-base sm:text-lg bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
               <FileText className="h-4 w-4" />
               Agent Action Logs
             </h3>
             
-            <div className="flex flex-wrap gap-3">
-              <div className="relative flex-1 min-w-[200px]">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              <div className="relative flex-1 min-w-[150px] sm:min-w-[200px]">
+                <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search logs..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-7 sm:pl-10 text-xs sm:text-sm h-8 sm:h-10"
                 />
               </div>
               
               <Select value={filterStatus} onValueChange={setFilterStatus}>
-                <SelectTrigger className="w-[120px]">
+                <SelectTrigger className="w-[80px] sm:w-[120px] text-xs sm:text-sm">
                   <SelectValue placeholder="Filter" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All</SelectItem>
-                  <SelectItem value="success">Success</SelectItem>
-                  <SelectItem value="warning">Warning</SelectItem>
-                  <SelectItem value="error">Error</SelectItem>
+                  <SelectItem value="all" className="text-xs sm:text-sm">All</SelectItem>
+                  <SelectItem value="success" className="text-xs sm:text-sm">Success</SelectItem>
+                  <SelectItem value="warning" className="text-xs sm:text-sm">Warning</SelectItem>
+                  <SelectItem value="error" className="text-xs sm:text-sm">Error</SelectItem>
                 </SelectContent>
               </Select>
               
-              <Button onClick={exportLogs}>
-                <Download className="h-4 w-4 mr-2" />
-                Export CSV
+              <Button onClick={exportLogs} className="text-xs sm:text-sm">
+                <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                Export
               </Button>
             </div>
             
-            <div className="border rounded-lg max-h-96 overflow-y-auto">
-              <table className="w-full text-sm">
+            <div className="border rounded-lg max-h-64 sm:max-h-96 overflow-y-auto">
+              <table className="w-full text-xs sm:text-sm">
                 <thead className="bg-secondary sticky top-0">
                   <tr>
-                    <th className="text-left p-3">Timestamp</th>
-                    <th className="text-left p-3">Agent</th>
-                    <th className="text-left p-3">Action</th>
-                    <th className="text-left p-3">Confidence</th>
-                    <th className="text-left p-3">Status</th>
+                    <th className="text-left p-2 sm:p-3">Timestamp</th>
+                    <th className="text-left p-2 sm:p-3">Agent</th>
+                    <th className="text-left p-2 sm:p-3">Action</th>
+                    <th className="text-left p-2 sm:p-3">Confidence</th>
+                    <th className="text-left p-2 sm:p-3">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredLogs.map(log => (
                     <tr key={log.id} className="border-b hover:bg-secondary/50">
-                      <td className="p-3">{log.timestamp}</td>
-                      <td className="p-3">{log.agent}</td>
-                      <td className="p-3">{log.action}</td>
-                      <td className="p-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-16 bg-gray-200 rounded-full h-1.5">
+                      <td className="p-2 sm:p-3">{log.timestamp}</td>
+                      <td className="p-2 sm:p-3">{log.agent}</td>
+                      <td className="p-2 sm:p-3">{log.action}</td>
+                      <td className="p-2 sm:p-3">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <div className="w-12 sm:w-16 bg-gray-200 rounded-full h-1 sm:h-1.5">
                             <div 
-                              className="bg-blue-600 h-1.5 rounded-full" 
+                              className="bg-blue-600 h-1 sm:h-1.5 rounded-full" 
                               style={{ width: `${log.confidence}%` }}
                             ></div>
                           </div>
-                          <span>{log.confidence}%</span>
+                          <span className="text-xs">{log.confidence}%</span>
                         </div>
                       </td>
-                      <td className="p-3">
+                      <td className="p-2 sm:p-3">
                         <Badge 
                           variant={log.status === "success" ? "default" : log.status === "warning" ? "secondary" : "destructive"}
-                          className={
+                          className={`text-xs ${
                             log.status === "success" ? "bg-green-100 text-green-800" : 
                             log.status === "warning" ? "bg-yellow-100 text-yellow-800" : 
                             "bg-red-100 text-red-800"
-                          }
+                          }`}
                         >
                           {log.status}
                         </Badge>

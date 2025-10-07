@@ -47,39 +47,39 @@ export function RoadmapTimeline() {
   ]
   
   return (
-    <div className="rounded-xl bg-card p-4 ring-1 ring-border">
-      <div className="text-sm font-medium mb-3 flex items-center gap-2">
+    <div className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm">
+      <div className="text-sm sm:text-base font-medium mb-3 flex items-center gap-2 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
         <Globe className="h-4 w-4" />
         {"🧭 Expansion Roadmap: From Ward to Nation"}
       </div>
       <div className="overflow-x-auto">
-        <div className="flex min-w-[800px] items-center gap-6">
+        <div className="flex min-w-[600px] sm:min-w-[800px] items-center gap-3 sm:gap-6">
           {phases.map((p, i) => (
             <motion.div 
               key={p.title} 
-              className="flex-1 min-w-[200px]"
+              className="flex-1 min-w-[120px] sm:min-w-[200px]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <div className="rounded-lg bg-secondary p-3 h-full border-2 border-transparent hover:border-primary transition-colors">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg">{p.icon}</span>
-                  <span className="font-medium text-sm">{p.title}</span>
+              <div className="rounded-lg bg-secondary/50 p-2 sm:p-3 h-full border-2 border-transparent hover:border-primary transition-colors">
+                <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+                  <span className="text-base sm:text-lg">{p.icon}</span>
+                  <span className="font-medium text-xs sm:text-sm">{p.title}</span>
                   {p.completed ? (
-                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500" />
                   ) : (
-                    <Circle className="h-4 w-4 text-muted-foreground" />
+                    <Circle className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                   )}
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">{p.description}</div>
-                <div className="text-xs font-medium mt-2 flex items-center gap-1">
-                  {p.status === "Ongoing" && <Play className="h-3 w-3 animate-pulse" />}
+                <div className="text-[10px] sm:text-xs text-muted-foreground mt-1">{p.description}</div>
+                <div className="text-[10px] sm:text-xs font-medium mt-1 sm:mt-2 flex items-center gap-1">
+                  {p.status === "Ongoing" && <Play className="h-2 w-2 sm:h-3 sm:w-3 animate-pulse" />}
                   {p.status}
                 </div>
-                <div className="mt-2 h-2 w-full rounded bg-muted overflow-hidden">
+                <div className="mt-1 sm:mt-2 h-1.5 sm:h-2 w-full rounded bg-muted overflow-hidden">
                   <motion.div
-                    className="h-2 rounded bg-primary"
+                    className="h-1.5 sm:h-2 rounded bg-primary"
                     initial={{ width: 0 }}
                     animate={{ width: `${p.progress}%` }}
                     transition={{ 
@@ -89,7 +89,7 @@ export function RoadmapTimeline() {
                     }}
                   />
                 </div>
-                <div className="text-xs text-right mt-1 text-muted-foreground">
+                <div className="text-[10px] sm:text-xs text-right mt-1 text-muted-foreground">
                   {p.progress}%
                 </div>
               </div>

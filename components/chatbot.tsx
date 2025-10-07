@@ -165,20 +165,20 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.3 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-24 right-4 w-full max-w-md h-[500px] bg-card border rounded-xl shadow-2xl z-[60] flex flex-col overflow-hidden modern-bharat-card"
+            className="fixed bottom-24 right-2 sm:right-4 w-full max-w-[calc(100vw-2rem)] sm:max-w-md h-[400px] sm:h-[500px] bg-card border rounded-xl shadow-2xl z-[60] flex flex-col overflow-hidden modern-bharat-card backdrop-blur-sm"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between p-3 sm:p-4 border-b bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <div className="relative">
-                  <div className="bg-blue-500 rounded-full p-2">
-                    <Sparkles className="h-5 w-5 text-white" />
+                  <div className="bg-blue-500 rounded-full p-1.5 sm:p-2">
+                    <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                   </div>
-                  <div className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 rounded-full border-2 border-white"></div>
+                  <div className="absolute bottom-0 right-0 h-2 w-2 sm:h-3 sm:w-3 bg-green-500 rounded-full border-2 border-white"></div>
                 </div>
                 <div>
-                  <h3 className="font-semibold">Digital Sarpanch AI</h3>
-                  <p className="text-xs text-muted-foreground">Always here to help</p>
+                  <h3 className="font-semibold text-sm sm:text-base">Digital Sarpanch AI</h3>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">Always here to help</p>
                 </div>
               </div>
               <div className="flex gap-1">
@@ -186,10 +186,10 @@ export function Chatbot() {
                   variant="ghost" 
                   size="sm" 
                   onClick={clearChat}
-                  className="rounded-full h-8 w-8 p-0"
+                  className="rounded-full h-7 w-7 sm:h-8 sm:w-8 p-0"
                   aria-label="Clear chat"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
                 </Button>
@@ -197,17 +197,17 @@ export function Chatbot() {
                   variant="ghost" 
                   size="sm" 
                   onClick={() => setIsOpen(false)}
-                  className="rounded-full h-8 w-8 p-0"
+                  className="rounded-full h-7 w-7 sm:h-8 sm:w-8 p-0"
                   aria-label="Close chat"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
               </div>
             </div>
 
             {/* Messages Area */}
-            <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-              <div className="space-y-4">
+            <ScrollArea className="flex-1 p-2 sm:p-4" ref={scrollAreaRef}>
+              <div className="space-y-3 sm:space-y-4">
                 {messages.map((message) => (
                   <motion.div
                     key={message.id}
@@ -217,33 +217,33 @@ export function Chatbot() {
                     className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
                   >
                     {message.sender === "ai" && (
-                      <div className="flex-shrink-0 mr-2 mt-1">
-                        <div className="bg-blue-500 rounded-full p-1.5">
-                          <Bot className="h-4 w-4 text-white" />
+                      <div className="flex-shrink-0 mr-1 sm:mr-2 mt-1">
+                        <div className="bg-blue-500 rounded-full p-1 sm:p-1.5">
+                          <Bot className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
                         </div>
                       </div>
                     )}
                     <div
-                      className={`max-w-[85%] px-4 py-3 rounded-2xl ${
+                      className={`max-w-[85%] px-3 py-2 sm:px-4 sm:py-3 rounded-2xl ${
                         message.sender === "user"
                           ? "bg-primary text-primary-foreground rounded-tr-none"
                           : "bg-secondary text-secondary-foreground rounded-tl-none"
                       }`}
                     >
-                      <p className="text-sm">{message.text}</p>
+                      <p className="text-xs sm:text-sm">{message.text}</p>
                       <div className="flex items-center justify-between mt-1">
-                        <span className="text-xs opacity-70">
+                        <span className="text-[10px] sm:text-xs opacity-70">
                           {formatTime(message.timestamp)}
                         </span>
                         {message.sender === "user" && message.status === "delivered" && (
-                          <span className="text-xs opacity-70">✓✓</span>
+                          <span className="text-[10px] sm:text-xs opacity-70">✓✓</span>
                         )}
                       </div>
                     </div>
                     {message.sender === "user" && (
-                      <div className="flex-shrink-0 ml-2 mt-1">
-                        <div className="bg-primary rounded-full p-1.5">
-                          <User className="h-4 w-4 text-primary-foreground" />
+                      <div className="flex-shrink-0 ml-1 sm:ml-2 mt-1">
+                        <div className="bg-primary rounded-full p-1 sm:p-1.5">
+                          <User className="h-3 w-3 sm:h-4 sm:w-4 text-primary-foreground" />
                         </div>
                       </div>
                     )}
@@ -256,15 +256,15 @@ export function Chatbot() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex justify-start"
                   >
-                    <div className="flex-shrink-0 mr-2 mt-1">
-                      <div className="bg-blue-500 rounded-full p-1.5">
-                        <Bot className="h-4 w-4 text-white" />
+                    <div className="flex-shrink-0 mr-1 sm:mr-2 mt-1">
+                      <div className="bg-blue-500 rounded-full p-1 sm:p-1.5">
+                        <Bot className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
                       </div>
                     </div>
-                    <div className="bg-secondary text-secondary-foreground px-4 py-3 rounded-2xl rounded-tl-none">
+                    <div className="bg-secondary text-secondary-foreground px-3 py-2 sm:px-4 sm:py-3 rounded-2xl rounded-tl-none">
                       <div className="flex items-center gap-1">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        <span className="text-sm">Thinking...</span>
+                        <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
+                        <span className="text-xs sm:text-sm">Thinking...</span>
                       </div>
                     </div>
                   </motion.div>
@@ -274,14 +274,14 @@ export function Chatbot() {
 
             {/* Quick Actions */}
             {messages.length <= 1 && (
-              <div className="px-4 py-2 border-t border-b">
-                <p className="text-xs text-muted-foreground mb-2">Quick actions:</p>
-                <div className="flex flex-wrap gap-2">
+              <div className="px-2 sm:px-4 py-2 border-t border-b">
+                <p className="text-[10px] sm:text-xs text-muted-foreground mb-1 sm:mb-2">Quick actions:</p>
+                <div className="flex flex-wrap gap-1 sm:gap-2">
                   {quickActions.map((action, index) => (
                     <Badge 
                       key={index} 
                       variant="secondary" 
-                      className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors text-xs py-1 px-2"
+                      className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors text-[10px] sm:text-xs py-0.5 sm:py-1 px-1.5 sm:px-2"
                       onClick={() => handleQuickAction(action)}
                     >
                       {action}
@@ -292,15 +292,15 @@ export function Chatbot() {
             )}
 
             {/* Input Area */}
-            <div className="p-4 border-t bg-background">
-              <div className="flex gap-2">
+            <div className="p-2 sm:p-4 border-t bg-background">
+              <div className="flex gap-1 sm:gap-2">
                 <div className="flex-1 relative">
                   <textarea
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Message Digital Sarpanch..."
-                    className="w-full px-4 py-3 text-sm border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-primary pr-12 min-h-[44px] max-h-[120px]"
+                    className="w-full px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-primary pr-10 sm:pr-12 min-h-[36px] sm:min-h-[44px] max-h-[80px] sm:max-h-[120px]"
                     rows={1}
                   />
                 </div>
@@ -308,13 +308,13 @@ export function Chatbot() {
                   size="icon"
                   onClick={handleSend}
                   disabled={inputValue.trim() === "" || isTyping}
-                  className="rounded-full h-10 w-10 self-end"
+                  className="rounded-full h-8 w-8 sm:h-10 sm:w-10 self-end"
                   aria-label="Send message"
                 >
-                  <Send className="h-4 w-4" />
+                  <Send className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 text-center">
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 sm:mt-2 text-center">
                 Powered by IBM WatsonX AI • <span className="text-green-600">● Online</span>
               </p>
             </div>
@@ -325,11 +325,11 @@ export function Chatbot() {
       <Button
         variant="default"
         size="lg"
-        className="fixed bottom-4 right-4 rounded-full p-4 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 z-40"
+        className="fixed bottom-2 sm:bottom-4 right-2 sm:right-4 rounded-full p-3 sm:p-4 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 z-40"
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
       </Button>
     </>
   )
