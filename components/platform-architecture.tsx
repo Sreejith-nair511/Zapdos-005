@@ -162,70 +162,113 @@ const architectureLayers: ArchitectureLayer[] = [
 
 export function PlatformArchitecture() {
   const [hoveredComponent, setHoveredComponent] = useState<string | null>(null)
+  const [expandedLayers, setExpandedLayers] = useState<Record<string, boolean>>({})
+
+  const toggleLayer = (layerId: string) => {
+    setExpandedLayers(prev => ({
+      ...prev,
+      [layerId]: !prev[layerId]
+    }))
+  }
 
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>AI-Powered Rural Services Platform Architecture</CardTitle>
+        <CardTitle className="text-lg sm:text-xl">AI-Powered Rural Services Platform Architecture</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="relative">
-          {/* Architecture Layers */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Architecture Layers - Mobile-first accordion layout */}
+          <div className="space-y-4">
             {architectureLayers.map((layer, layerIndex) => (
               <motion.div
                 key={layer.id}
-                className="border rounded-lg p-4"
-                initial={{ opacity: 0, y: 20 }}
+                className="border rounded-lg"
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: layerIndex * 0.1 }}
+                transition={{ delay: layerIndex * 0.05 }}
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={`p-2 rounded-full bg-${layer.color}-100 text-${layer.color}-600`}>
-                    {layer.icon}
+                {/* Layer Header - Always visible */}
+                <button
+                  className="w-full flex items-center justify-between p-3 sm:p-4 text-left"
+                  onClick={() => toggleLayer(layer.id)}
+                >
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="p-2 rounded-full bg-secondary">
+                      {layer.icon}
+                    </div>
+                    <h3 className="font-semibold text-sm sm:text-base">{layer.title}</h3>
                   </div>
-                  <h3 className="font-semibold">{layer.title}</h3>
-                </div>
+                  <div className="transform transition-transform duration-200">
+                    {expandedLayers[layer.id] ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                  </div>
+                </button>
                 
-                <div className="space-y-2">
-                  {layer.components.map((component) => (
-                    <motion.div
-                      key={component.id}
-                      className={`flex items-center gap-2 p-2 rounded cursor-pointer transition-colors ${
-                        hoveredComponent === component.id 
-                          ? "bg-secondary" 
-                          : "hover:bg-secondary/50"
-                      }`}
-                      onMouseEnter={() => setHoveredComponent(component.id)}
-                      onMouseLeave={() => setHoveredComponent(null)}
-                      whileHover={{ x: 5 }}
-                    >
-                      <div className="flex-shrink-0 text-muted-foreground">
-                        {component.icon}
-                      </div>
-                      <span className="text-sm">{component.name}</span>
-                    </motion.div>
-                  ))}
-                </div>
+                {/* Layer Content - Collapsible on mobile */}
+                <motion.div
+                  className={`overflow-hidden ${expandedLayers[layer.id] ? '' : 'hidden'}`}
+                  initial={false}
+                  animate={{
+                    height: expandedLayers[layer.id] ? "auto" : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="px-3 pb-3 sm:px-4 sm:pb-4 space-y-2 border-t">
+                    {layer.components.map((component) => (
+                      <motion.div
+                        key={component.id}
+                        className={`flex items-center gap-2 p-2 rounded transition-colors ${
+                          hoveredComponent === component.id 
+                            ? "bg-secondary" 
+                            : "hover:bg-secondary/50"
+                        }`}
+                        onMouseEnter={() => setHoveredComponent(component.id)}
+                        onMouseLeave={() => setHoveredComponent(null)}
+                        whileHover={{ x: 5 }}
+                      >
+                        <div className="flex-shrink-0 text-muted-foreground">
+                          {component.icon}
+                        </div>
+                        <span className="text-xs sm:text-sm">{component.name}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
 
-          {/* Connection Visualization */}
-          <div className="mt-8 pt-6 border-t">
-            <h3 className="font-semibold mb-4">Data Flow & Connections</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div className="space-y-2">
-                <p><strong>Data Ingestion:</strong> Government APIs, Weather Feeds, Satellite Feeds, and Field Sensors feed into the Raw Data Store</p>
-                <p><strong>Processing:</strong> Raw Data Store → FastAPI Backend → Central Database</p>
-                <p><strong>AI Processing:</strong> WatsonX, LangChain, XGBoost, and LightGBM process data for the Multi-Agent System</p>
-                <p><strong>Agent Communication:</strong> All agents communicate through the Messaging & Event Layer</p>
+          {/* Connection Visualization - Simplified for mobile */}
+          <div className="mt-6 pt-4 border-t">
+            <h3 className="font-semibold mb-3 text-sm sm:text-base">Data Flow & Connections</h3>
+            <div className="space-y-3 text-xs sm:text-sm">
+              <div>
+                <p className="font-medium mb-1">Data Ingestion:</p>
+                <p>Government APIs, Weather Feeds, Satellite Feeds, and Field Sensors → Raw Data Store</p>
               </div>
-              <div className="space-y-2">
-                <p><strong>Edge Sync:</strong> Edge Devices sync data with the FastAPI Backend</p>
-                <p><strong>Citizen Communication:</strong> Agents send alerts/insights to the Communication Layer for citizen delivery</p>
-                <p><strong>Explainability:</strong> AI models are explained through SHAP and LIME to the Human Review Console</p>
-                <p><strong>Infrastructure:</strong> All components are deployed and supported by the Cloud Infrastructure Layer</p>
+              <div>
+                <p className="font-medium mb-1">Processing:</p>
+                <p>Raw Data Store → FastAPI Backend → Central Database</p>
+              </div>
+              <div>
+                <p className="font-medium mb-1">AI Processing:</p>
+                <p>WatsonX, LangChain, XGBoost, LightGBM → Multi-Agent System</p>
+              </div>
+              <div>
+                <p className="font-medium mb-1">Communication:</p>
+                <p>Agents → Messaging Layer → Communication Layer → Citizens</p>
+              </div>
+              <div>
+                <p className="font-medium mb-1">Infrastructure:</p>
+                <p>All components deployed and supported by Cloud Infrastructure</p>
               </div>
             </div>
           </div>
