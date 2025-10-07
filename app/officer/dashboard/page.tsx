@@ -22,7 +22,7 @@ import { PlatformArchitecture } from "@/components/platform-architecture"
 
 function DashboardInner() {
   return (
-    <main className="px-2 sm:px-4 py-4 sm:py-6 md:px-6 md:py-8 grid gap-4 sm:gap-6 soft-tricolor-bg" role="main">
+    <main className="px-2 sm:px-4 py-4 sm:py-6 md:px-6 md:py-8 grid gap-4 sm:gap-6 soft-tricolor-bg bg-gradient-to-br from-background to-secondary/10" role="main">
       <OfficerHeader />
 
       {/* Platform Architecture Visualization */}
