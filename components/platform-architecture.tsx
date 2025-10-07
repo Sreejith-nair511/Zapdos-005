@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { 
@@ -162,70 +162,119 @@ const architectureLayers: ArchitectureLayer[] = [
 
 export function PlatformArchitecture() {
   const [hoveredComponent, setHoveredComponent] = useState<string | null>(null)
+  const [expandedLayers, setExpandedLayers] = useState<Record<string, boolean>>({})
+
+  const toggleLayer = (layerId: string) => {
+    setExpandedLayers(prev => ({
+      ...prev,
+      [layerId]: !prev[layerId]
+    }))
+  }
+
+  // Expand the first layer by default on mobile
+  useEffect(() => {
+    if (Object.keys(expandedLayers).length === 0) {
+      setExpandedLayers({ [architectureLayers[0].id]: true });
+    }
+  }, []);
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>AI-Powered Rural Services Platform Architecture</CardTitle>
+    <Card className="w-full bg-gradient-to-br from-background to-secondary/10">
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="text-base sm:text-lg md:text-xl bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
+          AI-Powered Rural Services Platform Architecture
+        </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-3 sm:p-4 md:p-6">
         <div className="relative">
-          {/* Architecture Layers */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Architecture Layers - Mobile-first accordion layout */}
+          <div className="space-y-3 sm:space-y-4">
             {architectureLayers.map((layer, layerIndex) => (
               <motion.div
                 key={layer.id}
-                className="border rounded-lg p-4"
-                initial={{ opacity: 0, y: 20 }}
+                className="border rounded-lg overflow-hidden bg-card/50 backdrop-blur-sm"
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: layerIndex * 0.1 }}
+                transition={{ delay: layerIndex * 0.05 }}
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={`p-2 rounded-full bg-${layer.color}-100 text-${layer.color}-600`}>
-                    {layer.icon}
+                {/* Layer Header - Always visible */}
+                <button
+                  className="w-full flex items-center justify-between p-3 sm:p-4 text-left focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-lg hover:bg-secondary/30 transition-colors"
+                  onClick={() => toggleLayer(layer.id)}
+                  aria-label={`Toggle ${layer.title} layer`}
+                >
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="p-1.5 sm:p-2 rounded-full bg-secondary flex-shrink-0 border border-border">
+                      {layer.icon}
+                    </div>
+                    <h3 className="font-semibold text-sm sm:text-base md:text-lg text-foreground">{layer.title}</h3>
                   </div>
-                  <h3 className="font-semibold">{layer.title}</h3>
-                </div>
+                  <div className={`transform transition-transform duration-200 flex-shrink-0 ${expandedLayers[layer.id] ? 'rotate-180' : ''}`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </button>
                 
-                <div className="space-y-2">
-                  {layer.components.map((component) => (
-                    <motion.div
-                      key={component.id}
-                      className={`flex items-center gap-2 p-2 rounded cursor-pointer transition-colors ${
-                        hoveredComponent === component.id 
-                          ? "bg-secondary" 
-                          : "hover:bg-secondary/50"
-                      }`}
-                      onMouseEnter={() => setHoveredComponent(component.id)}
-                      onMouseLeave={() => setHoveredComponent(null)}
-                      whileHover={{ x: 5 }}
-                    >
-                      <div className="flex-shrink-0 text-muted-foreground">
-                        {component.icon}
-                      </div>
-                      <span className="text-sm">{component.name}</span>
-                    </motion.div>
-                  ))}
-                </div>
+                {/* Layer Content - Collapsible on mobile */}
+                <motion.div
+                  className={`overflow-hidden ${expandedLayers[layer.id] ? '' : 'hidden'}`}
+                  initial={false}
+                  animate={{
+                    height: expandedLayers[layer.id] ? "auto" : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="px-3 pb-3 sm:px-4 sm:pb-4 space-y-2 border-t border-border">
+                    {layer.components.map((component) => (
+                      <motion.div
+                        key={component.id}
+                        className={`flex items-center gap-2 p-2 rounded transition-colors ${
+                          hoveredComponent === component.id 
+                            ? "bg-secondary/50" 
+                            : "hover:bg-secondary/30"
+                        }`}
+                        onMouseEnter={() => setHoveredComponent(component.id)}
+                        onMouseLeave={() => setHoveredComponent(null)}
+                        whileHover={{ x: 5 }}
+                      >
+                        <div className="flex-shrink-0 text-muted-foreground">
+                          {component.icon}
+                        </div>
+                        <span className="text-xs sm:text-sm text-foreground">{component.name}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
 
-          {/* Connection Visualization */}
-          <div className="mt-8 pt-6 border-t">
-            <h3 className="font-semibold mb-4">Data Flow & Connections</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div className="space-y-2">
-                <p><strong>Data Ingestion:</strong> Government APIs, Weather Feeds, Satellite Feeds, and Field Sensors feed into the Raw Data Store</p>
-                <p><strong>Processing:</strong> Raw Data Store → FastAPI Backend → Central Database</p>
-                <p><strong>AI Processing:</strong> WatsonX, LangChain, XGBoost, and LightGBM process data for the Multi-Agent System</p>
-                <p><strong>Agent Communication:</strong> All agents communicate through the Messaging & Event Layer</p>
+          {/* Connection Visualization - Simplified for mobile */}
+          <div className="mt-5 pt-4 sm:mt-6 sm:pt-4 border-t border-border">
+            <h3 className="font-semibold mb-3 text-sm sm:text-base md:text-lg bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
+              Data Flow & Connections
+            </h3>
+            <div className="space-y-3 text-xs sm:text-sm">
+              <div className="p-3 rounded-lg bg-secondary/30">
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Data Ingestion:</p>
+                <p className="text-xs sm:text-sm text-foreground/80">Government APIs, Weather Feeds, Satellite Feeds, and Field Sensors → Raw Data Store</p>
               </div>
-              <div className="space-y-2">
-                <p><strong>Edge Sync:</strong> Edge Devices sync data with the FastAPI Backend</p>
-                <p><strong>Citizen Communication:</strong> Agents send alerts/insights to the Communication Layer for citizen delivery</p>
-                <p><strong>Explainability:</strong> AI models are explained through SHAP and LIME to the Human Review Console</p>
-                <p><strong>Infrastructure:</strong> All components are deployed and supported by the Cloud Infrastructure Layer</p>
+              <div className="p-3 rounded-lg bg-secondary/30">
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Processing:</p>
+                <p className="text-xs sm:text-sm text-foreground/80">Raw Data Store → FastAPI Backend → Central Database</p>
+              </div>
+              <div className="p-3 rounded-lg bg-secondary/30">
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">AI Processing:</p>
+                <p className="text-xs sm:text-sm text-foreground/80">WatsonX, LangChain, XGBoost, LightGBM → Multi-Agent System</p>
+              </div>
+              <div className="p-3 rounded-lg bg-secondary/30">
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Communication:</p>
+                <p className="text-xs sm:text-sm text-foreground/80">Agents → Messaging Layer → Communication Layer → Citizens</p>
+              </div>
+              <div className="p-3 rounded-lg bg-secondary/30">
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Infrastructure:</p>
+                <p className="text-xs sm:text-sm text-foreground/80">All components deployed and supported by Cloud Infrastructure</p>
               </div>
             </div>
           </div>

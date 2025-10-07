@@ -20,29 +20,29 @@ export function LiveMetrics() {
 
   return (
     <section className="grid gap-3">
-      <div className="text-sm text-muted-foreground">{`Last updated: ${updated}`}</div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="text-xs sm:text-sm text-muted-foreground px-2">{`Last updated: ${updated}`}</div>
+      <div className="grid grid-cols-1 gap-3">
         {rows.map((r: any) => (
           <div
             key={r.metric}
-            className="rounded-xl bg-card p-4 shadow-sm ring-1 ring-border hover:shadow-md transition"
+            className="rounded-xl bg-card p-3 sm:p-4 shadow-sm ring-1 ring-border hover:shadow-md transition bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm"
           >
             <div className="flex items-center justify-between">
-              <div className="font-medium">{r.metric}</div>
+              <div className="font-medium text-sm sm:text-base">{r.metric}</div>
               <div className="text-xs text-muted-foreground">{"per 5s refresh"}</div>
             </div>
-            <div className="mt-3 grid grid-cols-3 text-center">
-              <div className="rounded-lg bg-secondary p-2">
-                <div className="text-xs">Kerala</div>
-                <div className="text-lg font-semibold">{r.kerala}%</div>
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              <div className="rounded-lg bg-secondary/50 p-2 sm:p-3">
+                <div className="text-xs text-muted-foreground">Kerala</div>
+                <div className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{r.kerala}%</div>
               </div>
-              <div className="rounded-lg bg-secondary p-2">
-                <div className="text-xs">Rajasthan</div>
-                <div className="text-lg font-semibold">{r.rajasthan}%</div>
+              <div className="rounded-lg bg-secondary/50 p-2 sm:p-3">
+                <div className="text-xs text-muted-foreground">Rajasthan</div>
+                <div className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{r.rajasthan}%</div>
               </div>
-              <div className="rounded-lg bg-secondary p-2">
-                <div className="text-xs">National Avg.</div>
-                <div className="text-lg font-semibold">{r.national}%</div>
+              <div className="rounded-lg bg-secondary/50 p-2 sm:p-3">
+                <div className="text-xs text-muted-foreground">National Avg.</div>
+                <div className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{r.national}%</div>
               </div>
             </div>
           </div>

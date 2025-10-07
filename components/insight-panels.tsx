@@ -211,7 +211,7 @@ export function InsightPanels() {
     confidence: 92,
     decision: "Trigger irrigation for 5 affected fields",
     visualization: (
-      <div className="h-24 rounded bg-gradient-to-r from-red-100 via-yellow-100 to-green-100 p-2">
+      <div className="h-24 rounded bg-gradient-to-r from-red-100 via-yellow-100 to-green-100 p-2 backdrop-blur-sm">
         <div className="flex justify-between text-xs mb-1">
           <span>0%</span>
           <span>Moisture Level</span>
@@ -242,7 +242,7 @@ export function InsightPanels() {
     confidence: 88,
     decision: "Issue water conservation alert to citizens",
     visualization: (
-      <div className="h-24 flex items-center justify-center">
+      <div className="h-24 flex items-center justify-center backdrop-blur-sm">
         <div className="relative">
           <svg width="100" height="100" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="#E0F2FE" />
@@ -270,7 +270,7 @@ export function InsightPanels() {
     confidence: 91,
     decision: "Send attendance alerts to parents and assign counselor follow-up",
     visualization: (
-      <div className="h-24 flex items-center justify-center">
+      <div className="h-24 flex items-center justify-center backdrop-blur-sm">
         <div className="text-center">
           <div className="relative inline-block">
             <svg width="80" height="80" viewBox="0 0 36 36">
@@ -310,18 +310,18 @@ export function InsightPanels() {
     confidence: 85,
     decision: "Allocate additional staff to welfare scheme processing",
     visualization: (
-      <div className="h-24 flex items-center justify-center">
-        <div className="flex gap-4">
+      <div className="h-24 flex items-center justify-center backdrop-blur-sm">
+        <div className="flex gap-3 sm:gap-4">
           <div className="text-center">
-            <div className="text-lg font-bold text-green-600">142</div>
+            <div className="text-lg sm:text-xl font-bold text-green-600 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text">142</div>
             <div className="text-xs text-muted-foreground">PM-Kisan</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-blue-600">89</div>
+            <div className="text-lg sm:text-xl font-bold text-blue-600 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text">89</div>
             <div className="text-xs text-muted-foreground">MGNREGS</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-purple-600">34</div>
+            <div className="text-lg sm:text-xl font-bold text-purple-600 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text">34</div>
             <div className="text-xs text-muted-foreground">PMAY</div>
           </div>
         </div>
@@ -330,7 +330,7 @@ export function InsightPanels() {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
       <Panel 
         title="🌾 Crop Health Monitor" 
         icon={<Wheat className="h-5 w-5 text-green-600" />}

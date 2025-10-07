@@ -16,13 +16,18 @@ export function AlertsFeed() {
   }, [list])
 
   return (
-    <div className="rounded-xl bg-card p-3 sm:p-4 h-56 overflow-y-auto" ref={ref}>
-      <div className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{"AI Alerts"}</div>
+    <div className="rounded-xl bg-card p-3 sm:p-4 h-56 overflow-y-auto bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm" ref={ref}>
+      <div className="text-xs uppercase tracking-wide text-muted-foreground mb-2 px-1">{"AI Alerts"}</div>
       <ul className="grid gap-2">
         {list.map((a: any, idx: number) => (
-          <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between rounded-lg bg-secondary px-3 py-2 gap-1 sm:gap-0">
-            <span className="text-sm">{a.message}</span>
-            <span className="text-xs text-muted-foreground">{a.time}</span>
+          <li key={idx} className="flex flex-col gap-1 rounded-lg bg-secondary/50 px-3 py-2 hover:bg-secondary/70 transition-colors">
+            <span className="text-sm font-medium">{a.message}</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-muted-foreground">{a.time}</span>
+              <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                {a.type}
+              </span>
+            </div>
           </li>
         ))}
       </ul>

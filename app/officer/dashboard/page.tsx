@@ -22,7 +22,7 @@ import { PlatformArchitecture } from "@/components/platform-architecture"
 
 function DashboardInner() {
   return (
-    <main className="px-4 py-6 md:px-6 md:py-8 grid gap-6 soft-tricolor-bg" role="main">
+    <main className="px-2 sm:px-4 py-4 sm:py-6 md:px-6 md:py-8 grid gap-4 sm:gap-6 soft-tricolor-bg bg-gradient-to-br from-background to-secondary/10" role="main">
       <OfficerHeader />
 
       {/* Platform Architecture Visualization */}
@@ -36,15 +36,15 @@ function DashboardInner() {
 
       <LiveMetrics />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6">
         <InsightPanels />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 sm:gap-6">
           <AlertsFeed />
           <LiveAIFeed />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         <div className="card-vibrant-primary">
           <EdgeGatewayCard />
         </div>
