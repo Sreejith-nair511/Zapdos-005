@@ -102,8 +102,8 @@ export function LiveAIFeed() {
   }
 
   return (
-    <div className="bg-card rounded-lg border p-4 h-64 overflow-hidden">
-      <h3 className="font-semibold mb-2">Live AI Feed</h3>
+    <div className="bg-card rounded-lg border p-3 sm:p-4 h-64 overflow-hidden">
+      <h3 className="font-semibold mb-2 text-lg">Live AI Feed</h3>
       <div className="h-52 overflow-y-auto">
         <AnimatePresence>
           {items.map((item) => (
@@ -113,16 +113,16 @@ export function LiveAIFeed() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.3 }}
-              className="flex items-start gap-2 p-2 mb-2 rounded bg-secondary/50 hover:bg-secondary transition-colors"
+              className="flex flex-col sm:flex-row sm:items-start gap-2 p-2 mb-2 rounded bg-secondary/50 hover:bg-secondary transition-colors"
             >
-              <div className="mt-0.5">
+              <div className="mt-0.5 flex-shrink-0">
                 {getLevelIcon(item.level)}
               </div>
               <div className="flex-1 min-w-0">
                 <div className={`font-medium ${getAgentColor(item.agent)}`}>
                   {item.agent}
                 </div>
-                <p className="text-sm text-foreground truncate">
+                <p className="text-sm text-foreground">
                   {item.message}
                 </p>
                 {item.stt && (
@@ -138,7 +138,7 @@ export function LiveAIFeed() {
                   </div>
                 )}
               </div>
-              <div className="flex gap-1 flex-wrap sm:flex-nowrap">
+              <div className="flex gap-1 flex-wrap sm:flex-nowrap mt-2 sm:mt-0">
                 <button 
                   className="text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition-colors flex items-center gap-1 whitespace-nowrap flex-1 min-w-[80px]"
                   aria-label="Acknowledge"
@@ -192,7 +192,7 @@ export function LiveAIFeed() {
       {/* WatsonX Modal */}
       {showWatsonXModal && selectedItem && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-2 sm:p-4 z-50">
-          <div className="w-full max-w-2xl rounded-xl bg-card p-4 sm:p-6 ring-1 ring-border max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-2xl rounded-xl bg-card p-3 sm:p-6 ring-1 ring-border max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg sm:text-xl font-semibold">IBM WatsonX Insights</h3>
               <button 

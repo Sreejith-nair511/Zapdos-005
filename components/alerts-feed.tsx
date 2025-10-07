@@ -16,12 +16,12 @@ export function AlertsFeed() {
   }, [list])
 
   return (
-    <div className="rounded-xl bg-card p-4 h-56 overflow-y-auto" ref={ref}>
+    <div className="rounded-xl bg-card p-3 sm:p-4 h-56 overflow-y-auto" ref={ref}>
       <div className="text-xs uppercase tracking-wide text-muted-foreground mb-2">{"AI Alerts"}</div>
       <ul className="grid gap-2">
         {list.map((a: any, idx: number) => (
-          <li key={idx} className="flex items-center justify-between rounded-lg bg-secondary px-3 py-2">
-            <span>{a.message}</span>
+          <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between rounded-lg bg-secondary px-3 py-2 gap-1 sm:gap-0">
+            <span className="text-sm">{a.message}</span>
             <span className="text-xs text-muted-foreground">{a.time}</span>
           </li>
         ))}

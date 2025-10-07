@@ -1,5 +1,4 @@
 "use client"
-import { I18nProvider } from "@/components/i18n-provider"
 import { LiveMetrics } from "@/components/live-metrics"
 import { InsightPanels } from "@/components/insight-panels"
 import { AlertsFeed } from "@/components/alerts-feed"
@@ -22,7 +21,7 @@ import { AgentControlConsole } from "@/components/agent-control-console"
 
 function DashboardInner() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6 md:py-8 grid gap-6 soft-tricolor-bg" role="main">
+    <main className="px-4 py-6 md:px-6 md:py-8 grid gap-6 soft-tricolor-bg" role="main">
       <OfficerHeader />
 
       {/* Multi-Agent Architecture Visualization */}
@@ -41,7 +40,7 @@ function DashboardInner() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="card-vibrant-primary">
           <EdgeGatewayCard />
         </div>
@@ -76,8 +75,6 @@ function DashboardInner() {
 
 export default function Page() {
   return (
-    <I18nProvider>
-      <DashboardInner />
-    </I18nProvider>
+    <DashboardInner />
   )
 }

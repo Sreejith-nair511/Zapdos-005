@@ -330,7 +330,7 @@ export function InsightPanels() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <Panel 
         title="🌾 Crop Health Monitor" 
         icon={<Wheat className="h-5 w-5 text-green-600" />}
