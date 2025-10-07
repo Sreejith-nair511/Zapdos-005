@@ -1,0 +1,271 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant xs (width >= 480px);
+
+:root {
+  --background: oklch(1 0 0); /* white */
+  --foreground: oklch(0.18 0 0); /* near black */
+
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+
+  /* Brand colors */
+  /* Brand primary: Deep green #1B5E20 */
+  --brand-primary: 0.6 0.15 150; /* approximate oklch for deep green */
+  /* Accent: Saffron #FF9933 */
+  --brand-accent: 0.83 0.18 70; /* orange-saffron in oklch space */
+
+  /* Map brand to semantic tokens */
+  --primary: oklch(var(--brand-primary));
+  --primary-foreground: oklch(0.985 0 0);
+  --accent: oklch(var(--brand-accent));
+  --accent-foreground: oklch(0.18 0 0);
+
+  --secondary: oklch(0.97 0 0); /* soft gray surface */
+  --secondary-foreground: var(--foreground);
+
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.5 0 0); /* mid gray */
+
+  --destructive: oklch(0.6 0.22 27.3);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.7 0 0);
+
+  --chart-1: oklch(var(--brand-primary));
+  --chart-2: oklch(var(--brand-accent));
+  --chart-3: oklch(0.6 0.12 184.7);
+  --chart-4: oklch(0.83 0.19 84.4);
+  --chart-5: oklch(0.77 0.19 70.08);
+
+  --radius: 0.75rem;
+
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: oklch(var(--brand-primary));
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  
+  /* Indian flag colors for light theme background accents */
+  --indian-saffron: 0.83 0.18 70; /* #FF9933 */
+  --indian-white: 1 0 0; /* #FFFFFF */
+  --indian-green: 0.6 0.15 150; /* #1B5E20 */
+  
+  /* Modern Bharat color palette */
+  --modern-bharat-green: 0.6 0.15 150; /* Deep green #1B5E20 */
+  --modern-bharat-saffron: 0.83 0.18 70; /* Saffron #FF9933 */
+  --modern-bharat-white: 1 0 0; /* White */
+  --modern-bharat-earth: 0.93 0.02 70; /* Soft earth brown #EDECEB */
+  
+  /* New soft Indian Tricolor-inspired colors */
+  --soft-saffron: 0.89 0.12 70; /* Pastel Saffron #FFE5B4 */
+  --ivory-white: 0.99 0.01 80; /* Ivory White #FFFDF7 */
+  --mint-green: 0.85 0.12 150; /* Mint Green #C8E6C9 */
+  --ashoka-blue: 0.55 0.15 270; /* Ashoka Chakra Blue #2E4A7D */
+}
+
+.dark {
+  --background: oklch(0.15 0 0);
+  --foreground: oklch(0.985 0 0);
+
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+
+  --primary: oklch(0.8 0.12 150);
+  --primary-foreground: oklch(0.15 0 0);
+  --accent: oklch(0.78 0.17 70);
+  --accent-foreground: oklch(0.15 0 0);
+
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.72 0 0);
+
+  --destructive: oklch(0.5 0.17 25.7);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.25 0 0);
+  --input: oklch(0.25 0 0);
+  --ring: oklch(0.5 0 0);
+
+  --sidebar: oklch(0.2 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.8 0.12 150);
+  --sidebar-primary-foreground: oklch(0.15 0 0);
+  --sidebar-accent: oklch(0.25 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.25 0 0);
+  --sidebar-ring: oklch(0.5 0 0);
+  
+  /* Indian flag colors for dark theme */
+  --indian-saffron: 0.78 0.17 70; /* #FF9933 */
+  --indian-white: 0.9 0 0; /* #FFFFFF */
+  --indian-green: 0.5 0.14 150; /* #1B5E20 */
+  
+  /* Modern Bharat color palette */
+  --modern-bharat-green: 0.5 0.14 150; /* Deep green #1B5E20 */
+  --modern-bharat-saffron: 0.78 0.17 70; /* Saffron #FF9933 */
+  --modern-bharat-white: 0.9 0 0; /* White */
+  --modern-bharat-earth: 0.85 0.01 70; /* Soft earth brown #EDECEB */
+  
+  /* New soft Indian Tricolor-inspired colors for dark mode */
+  --soft-saffron: 0.78 0.12 70; /* Darker Pastel Saffron */
+  --ivory-white: 0.9 0.01 80; /* Darker Ivory White */
+  --mint-green: 0.75 0.12 150; /* Darker Mint Green */
+  --ashoka-blue: 0.45 0.15 270; /* Darker Ashoka Chakra Blue */
+}
+
+/* Fonts: limit to Poppins for headings and Inter for body */
+@theme inline {
+  --font-sans: "Poppins", "Inter", ui-sans-serif, system-ui;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Indian flag colors */
+  --color-indian-saffron: var(--indian-saffron);
+  --color-indian-white: var(--indian-white);
+  --color-indian-green: var(--indian-green);
+  
+  /* Modern Bharat colors */
+  --color-modern-bharat-green: var(--modern-bharat-green);
+  --color-modern-bharat-saffron: var(--modern-bharat-saffron);
+  --color-modern-bharat-white: var(--modern-bharat-white);
+  --color-modern-bharat-earth: var(--modern-bharat-earth);
+  
+  /* Soft Indian Tricolor colors */
+  --color-soft-saffron: var(--soft-saffron);
+  --color-ivory-white: var(--ivory-white);
+  --color-mint-green: var(--mint-green);
+  --color-ashoka-blue: var(--ashoka-blue);
+  
+  /* Custom breakpoints */
+  --breakpoint-xs: 480px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  
+  /* Apply subtle Indian flag color accents to background */
+  .light-theme-bg {
+    background: linear-gradient(180deg, 
+      oklch(var(--indian-saffron) / 0.1) 0%, 
+      oklch(var(--indian-white) / 0.1) 50%, 
+      oklch(var(--indian-green) / 0.1) 100%);
+  }
+  
+  .dark .light-theme-bg {
+    background: linear-gradient(180deg, 
+      oklch(var(--indian-saffron) / 0.15) 0%, 
+      oklch(var(--indian-white) / 0.08) 50%, 
+      oklch(var(--indian-green) / 0.15) 100%);
+  }
+  
+  /* Enhanced Indian flag background for citizen feedback page */
+  .indian-flag-bg {
+    background: linear-gradient(180deg, 
+      oklch(var(--indian-saffron) / 0.08) 0%, 
+      oklch(var(--indian-saffron) / 0.08) 33.33%,
+      oklch(var(--indian-white) / 0.08) 33.33%,
+      oklch(var(--indian-white) / 0.08) 66.66%,
+      oklch(var(--indian-green) / 0.08) 66.66%,
+      oklch(var(--indian-green) / 0.08) 100%);
+  }
+  
+  .dark .indian-flag-bg {
+    background: linear-gradient(180deg, 
+      oklch(var(--indian-saffron) / 0.15) 0%, 
+      oklch(var(--indian-saffron) / 0.15) 33.33%,
+      oklch(var(--indian-white) / 0.1) 33.33%,
+      oklch(var(--indian-white) / 0.1) 66.66%,
+      oklch(var(--indian-green) / 0.15) 66.66%,
+      oklch(var(--indian-green) / 0.15) 100%);
+  }
+  
+  /* Modern Bharat aesthetic styles */
+  .modern-bharat-card {
+    @apply rounded-xl border bg-card p-4 ring-1 ring-border;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+  
+  .modern-bharat-primary {
+    background: linear-gradient(135deg, 
+      oklch(var(--modern-bharat-green) / 0.1) 0%, 
+      oklch(var(--modern-bharat-white) / 0.1) 100%);
+  }
+  
+  .modern-bharat-accent {
+    background: linear-gradient(135deg, 
+      oklch(var(--modern-bharat-saffron) / 0.1) 0%, 
+      oklch(var(--modern-bharat-earth) / 0.1) 100%);
+  }
+  
+  /* New soft Indian Tricolor-inspired gradient background */
+  .soft-tricolor-bg {
+    background: 
+      radial-gradient(circle at center, oklch(var(--ashoka-blue) / 0.05) 0%, transparent 70%),
+      linear-gradient(180deg, 
+        oklch(var(--soft-saffron)) 0%, 
+        oklch(var(--ivory-white)) 50%, 
+        oklch(var(--mint-green)) 100%);
+  }
+  
+  .dark .soft-tricolor-bg {
+    background: 
+      radial-gradient(circle at center, oklch(var(--ashoka-blue) / 0.1) 0%, transparent 70%),
+      linear-gradient(180deg, 
+        oklch(var(--soft-saffron) / 0.9) 0%, 
+        oklch(var(--ivory-white) / 0.9) 50%, 
+        oklch(var(--mint-green) / 0.9) 100%);
+  }
+}
