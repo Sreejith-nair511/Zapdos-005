@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { 
@@ -171,44 +171,46 @@ export function PlatformArchitecture() {
     }))
   }
 
+  // Expand the first layer by default on mobile
+  useEffect(() => {
+    if (Object.keys(expandedLayers).length === 0) {
+      setExpandedLayers({ [architectureLayers[0].id]: true });
+    }
+  }, []);
+
   return (
     <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="text-lg sm:text-xl">AI-Powered Rural Services Platform Architecture</CardTitle>
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="text-base sm:text-lg md:text-xl">AI-Powered Rural Services Platform Architecture</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-3 sm:p-4 md:p-6">
         <div className="relative">
           {/* Architecture Layers - Mobile-first accordion layout */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {architectureLayers.map((layer, layerIndex) => (
               <motion.div
                 key={layer.id}
-                className="border rounded-lg"
+                className="border rounded-lg overflow-hidden"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: layerIndex * 0.05 }}
               >
                 {/* Layer Header - Always visible */}
                 <button
-                  className="w-full flex items-center justify-between p-3 sm:p-4 text-left"
+                  className="w-full flex items-center justify-between p-3 sm:p-4 text-left focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-lg"
                   onClick={() => toggleLayer(layer.id)}
+                  aria-label={`Toggle ${layer.title} layer`}
                 >
                   <div className="flex items-center gap-2 sm:gap-3">
-                    <div className="p-2 rounded-full bg-secondary">
+                    <div className="p-1.5 sm:p-2 rounded-full bg-secondary flex-shrink-0">
                       {layer.icon}
                     </div>
-                    <h3 className="font-semibold text-sm sm:text-base">{layer.title}</h3>
+                    <h3 className="font-semibold text-sm sm:text-base md:text-lg">{layer.title}</h3>
                   </div>
-                  <div className="transform transition-transform duration-200">
-                    {expandedLayers[layer.id] ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
-                      </svg>
-                    ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    )}
+                  <div className={`transform transition-transform duration-200 flex-shrink-0 ${expandedLayers[layer.id] ? 'rotate-180' : ''}`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
                   </div>
                 </button>
                 
@@ -221,7 +223,7 @@ export function PlatformArchitecture() {
                   }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="px-3 pb-3 sm:px-4 sm:pb-4 space-y-2 border-t">
+                  <div className="px-3 pb-3 sm:px-4 sm:pb-4 space-y-2 border-t border-border">
                     {layer.components.map((component) => (
                       <motion.div
                         key={component.id}
@@ -247,28 +249,28 @@ export function PlatformArchitecture() {
           </div>
 
           {/* Connection Visualization - Simplified for mobile */}
-          <div className="mt-6 pt-4 border-t">
-            <h3 className="font-semibold mb-3 text-sm sm:text-base">Data Flow & Connections</h3>
+          <div className="mt-5 pt-4 sm:mt-6 sm:pt-4 border-t border-border">
+            <h3 className="font-semibold mb-3 text-sm sm:text-base md:text-lg">Data Flow & Connections</h3>
             <div className="space-y-3 text-xs sm:text-sm">
               <div>
-                <p className="font-medium mb-1">Data Ingestion:</p>
-                <p>Government APIs, Weather Feeds, Satellite Feeds, and Field Sensors → Raw Data Store</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm">Data Ingestion:</p>
+                <p className="text-xs sm:text-sm">Government APIs, Weather Feeds, Satellite Feeds, and Field Sensors → Raw Data Store</p>
               </div>
               <div>
-                <p className="font-medium mb-1">Processing:</p>
-                <p>Raw Data Store → FastAPI Backend → Central Database</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm">Processing:</p>
+                <p className="text-xs sm:text-sm">Raw Data Store → FastAPI Backend → Central Database</p>
               </div>
               <div>
-                <p className="font-medium mb-1">AI Processing:</p>
-                <p>WatsonX, LangChain, XGBoost, LightGBM → Multi-Agent System</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm">AI Processing:</p>
+                <p className="text-xs sm:text-sm">WatsonX, LangChain, XGBoost, LightGBM → Multi-Agent System</p>
               </div>
               <div>
-                <p className="font-medium mb-1">Communication:</p>
-                <p>Agents → Messaging Layer → Communication Layer → Citizens</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm">Communication:</p>
+                <p className="text-xs sm:text-sm">Agents → Messaging Layer → Communication Layer → Citizens</p>
               </div>
               <div>
-                <p className="font-medium mb-1">Infrastructure:</p>
-                <p>All components deployed and supported by Cloud Infrastructure</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm">Infrastructure:</p>
+                <p className="text-xs sm:text-sm">All components deployed and supported by Cloud Infrastructure</p>
               </div>
             </div>
           </div>
