@@ -65,10 +65,10 @@ export function CommunityFeedback() {
   }
   
   return (
-    <div className="rounded-xl bg-card p-4 ring-1 ring-border">
-      <div className="text-sm font-medium mb-2">{"💬 Community Voices Carousel"}</div>
+    <div className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm">
+      <div className="text-sm sm:text-base font-medium mb-2 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"💬 Community Voices Carousel"}</div>
       
-      <div className="relative h-48">
+      <div className="relative h-40 sm:h-48">
         <AnimatePresence mode="wait">
           <motion.div
             key={current.id}
@@ -78,14 +78,14 @@ export function CommunityFeedback() {
             transition={{ duration: 0.5 }}
             className="absolute inset-0 flex flex-col"
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
               <img
                 src={current.avatar || "/placeholder.svg"}
                 alt="Citizen avatar"
-                className="h-12 w-12 rounded-full ring-1 ring-border"
+                className="h-10 w-10 sm:h-12 sm:w-12 rounded-full ring-1 ring-border"
               />
               <div>
-                <div className="font-medium">Community Member</div>
+                <div className="font-medium text-sm sm:text-base">Community Member</div>
                 <div className="text-xs text-muted-foreground">
                   Speaking in {current.language === 'en' ? 'English' : 'Local Language'}
                 </div>
@@ -93,14 +93,14 @@ export function CommunityFeedback() {
             </div>
             
             <div className="flex-1 flex flex-col justify-center">
-              <blockquote className="text-lg text-pretty italic">"{current.quote}"</blockquote>
+              <blockquote className="text-base sm:text-lg text-pretty italic">"{current.quote}"</blockquote>
               
               {showSubtitles && current.subtitle && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="mt-3 text-sm text-muted-foreground"
+                  className="mt-2 sm:mt-3 text-xs sm:text-sm text-muted-foreground"
                 >
                   {current.subtitle}
                 </motion.div>
@@ -110,24 +110,28 @@ export function CommunityFeedback() {
         </AnimatePresence>
       </div>
       
-      <div className="flex items-center justify-between mt-4">
-        <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0 mt-3 sm:mt-4">
+        <div className="flex gap-1 sm:gap-2">
           <Button 
             size="sm" 
             variant="outline" 
             onClick={isPlaying ? handlePause : handlePlay}
+            className="text-xs sm:text-sm"
           >
-            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-            {isPlaying ? "Pause" : "Play"}
+            {isPlaying ? <Pause className="h-3 w-3 sm:h-4 sm:w-4" /> : <Play className="h-3 w-3 sm:h-4 sm:w-4" />}
+            <span className="hidden xs:inline ml-1">{isPlaying ? "Pause" : "Play"}</span>
           </Button>
           
           <Button 
             size="sm" 
             variant="outline" 
             onClick={() => setShowSubtitles(!showSubtitles)}
+            className="text-xs sm:text-sm"
           >
-            <Volume2 className="h-4 w-4 mr-1" />
-            {showSubtitles ? "Hide Subtitles" : "Show Subtitles"}
+            <Volume2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <span className="hidden xs:inline">
+              {showSubtitles ? "Hide" : "Show"}
+            </span>
           </Button>
         </div>
         

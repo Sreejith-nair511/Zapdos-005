@@ -16,23 +16,23 @@ export function MaintenanceSection() {
 
   return (
     <div className="grid gap-3">
-      <div className="rounded-xl bg-card p-4 ring-1 ring-border">
-        <div className="text-sm font-medium">{"Local Technicians"}</div>
-        <ul className="mt-2 grid gap-2">
+      <div className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm">
+        <div className="text-sm sm:text-base font-medium mb-3 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"Local Technicians"}</div>
+        <ul className="grid gap-2">
           {techs.map((t: any) => (
-            <li key={t.id} className="flex items-center justify-between rounded bg-secondary px-3 py-2">
-              <span>{t.name}</span>
+            <li key={t.id} className="flex items-center justify-between rounded bg-secondary/50 px-3 py-2 hover:bg-secondary/70 transition-colors">
+              <span className="text-sm">{t.name}</span>
               <span className={`text-xs rounded px-2 py-1 ${badge(t.status)}`}>{t.status}</span>
             </li>
           ))}
         </ul>
       </div>
-      <div className="rounded-xl bg-card p-4 ring-1 ring-border">
-        <div className="text-sm font-medium">{"Edge Node Health"}</div>
-        <div className="mt-2 grid grid-cols-3 gap-2 text-sm">
-          <div className="rounded bg-secondary p-2">{`Temp: ${node.temp}°C`}</div>
-          <div className="rounded bg-secondary p-2">{`Memory: ${node.memory}%`}</div>
-          <div className="rounded bg-secondary p-2">{`Last Reboot: ${node.lastReboot}`}</div>
+      <div className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm">
+        <div className="text-sm sm:text-base font-medium mb-3 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"Edge Node Health"}</div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm">
+          <div className="rounded bg-secondary/50 p-2 hover:bg-secondary/70 transition-colors">{`Temp: ${node.temp}°C`}</div>
+          <div className="rounded bg-secondary/50 p-2 hover:bg-secondary/70 transition-colors">{`Memory: ${node.memory}%`}</div>
+          <div className="rounded bg-secondary/50 p-2 hover:bg-secondary/70 transition-colors">{`Last Reboot: ${node.lastReboot}`}</div>
         </div>
       </div>
     </div>

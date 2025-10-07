@@ -55,13 +55,13 @@ export function SchemeBoard() {
   }
 
   return (
-    <div className="rounded-xl bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 p-4 ring-1 ring-green-200 dark:ring-green-800 border-2 border-green-200 dark:border-green-800">
-      <div className="text-sm font-medium mb-3">{"Unified Scheme Integration"}</div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div className="rounded-xl bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 p-3 sm:p-4 ring-1 ring-green-200 dark:ring-green-800 border-2 border-green-200 dark:border-green-800 backdrop-blur-sm">
+      <div className="text-sm sm:text-base font-medium mb-3 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"Unified Scheme Integration"}</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
         {schemes.map((scheme) => (
           <div 
             key={scheme.name} 
-            className="rounded-xl bg-secondary p-4 relative overflow-hidden"
+            className="rounded-xl bg-secondary/50 p-3 sm:p-4 relative overflow-hidden hover:bg-secondary/70 transition-colors"
           >
             {/* Animated data beam effect for syncing status */}
             {scheme.status === "Syncing" && (
@@ -79,8 +79,8 @@ export function SchemeBoard() {
               />
             )}
             
-            <div className="font-medium">{scheme.name}</div>
-            <div className="text-sm text-muted-foreground mt-1">{scheme.purpose}</div>
+            <div className="font-medium text-sm sm:text-base">{scheme.name}</div>
+            <div className="text-xs sm:text-sm text-muted-foreground mt-1">{scheme.purpose}</div>
             
             <div className="mt-3 flex items-center justify-between">
               <div className={`inline-block rounded px-2 py-1 text-xs ${getStatusBadge(scheme.status)}`}>
