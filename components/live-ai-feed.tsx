@@ -102,8 +102,8 @@ export function LiveAIFeed() {
   }
 
   return (
-    <div className="bg-card rounded-lg border p-3 sm:p-4 h-64 overflow-hidden">
-      <h3 className="font-semibold mb-2 text-lg">Live AI Feed</h3>
+    <div className="bg-card rounded-lg border p-3 sm:p-4 h-64 overflow-hidden bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm">
+      <h3 className="font-semibold mb-2 text-base sm:text-lg bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">Live AI Feed</h3>
       <div className="h-52 overflow-y-auto">
         <AnimatePresence>
           {items.map((item) => (
@@ -113,34 +113,39 @@ export function LiveAIFeed() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.3 }}
-              className="flex flex-col sm:flex-row sm:items-start gap-2 p-2 mb-2 rounded bg-secondary/50 hover:bg-secondary transition-colors"
+              className="flex flex-col gap-2 p-2 mb-2 rounded bg-secondary/50 hover:bg-secondary/70 transition-colors"
             >
-              <div className="mt-0.5 flex-shrink-0">
-                {getLevelIcon(item.level)}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className={`font-medium ${getAgentColor(item.agent)}`}>
-                  {item.agent}
+              <div className="flex items-start gap-2">
+                <div className="mt-0.5 flex-shrink-0">
+                  {getLevelIcon(item.level)}
                 </div>
-                <p className="text-sm text-foreground">
-                  {item.message}
-                </p>
-                {item.stt && (
-                  <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-                    <Mic className="h-3 w-3" />
-                    <span>STT: {item.stt.transcription} (Conf: {item.stt.confidence}%)</span>
+                <div className="flex-1 min-w-0">
+                  <div className={`font-medium text-sm ${getAgentColor(item.agent)}`}>
+                    {item.agent}
                   </div>
-                )}
-                {item.reasoning && (
-                  <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-                    <Brain className="h-3 w-3" />
-                    <span>Reasoning: {item.reasoning.steps.length} steps (Conf: {item.reasoning.confidence}%)</span>
-                  </div>
-                )}
+                  <p className="text-sm text-foreground">
+                    {item.message}
+                  </p>
+                </div>
               </div>
-              <div className="flex gap-1 flex-wrap sm:flex-nowrap mt-2 sm:mt-0">
+              
+              {item.stt && (
+                <div className="flex items-center gap-1 text-xs text-muted-foreground pl-7">
+                  <Mic className="h-3 w-3" />
+                  <span>STT: {item.stt.transcription} (Conf: {item.stt.confidence}%)</span>
+                </div>
+              )}
+              
+              {item.reasoning && (
+                <div className="flex items-center gap-1 text-xs text-muted-foreground pl-7">
+                  <Brain className="h-3 w-3" />
+                  <span>Reasoning: {item.reasoning.steps.length} steps (Conf: {item.reasoning.confidence}%)</span>
+                </div>
+              )}
+              
+              <div className="flex gap-1 flex-wrap mt-2 pl-7">
                 <button 
-                  className="text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition-colors flex items-center gap-1 whitespace-nowrap flex-1 min-w-[80px]"
+                  className="text-xs bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition-colors flex items-center gap-1 whitespace-nowrap flex-1 min-w-[70px]"
                   aria-label="Acknowledge"
                   onClick={(e) => {
                     e.preventDefault();
@@ -150,10 +155,10 @@ export function LiveAIFeed() {
                   }}
                 >
                   <Check className="h-3 w-3" />
-                  <span className="hidden xs:inline">Acknowledge</span>
+                  <span className="hidden xs:inline">Ack</span>
                 </button>
                 <button 
-                  className="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition-colors flex items-center gap-1 whitespace-nowrap flex-1 min-w-[80px]"
+                  className="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition-colors flex items-center gap-1 whitespace-nowrap flex-1 min-w-[70px]"
                   aria-label="Verify"
                   onClick={(e) => {
                     e.preventDefault();
@@ -165,7 +170,7 @@ export function LiveAIFeed() {
                   <span className="hidden xs:inline">Verify</span>
                 </button>
                 <button 
-                  className="text-xs bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors flex items-center gap-1 whitespace-nowrap flex-1 min-w-[80px]"
+                  className="text-xs bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors flex items-center gap-1 whitespace-nowrap flex-1 min-w-[70px]"
                   aria-label="Escalate"
                   onClick={(e) => {
                     e.preventDefault();
@@ -192,9 +197,9 @@ export function LiveAIFeed() {
       {/* WatsonX Modal */}
       {showWatsonXModal && selectedItem && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-2 sm:p-4 z-50">
-          <div className="w-full max-w-2xl rounded-xl bg-card p-3 sm:p-6 ring-1 ring-border max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-2xl rounded-xl bg-card p-3 sm:p-6 ring-1 ring-border max-h-[90vh] overflow-y-auto backdrop-blur-sm">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg sm:text-xl font-semibold">IBM WatsonX Insights</h3>
+              <h3 className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">IBM WatsonX Insights</h3>
               <button 
                 className="text-2xl"
                 onClick={(e) => {
@@ -209,7 +214,7 @@ export function LiveAIFeed() {
             
             <div className="space-y-4">
               <div>
-                <h4 className="font-medium text-lg flex items-center gap-2">
+                <h4 className="font-medium text-base sm:text-lg flex items-center gap-2">
                   <Mic className="h-5 w-5" />
                   Speech-to-Text Transcription
                 </h4>
@@ -232,7 +237,7 @@ export function LiveAIFeed() {
               </div>
               
               <div>
-                <h4 className="font-medium text-lg flex items-center gap-2">
+                <h4 className="font-medium text-base sm:text-lg flex items-center gap-2">
                   <Brain className="h-5 w-5" />
                   AI Reasoning Chain
                 </h4>

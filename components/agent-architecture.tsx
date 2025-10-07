@@ -104,7 +104,23 @@ const initialAgents: Agent[] = [
 export function AgentArchitecture() {
   const [agents, setAgents] = useState<Agent[]>(initialAgents)
   const [hoveredAgent, setHoveredAgent] = useState<string | null>(null)
+  const [expandedAgents, setExpandedAgents] = useState<Record<string, boolean>>({})
   const [activeConnections, setActiveConnections] = useState<boolean[]>(Array(6).fill(false))
+
+  // Toggle agent expansion for mobile
+  const toggleAgent = (agentId: string) => {
+    setExpandedAgents(prev => ({
+      ...prev,
+      [agentId]: !prev[agentId]
+    }))
+  }
+
+  // Expand the first agent by default on mobile
+  useEffect(() => {
+    if (Object.keys(expandedAgents).length === 0) {
+      setExpandedAgents({ [initialAgents[0].id]: true });
+    }
+  }, []);
 
   // Simulate status changes and activity
   useEffect(() => {
@@ -152,78 +168,90 @@ export function AgentArchitecture() {
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Multi-Agent Architecture</CardTitle>
+    <Card className="w-full bg-gradient-to-br from-background to-secondary/10">
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="text-base sm:text-lg md:text-xl bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
+          Multi-Agent Architecture
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="relative min-h-[500px]">
-          {/* Agent Nodes */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <CardContent className="p-3 sm:p-4 md:p-6">
+        <div className="relative min-h-[300px]">
+          {/* Agent Nodes - Mobile-first accordion layout */}
+          <div className="space-y-3 sm:space-y-4">
             {agents.map((agent, index) => (
               <motion.div
                 key={agent.id}
-                className={`rounded-lg border p-4 cursor-pointer transition-all duration-300 ${
-                  hoveredAgent === agent.id ? "ring-2 ring-primary" : ""
-                }`}
-                onMouseEnter={() => setHoveredAgent(agent.id)}
-                onMouseLeave={() => setHoveredAgent(null)}
-                whileHover={{ scale: 1.05 }}
-                initial={{ opacity: 0, y: 20 }}
+                className="border rounded-lg overflow-hidden bg-card/50 backdrop-blur-sm"
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.05 }}
               >
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold">{agent.name}</h3>
-                  <div className={`w-3 h-3 rounded-full ${getStatusColor(agent.status)} ${getStatusPulse(agent.status)}`} />
-                </div>
-                <p className="text-sm text-muted-foreground mt-1">{agent.role}</p>
-                <Badge className="mt-2" variant="secondary">{agent.output}</Badge>
+                {/* Agent Header - Always visible */}
+                <button
+                  className="w-full flex items-center justify-between p-3 sm:p-4 text-left focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-lg hover:bg-secondary/30 transition-colors"
+                  onClick={() => toggleAgent(agent.id)}
+                  aria-label={`Toggle ${agent.name} details`}
+                >
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className={`w-3 h-3 rounded-full flex-shrink-0 ${getStatusColor(agent.status)} ${getStatusPulse(agent.status)}`} />
+                    <div>
+                      <h3 className="font-semibold text-sm sm:text-base md:text-lg text-foreground">{agent.name}</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground mt-1">{agent.role}</p>
+                    </div>
+                  </div>
+                  <div className={`transform transition-transform duration-200 flex-shrink-0 ${expandedAgents[agent.id] ? 'rotate-180' : ''}`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </button>
                 
-                {/* Activity Log (shown on hover) */}
-                {hoveredAgent === agent.id && (
-                  <motion.div
-                    className="mt-2 p-2 bg-secondary rounded text-xs"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                  >
-                    <p className="font-medium mb-1">Activity Log:</p>
-                    <ul className="space-y-1">
-                      {agent.activityLog.map((log, i) => (
-                        <li key={i} className="truncate">{log}</li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )}
+                {/* Agent Details - Collapsible on mobile */}
+                <motion.div
+                  className={`overflow-hidden ${expandedAgents[agent.id] ? '' : 'hidden'}`}
+                  initial={false}
+                  animate={{
+                    height: expandedAgents[agent.id] ? "auto" : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="px-3 pb-3 sm:px-4 sm:pb-4 space-y-3 border-t border-border">
+                    <Badge className="mt-2" variant="secondary">{agent.output}</Badge>
+                    
+                    {/* Activity Log */}
+                    <div className="mt-2 p-3 bg-secondary/30 rounded">
+                      <p className="font-medium mb-2 text-sm sm:text-base text-foreground">Activity Log:</p>
+                      <ul className="space-y-1">
+                        {agent.activityLog.map((log, i) => (
+                          <li key={i} className="text-xs sm:text-sm text-foreground/80 truncate">{log}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
 
-          {/* Connection Lines */}
-          <div className="absolute inset-0 pointer-events-none">
-            {/* We'll add connection lines between agents here */}
-            {/* For now, we'll add a visual representation of message passing */}
-            {activeConnections.map((active, index) => (
-              <motion.div
-                key={index}
-                className={`absolute w-1 h-1 rounded-full ${
-                  active ? "bg-blue-500" : "bg-transparent"
-                }`}
-                style={{
-                  top: `${20 + index * 15}%`,
-                  left: `${30 + index * 10}%`,
-                }}
-                animate={{
-                  scale: active ? [1, 1.5, 1] : 1,
-                  opacity: active ? [0.5, 1, 0.5] : 0,
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: active ? Infinity : 0,
-                  repeatType: "reverse",
-                }}
-              />
-            ))}
+          {/* Connection Visualization - Simplified for mobile */}
+          <div className="mt-5 pt-4 sm:mt-6 sm:pt-4 border-t border-border">
+            <h3 className="font-semibold mb-3 text-sm sm:text-base md:text-lg bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
+              Agent Communication & Coordination
+            </h3>
+            <div className="space-y-3 text-xs sm:text-sm">
+              <div className="p-3 rounded-lg bg-secondary/30">
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Message Passing:</p>
+                <p className="text-xs sm:text-sm text-foreground/80">Agents communicate via Kafka message queues and Redis Streams for real-time coordination</p>
+              </div>
+              <div className="p-3 rounded-lg bg-secondary/30">
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Conflict Resolution:</p>
+                <p className="text-xs sm:text-sm text-foreground/80">Coordinator Agent mediates between conflicting recommendations from specialized agents</p>
+              </div>
+              <div className="p-3 rounded-lg bg-secondary/30">
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Data Flow:</p>
+                <p className="text-xs sm:text-sm text-foreground/80">Real-time sensor data → Specialized agents → Coordinated actions → Community impact</p>
+              </div>
+            </div>
           </div>
         </div>
       </CardContent>
