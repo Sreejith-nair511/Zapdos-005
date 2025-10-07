@@ -60,22 +60,31 @@ export function AnalyticsCharts() {
   }
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-3 sm:gap-4">
       <motion.div 
-        className="rounded-xl bg-card p-4 ring-1 ring-border"
+        className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="text-sm font-medium mb-2">{"Welfare Enrollment (%)"}</div>
-        <div className="h-64">
+        <div className="text-sm sm:text-base font-medium mb-2 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"Welfare Enrollment (%)"}</div>
+        <div className="h-48 sm:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={series}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="label" />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
-              <Legend />
+              <XAxis dataKey="label" fontSize={12} />
+              <YAxis domain={[0, 100]} fontSize={12} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'hsl(var(--background))', 
+                  borderColor: 'hsl(var(--border))',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '0.5rem'
+                }} 
+              />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px' }}
+              />
               <Bar dataKey="kerala" fill="oklch(var(--chart-1))" name="Kerala" />
               <Bar dataKey="rajasthan" fill="oklch(var(--chart-2))" name="Rajasthan" />
               <Bar dataKey="national" fill="oklch(var(--chart-3))" name="National Avg" />
@@ -85,20 +94,29 @@ export function AnalyticsCharts() {
       </motion.div>
 
       <motion.div 
-        className="rounded-xl bg-card p-4 ring-1 ring-border"
+        className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <div className="text-sm font-medium mb-2">{"Water Efficiency (%)"}</div>
-        <div className="h-64">
+        <div className="text-sm sm:text-base font-medium mb-2 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"Water Efficiency (%)"}</div>
+        <div className="h-48 sm:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={series}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="label" />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
-              <Legend />
+              <XAxis dataKey="label" fontSize={12} />
+              <YAxis domain={[0, 100]} fontSize={12} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'hsl(var(--background))', 
+                  borderColor: 'hsl(var(--border))',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '0.5rem'
+                }} 
+              />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px' }}
+              />
               <Bar dataKey="kerala" fill="oklch(var(--chart-1))" name="Kerala" />
               <Bar dataKey="rajasthan" fill="oklch(var(--chart-2))" name="Rajasthan" />
               <Bar dataKey="national" fill="oklch(var(--chart-3))" name="National Avg" />
@@ -108,20 +126,29 @@ export function AnalyticsCharts() {
       </motion.div>
 
       <motion.div 
-        className="rounded-xl bg-card p-4 ring-1 ring-border"
+        className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="text-sm font-medium mb-2">{"Predictive Trends with Confidence Bands"}</div>
-        <div className="h-64">
+        <div className="text-sm sm:text-base font-medium mb-2 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"Predictive Trends with Confidence Bands"}</div>
+        <div className="h-48 sm:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={extendedSeries}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="label" />
-              <YAxis domain={[50, 100]} />
-              <Tooltip />
-              <Legend />
+              <XAxis dataKey="label" fontSize={12} />
+              <YAxis domain={[50, 100]} fontSize={12} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'hsl(var(--background))', 
+                  borderColor: 'hsl(var(--border))',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '0.5rem'
+                }} 
+              />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px' }}
+              />
               <ReferenceLine y={75} stroke="oklch(var(--muted-foreground))" strokeDasharray="3 3" />
               <Area 
                 type="monotone" 
@@ -161,20 +188,29 @@ export function AnalyticsCharts() {
       </motion.div>
 
       <motion.div 
-        className="rounded-xl bg-card p-4 ring-1 ring-border"
+        className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <div className="text-sm font-medium mb-2">{"Crop Health Index"}</div>
-        <div className="h-64">
+        <div className="text-sm sm:text-base font-medium mb-2 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"Crop Health Index"}</div>
+        <div className="h-48 sm:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={extendedSeries}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="label" />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
-              <Legend />
+              <XAxis dataKey="label" fontSize={12} />
+              <YAxis domain={[0, 100]} fontSize={12} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'hsl(var(--background))', 
+                  borderColor: 'hsl(var(--border))',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '0.5rem'
+                }} 
+              />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px' }}
+              />
               <Line 
                 type="monotone" 
                 dataKey="kerala" 
@@ -199,20 +235,29 @@ export function AnalyticsCharts() {
       </motion.div>
 
       <motion.div 
-        className="rounded-xl bg-card p-4 ring-1 ring-border"
+        className="rounded-xl bg-card p-3 sm:p-4 ring-1 ring-border bg-gradient-to-br from-background to-secondary/10 backdrop-blur-sm"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <div className="text-sm font-medium mb-2">{"Attendance Tracking"}</div>
-        <div className="h-64">
+        <div className="text-sm sm:text-base font-medium mb-2 bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">{"Attendance Tracking"}</div>
+        <div className="h-48 sm:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={extendedSeries}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="label" />
-              <YAxis domain={[80, 100]} />
-              <Tooltip />
-              <Legend />
+              <XAxis dataKey="label" fontSize={12} />
+              <YAxis domain={[80, 100]} fontSize={12} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'hsl(var(--background))', 
+                  borderColor: 'hsl(var(--border))',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '0.5rem'
+                }} 
+              />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px' }}
+              />
               <Area 
                 type="monotone" 
                 dataKey="kerala" 
