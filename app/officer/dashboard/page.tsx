@@ -1,5 +1,4 @@
 "use client"
-import { I18nProvider } from "@/components/i18n-provider"
 import { LiveMetrics } from "@/components/live-metrics"
 import { InsightPanels } from "@/components/insight-panels"
 import { AlertsFeed } from "@/components/alerts-feed"
@@ -19,11 +18,15 @@ import { DevRibbon } from "@/components/dev-ribbon"
 import { OfficerHeader } from "@/components/officer-header"
 import { Chatbot } from "@/components/chatbot"
 import { AgentControlConsole } from "@/components/agent-control-console"
+import { PlatformArchitecture } from "@/components/platform-architecture"
 
 function DashboardInner() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6 md:py-8 grid gap-6 soft-tricolor-bg" role="main">
+    <main className="px-4 py-6 md:px-6 md:py-8 grid gap-6 soft-tricolor-bg" role="main">
       <OfficerHeader />
+
+      {/* Platform Architecture Visualization */}
+      <PlatformArchitecture />
 
       {/* Multi-Agent Architecture Visualization */}
       <AgentArchitecture />
@@ -33,7 +36,7 @@ function DashboardInner() {
 
       <LiveMetrics />
 
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-4">
         <InsightPanels />
         <div className="flex flex-col gap-4">
           <AlertsFeed />
@@ -41,7 +44,7 @@ function DashboardInner() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="card-vibrant-primary">
           <EdgeGatewayCard />
         </div>
@@ -76,8 +79,6 @@ function DashboardInner() {
 
 export default function Page() {
   return (
-    <I18nProvider>
-      <DashboardInner />
-    </I18nProvider>
+    <DashboardInner />
   )
 }
