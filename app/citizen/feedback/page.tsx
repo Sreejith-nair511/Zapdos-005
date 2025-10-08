@@ -88,8 +88,8 @@ function CitizenFeedbackInner() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm italic text-muted-foreground mb-3">
-                    "पहले मुझे अफसर के आने का इंतज़ार करना पड़ता था, अब डिजिटल सरपंच खुद बता देता है कि खेत को कब पानी चाहिए।"
-                  </p>
+                      "പഴയൊരു കാലത്ത് കൃഷി ഉദ്യോഗസ്ഥനെ കാത്തിരിക്കേണ്ടി വന്നു. ഇപ്പോൾ ഡിജിറ്റൽ സർപഞ്ച് എന്നോട് മുൻകൂട്ടി എന്റെ കൃഷികളിലേക്ക് എപ്പോൾ വെള്ളം വേണമെന്ന് പറയുന്നു — ഇന്റർനെറ്റ് നഷ്ടപ്പെട്ടാലും കൂടി."
+                    </p>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                     <div className="text-green-600 font-bold text-lg">96%</div>
@@ -98,6 +98,45 @@ function CitizenFeedbackInner() {
                   <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-center">
                     <div className="text-blue-600 font-bold text-lg">28%</div>
                     <div className="text-xs text-muted-foreground">Water Saved</div>
+                  </div>
+                  <div className="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg text-center">
+                    <div className="text-orange-600 font-bold text-lg">Malayalam</div>
+                    <div className="text-xs text-muted-foreground">IVR Language</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Priya Nair - Kozhikode, Kerala */}
+            <Card className="border-t-4 border-t-orange-500">
+              <CardHeader>
+                <CardTitle className="flex items-start gap-3">
+                  <div className="bg-orange-100 p-2 rounded-full">
+                    <Leaf className="h-5 w-5 text-orange-600" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold">👩‍🌾 Priya Nair</span>
+                      <Badge variant="outline">Kozhikode, Kerala</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      "The IVR system in Malayalam helped me apply for PM-Kisan without visiting the office. The voice guidance was so clear!"
+                    </p>
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm italic text-muted-foreground mb-3">
+                      "മലയാളത്തിലുള്ള ഐവിആർ സിസ്റ്റം എന്നെ ഓഫീസിൽ പോകാതെ പിഎം-കിസാൻ ആവശ്യപ്പെടാൻ സഹായിച്ചു. ശബ്ദ മാർഗനിർദ്ദേശം വളരെ വ്യക്തമായിരുന്നു!"
+                    </p>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
+                    <div className="text-green-600 font-bold text-lg">98%</div>
+                    <div className="text-xs text-muted-foreground">Satisfaction</div>
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-center">
+                    <div className="text-blue-600 font-bold text-lg">100%</div>
+                    <div className="text-xs text-muted-foreground">Scheme Enrollment</div>
                   </div>
                   <div className="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg text-center">
                     <div className="text-orange-600 font-bold text-lg">Malayalam</div>
@@ -127,8 +166,8 @@ function CitizenFeedbackInner() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm italic text-muted-foreground mb-3">
-                    "रेत का तूफान आने से पहले मुझे कॉल मिला — एआई ने बताया कि पशुओं को कैसे बचाना है।"
-                  </p>
+                      "रेत का तूफान आने से पहले मुझे कॉल मिला — एआई ने बताया कि पशुओं को कैसे बचाना है।"
+                    </p>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                     <div className="text-green-600 font-bold text-lg">94%</div>
@@ -176,8 +215,8 @@ function CitizenFeedbackInner() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm italic text-muted-foreground mb-3">
-                    "अब हमारी हाजिरी सीधे पंचायत तक जाती है। कोई कागज़ नहीं, कोई देरी नहीं — छात्रवृत्ति समय पर मिली।"
-                  </p>
+                      "अब हमारी हाजिरी सीधे पंचायत तक जाती है। कोई कागज़ नहीं, कोई देरी नहीं — छात्रवृत्ति समय पर मिली।"
+                    </p>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                     <div className="text-green-600 font-bold text-lg">+18%</div>
@@ -215,8 +254,8 @@ function CitizenFeedbackInner() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm italic text-muted-foreground mb-3">
-                    "अब स्कूल की जानकारी अपने आप पंचायत में पहुँच जाती है — माता-पिता को भी कॉल पर सब पता चल जाता है।"
-                  </p>
+                      "അറിയാത്തവരായ പിതാക്കന്മാരെ പോലും വോയ്‌സ് അറിയിപ്പുകൾ ഉപയോഗിച്ച് അറിയിക്കാൻ സഹായിക്കുന്നു. അറിയിപ്പുകൾ സ്വയം ജില്ലാ ഡാഷ്ബോർഡിലേക്ക് എത്തിക്കുന്നു."
+                    </p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                     <div className="text-green-600 font-bold text-lg">+40%</div>
@@ -260,8 +299,8 @@ function CitizenFeedbackInner() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm italic text-muted-foreground mb-3">
-                    "अब दफ्तर जाने की ज़रूरत नहीं। सिर्फ़ कॉल करो, बटन दबाओ, और एआई खुद बता देता है कि कौन सी योजना मिलेगी।"
-                  </p>
+                      "അബ്ബാ, ഓഫീസിൽ പോകേണ്ട ആവശ്യമില്ല. ഞാൻ നമ്പർ കോളുചെയ്ത് 2 അമർത്തിയാൽ എന്നോട് ഏത് പദ്ധതിക്ക് യോഗ്യതയുണ്ടെന്ന് എ.ഐ പറഞ്ഞു തരുന്നു."
+                    </p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                     <div className="text-green-600 font-bold text-lg">100%</div>
@@ -295,8 +334,8 @@ function CitizenFeedbackInner() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm italic text-muted-foreground mb-3">
-                    "अगर किसी घर तक पानी या सब्सिडी नहीं पहुँची, तो तुरंत पता चल जाता है — अब काम पारदर्शी है।"
-                  </p>
+                      "അഗരം കുടുംബത്തിന് വെള്ളം അല്ലെങ്കിൽ സബ്സിഡി ലഭിക്കാതിരിക്കുന്നുവെങ്കിൽ ഞങ്ങൾക്ക് ഉടനെ അറിയാം, അത് പരിഹരിക്കാൻ കഴിയും."
+                    </p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                     <div className="text-green-600 font-bold text-lg">-40%</div>

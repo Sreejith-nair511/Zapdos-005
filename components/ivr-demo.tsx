@@ -39,7 +39,35 @@ export function IVRDemo() {
   const [isListening, setIsListening] = useState(false)
   const [ttsActive, setTtsActive] = useState(false)
   const [currentPrompt, setCurrentPrompt] = useState("Welcome to Digital Sarpanch IVR Service")
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
+  const [selectedVoice, setSelectedVoice] = useState<string | null>(null)
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
+  
+  // Load available voices
+  useEffect(() => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      const loadVoices = () => {
+        const availableVoices = window.speechSynthesis.getVoices()
+        setVoices(availableVoices)
+        
+        // Select a default voice based on browser language
+        if (availableVoices.length > 0 && !selectedVoice) {
+          const defaultVoice = availableVoices.find(voice => 
+            voice.lang.startsWith(navigator.language) || 
+            voice.lang.startsWith('en')
+          ) || availableVoices[0]
+          setSelectedVoice(defaultVoice?.name || null)
+        }
+      }
+      
+      loadVoices()
+      window.speechSynthesis.onvoiceschanged = loadVoices
+      
+      return () => {
+        window.speechSynthesis.onvoiceschanged = null
+      }
+    }
+  }, [selectedVoice])
   
   useEffect(() => {
     if (isActive && currentPrompt) {
@@ -48,17 +76,39 @@ export function IVRDemo() {
   }, [isActive, currentPrompt])
   
   const speakText = (text: string) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      console.warn("Speech synthesis not supported in this browser")
+      return
+    }
     
     try {
       window.speechSynthesis.cancel()
       const u = new SpeechSynthesisUtterance(text)
       utteranceRef.current = u
+      
+      // Set voice if available
+      if (selectedVoice && voices.length > 0) {
+        const voice = voices.find(v => v.name === selectedVoice)
+        if (voice) {
+          u.voice = voice
+        }
+      }
+      
+      u.rate = 1.0 // Normal speech rate
+      u.pitch = 1.0 // Normal pitch
+      u.volume = 1.0 // Max volume
+      
       u.onend = () => setTtsActive(false)
+      u.onerror = (event) => {
+        console.error("TTS Error:", event)
+        setTtsActive(false)
+      }
+      
       window.speechSynthesis.speak(u)
       setTtsActive(true)
     } catch (error) {
       console.error("TTS Error:", error)
+      setTtsActive(false)
     }
   }
   
@@ -216,6 +266,28 @@ export function IVRDemo() {
                   End
                 </Button>
               </div>
+              
+              {/* Voice Selection */}
+              {voices.length > 0 && (
+                <div className="mt-3">
+                  <label htmlFor="voice-select" className="text-xs text-gray-600 dark:text-gray-300 block mb-1">
+                    Voice:
+                  </label>
+                  <select
+                    id="voice-select"
+                    value={selectedVoice || ""}
+                    onChange={(e) => setSelectedVoice(e.target.value)}
+                    className="w-full text-xs p-1 rounded border bg-white dark:bg-gray-600"
+                    aria-label="Select voice for text to speech"
+                  >
+                    {voices.map((voice) => (
+                      <option key={voice.name} value={voice.name}>
+                        {voice.name} ({voice.lang})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
           </div>
         </div>
