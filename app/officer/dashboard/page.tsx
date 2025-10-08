@@ -19,6 +19,9 @@ import { OfficerHeader } from "@/components/officer-header"
 import { Chatbot } from "@/components/chatbot"
 import { AgentControlConsole } from "@/components/agent-control-console"
 import { PlatformArchitecture } from "@/components/platform-architecture"
+import { WatsonXLogs } from "@/components/watsonx-logs"
+import { PilotCaseResults } from "@/components/pilot-case-results"
+import { PaddyCropScenario } from "@/components/paddy-crop-scenario"
 
 function DashboardInner() {
   return (
@@ -33,6 +36,12 @@ function DashboardInner() {
       
       {/* Interactive India Map */}
       <HeroIndiaMap />
+
+      {/* Payyanur Pilot Case Results */}
+      <PilotCaseResults />
+
+      {/* Paddy Crop Scenario Simulation */}
+      <PaddyCropScenario />
 
       <LiveMetrics />
 
@@ -73,6 +82,9 @@ function DashboardInner() {
       
       {/* Chatbot */}
       <Chatbot />
+      
+      {/* WatsonX Logs */}
+      <WatsonXLogs />
     </main>
   )
 }

@@ -14,7 +14,9 @@ import {
   Mouse,
   Palette,
   Zap,
-  X
+  X,
+  Play,
+  Pause
 } from "lucide-react"
 
 export function AccessibilitySuite() {
@@ -137,6 +139,11 @@ export function AccessibilitySuite() {
     // Decrease text size
     if (e.altKey && e.key === '-') {
       setTextSize(prev => Math.max(0.8, prev - 0.1))
+    }
+    
+    // Toggle TTS
+    if (e.altKey && e.key === 'T') {
+      toggleTTS()
     }
   }, [])
   
@@ -262,7 +269,7 @@ export function AccessibilitySuite() {
   
   return (
     <div 
-      className="fixed bottom-4 right-20 z-50"
+      className="fixed bottom-4 right-4 z-50"
       role="region" 
       aria-label="Accessibility Controls"
     >
@@ -271,7 +278,7 @@ export function AccessibilitySuite() {
           size="sm" 
           variant="default" 
           onClick={toggleMinimize}
-          className="bg-primary text-primary-foreground rounded-full p-3 shadow-lg"
+          className="bg-primary text-primary-foreground rounded-full p-3 shadow-lg hover:bg-primary/90"
           aria-label="Open accessibility controls"
         >
           <Accessibility className="h-5 w-5" />
@@ -287,7 +294,7 @@ export function AccessibilitySuite() {
               size="sm" 
               variant="ghost" 
               onClick={toggleMinimize}
-              className="p-1 h-auto"
+              className="p-1 h-auto hover:bg-secondary"
               aria-label="Minimize accessibility controls"
             >
               <X className="h-4 w-4" />
@@ -301,6 +308,7 @@ export function AccessibilitySuite() {
             onClick={toggleHighContrast}
             aria-pressed={isHighContrast}
             aria-label={isHighContrast ? "Disable high contrast mode" : "Enable high contrast mode"}
+            className="hover:bg-primary/90"
           >
             <Contrast className="h-4 w-4 mr-1" />
             {isHighContrast ? "Normal" : "High Contrast"}
@@ -312,6 +320,7 @@ export function AccessibilitySuite() {
             onClick={increaseTextSize}
             disabled={textSize >= 1.5}
             aria-label="Increase text size"
+            className="hover:bg-secondary/80"
           >
             <Type className="h-4 w-4 mr-1" />
             A+
@@ -323,6 +332,7 @@ export function AccessibilitySuite() {
             onClick={decreaseTextSize}
             disabled={textSize <= 0.8}
             aria-label="Decrease text size"
+            className="hover:bg-secondary/80"
           >
             <Type className="h-4 w-4 mr-1" />
             A-
@@ -333,6 +343,7 @@ export function AccessibilitySuite() {
             variant="outline"
             onClick={resetTextSize}
             aria-label="Reset text size"
+            className="hover:bg-secondary/80"
           >
             <Type className="h-4 w-4 mr-1" />
             Reset
@@ -343,7 +354,7 @@ export function AccessibilitySuite() {
             variant={isVoiceOnly ? "default" : "outline"}
             onClick={toggleVoiceOnly}
             aria-pressed={isVoiceOnly}
-            className="col-span-2"
+            className="col-span-2 hover:bg-primary/90"
             aria-label={isVoiceOnly ? "Switch to full mode" : "Switch to voice-only mode"}
           >
             <Volume2 className="h-4 w-4 mr-1" />
@@ -356,6 +367,7 @@ export function AccessibilitySuite() {
             onClick={toggleCaptions}
             aria-pressed={showCaptions}
             aria-label={showCaptions ? "Hide captions" : "Show captions"}
+            className="hover:bg-primary/90"
           >
             <Eye className="h-4 w-4 mr-1" />
             Captions
@@ -367,6 +379,7 @@ export function AccessibilitySuite() {
             onClick={toggleKeyboardMode}
             aria-pressed={isKeyboardMode}
             aria-label={isKeyboardMode ? "Disable keyboard mode" : "Enable keyboard mode"}
+            className="hover:bg-primary/90"
           >
             <Keyboard className="h-4 w-4 mr-1" />
             Keyboard
@@ -378,6 +391,7 @@ export function AccessibilitySuite() {
             onClick={toggleGrayscale}
             aria-pressed={isGrayscale}
             aria-label={isGrayscale ? "Disable grayscale mode" : "Enable grayscale mode"}
+            className="hover:bg-primary/90"
           >
             <Palette className="h-4 w-4 mr-1" />
             Grayscale
@@ -388,6 +402,7 @@ export function AccessibilitySuite() {
             variant={animationSpeed === 0 ? "default" : "outline"}
             onClick={() => changeAnimationSpeed(animationSpeed === 0 ? 1 : 0)}
             aria-label={animationSpeed === 0 ? "Enable animations" : "Disable animations"}
+            className="hover:bg-primary/90"
           >
             <Zap className="h-4 w-4 mr-1" />
             {animationSpeed === 0 ? "Animations On" : "Animations Off"}
@@ -399,6 +414,7 @@ export function AccessibilitySuite() {
             onClick={toggleFocusVisibility}
             aria-pressed={isFocusVisible}
             aria-label={isFocusVisible ? "Hide focus outlines" : "Show focus outlines"}
+            className="hover:bg-primary/90"
           >
             <Mouse className="h-4 w-4 mr-1" />
             {isFocusVisible ? "Focus Visible" : "Focus Hidden"}
@@ -409,10 +425,10 @@ export function AccessibilitySuite() {
             variant={isTTSActive ? "default" : "outline"}
             onClick={toggleTTS}
             aria-pressed={isTTSActive}
-            className="col-span-2"
+            className="col-span-2 hover:bg-primary/90"
             aria-label={isTTSActive ? "Stop text to speech" : "Start text to speech"}
           >
-            <Volume2 className="h-4 w-4 mr-1" />
+            {isTTSActive ? <Pause className="h-4 w-4 mr-1" /> : <Play className="h-4 w-4 mr-1" />}
             {isTTSActive ? "Stop TTS" : "Start TTS"}
           </Button>
           
@@ -426,6 +442,7 @@ export function AccessibilitySuite() {
                   variant="outline"
                   onClick={decreaseTtsRate}
                   aria-label="Decrease speech rate"
+                  className="hover:bg-secondary/80"
                 >
                   Rate -
                 </Button>
@@ -434,6 +451,7 @@ export function AccessibilitySuite() {
                   variant="outline"
                   onClick={increaseTtsRate}
                   aria-label="Increase speech rate"
+                  className="hover:bg-secondary/80"
                 >
                   Rate +
                 </Button>
@@ -442,6 +460,7 @@ export function AccessibilitySuite() {
                   variant="outline"
                   onClick={decreaseTtsPitch}
                   aria-label="Decrease speech pitch"
+                  className="hover:bg-secondary/80"
                 >
                   Pitch -
                 </Button>
@@ -450,6 +469,7 @@ export function AccessibilitySuite() {
                   variant="outline"
                   onClick={increaseTtsPitch}
                   aria-label="Increase speech pitch"
+                  className="hover:bg-secondary/80"
                 >
                   Pitch +
                 </Button>
@@ -464,7 +484,7 @@ export function AccessibilitySuite() {
           <div className="mt-4 pt-3 border-t text-xs">
             <div className="flex justify-between items-center">
               <div className="text-muted-foreground">
-                <p>Keyboard shortcuts:</p>
+                <p className="font-medium">Keyboard shortcuts:</p>
                 <p>Alt+S: Skip to content</p>
                 <p>Alt+Plus: Increase text</p>
                 <p>Alt+Minus: Decrease text</p>

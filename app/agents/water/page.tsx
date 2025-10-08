@@ -1,6 +1,5 @@
 "use client"
 
-import { I18nProvider } from "@/components/i18n-provider"
 import { AgentHeader } from "@/components/agent-header"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageToggle } from "@/components/language-toggle"
@@ -8,49 +7,82 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { 
   Droplets, 
-  Waves, 
-  CloudRain, 
-  Gauge, 
-  Download,
+  BarChart, 
+  Zap, 
+  Calendar, 
   FileText,
   FileDigit,
   AlertTriangle,
   CheckCircle
 } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ReportGenerator, ReportData } from "@/lib/report-generator"
+import { generateAIRecommendations, generateAISummary } from "@/lib/ai-service"
 
 function WaterAgentInner() {
   const [reportData, setReportData] = useState({
-    tankLevel: 68,
-    rainfallForecast: "70%",
-    waterUsage: 4200,
-    efficiency: 85,
+    waterReserves: 78,
+    distributionEfficiency: 94,
+    qualityIndex: 96,
+    maintenanceTasks: 12,
+    activeAlerts: 3,
     alerts: [
-      { id: 1, message: "Tank level critical (40%)", time: "11:30 AM", severity: "high" },
-      { id: 2, message: "Scheduled irrigation for 5 fields", time: "10:15 AM", severity: "medium" },
-      { id: 3, message: "Rainfall forecast: 70% chance", time: "9:00 AM", severity: "low" }
+      { id: 1, message: "Tank level critical in sector 4", time: "4:20 PM", severity: "high" },
+      { id: 2, message: "Scheduled maintenance for pump station", time: "2:15 PM", severity: "medium" },
+      { id: 3, message: "Water quality test completed successfully", time: "11:30 AM", severity: "low" }
     ],
     recommendations: [
-      "Optimize irrigation schedule for field 2",
-      "Check for leaks in distribution system",
-      "Increase water allocation for field 5"
-    ]
+      "Schedule emergency refill for sector 4 tank",
+      "Complete preventive maintenance on pump station",
+      "Continue regular water quality testing"
+    ],
+    summary: "The Water Agent is managing 78% water reserves with 94% distribution efficiency. Water quality index is at 96% with 12 maintenance tasks scheduled. Currently monitoring 3 active alerts."
   })
+
+  const [isLoadingAI, setIsLoadingAI] = useState(false)
+
+  // Generate AI recommendations when the component mounts
+  useEffect(() => {
+    generateAIInsights()
+  }, [])
+
+  const generateAIInsights = async () => {
+    setIsLoadingAI(true)
+    try {
+      const data = generateReportData()
+      
+      // Generate AI recommendations
+      const aiRecommendations = await generateAIRecommendations(data)
+      
+      // Generate AI summary
+      const aiSummary = await generateAISummary(data)
+      
+      setReportData(prev => ({
+        ...prev,
+        recommendations: aiRecommendations,
+        summary: aiSummary
+      }))
+    } catch (error) {
+      console.error("Error generating AI insights:", error)
+    } finally {
+      setIsLoadingAI(false)
+    }
+  }
 
   const generateReportData = (): ReportData => {
     return {
       title: "Water Agent Report",
       timestamp: new Date().toLocaleString(),
       metrics: {
-        "Tank Level": `${reportData.tankLevel}%`,
-        "Rainfall Forecast": reportData.rainfallForecast,
-        "Water Usage": `${reportData.waterUsage}L`,
-        "Efficiency": `${reportData.efficiency}%`
+        "Water Reserves": `${reportData.waterReserves}%`,
+        "Distribution Efficiency": `${reportData.distributionEfficiency}%`,
+        "Quality Index": `${reportData.qualityIndex}%`,
+        "Maintenance Tasks": reportData.maintenanceTasks.toString(),
+        "Active Alerts": reportData.activeAlerts.toString()
       },
       alerts: reportData.alerts,
       recommendations: reportData.recommendations,
-      summary: "The Water Agent is monitoring tank levels and has identified a critical situation. Rainfall is forecasted which will help replenish reserves. Irrigation schedules are optimized for maximum efficiency."
+      summary: reportData.summary
     }
   }
 
@@ -86,48 +118,59 @@ function WaterAgentInner() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border-blue-200 dark:border-blue-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Tank Level</CardTitle>
+              <CardTitle className="text-sm font-medium">Water Reserves</CardTitle>
               <Droplets className="h-4 w-4 text-blue-600 dark:text-blue-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{reportData.tankLevel}%</div>
-              <p className="text-xs text-muted-foreground">Optimal range: 60-90%</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-800/30 border-sky-200 dark:border-sky-800">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Rainfall Forecast</CardTitle>
-              <CloudRain className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{reportData.rainfallForecast}</div>
-              <p className="text-xs text-muted-foreground">Next 24 hours</p>
+              <div className="text-2xl font-bold">{reportData.waterReserves}%</div>
+              <p className="text-xs text-muted-foreground">Current capacity</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/30 dark:to-cyan-800/30 border-cyan-200 dark:border-cyan-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Water Usage</CardTitle>
-              <Waves className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
+              <CardTitle className="text-sm font-medium">Distribution</CardTitle>
+              <BarChart className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{reportData.waterUsage}L</div>
-              <p className="text-xs text-muted-foreground">Today's consumption</p>
+              <div className="text-2xl font-bold">{reportData.distributionEfficiency}%</div>
+              <p className="text-xs text-muted-foreground">Efficiency rating</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900/30 dark:to-teal-800/30 border-teal-200 dark:border-teal-800">
+          <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 border-green-200 dark:border-green-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Efficiency</CardTitle>
-              <Gauge className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+              <CardTitle className="text-sm font-medium">Quality Index</CardTitle>
+              <Zap className="h-4 w-4 text-green-600 dark:text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{reportData.efficiency}%</div>
-              <p className="text-xs text-muted-foreground">Water usage optimization</p>
+              <div className="text-2xl font-bold">{reportData.qualityIndex}%</div>
+              <p className="text-xs text-muted-foreground">Safety rating</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/30 dark:to-yellow-800/30 border-yellow-200 dark:border-yellow-800">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Maintenance</CardTitle>
+              <Calendar className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{reportData.maintenanceTasks}</div>
+              <p className="text-xs text-muted-foreground">Scheduled tasks</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 border-red-200 dark:border-red-800">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Alerts</CardTitle>
+              <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{reportData.activeAlerts}</div>
+              <p className="text-xs text-muted-foreground">Current alerts</p>
             </CardContent>
           </Card>
         </div>
@@ -186,83 +229,28 @@ function WaterAgentInner() {
                 {reportData.recommendations.map((rec, index) => (
                   <div key={index} className="flex items-start p-4 bg-secondary rounded-lg">
                     <div className="flex-shrink-0 mt-1">
-                      <div className="flex items-center justify-center h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">
-                        {index + 1}
-                      </div>
+                      <CheckCircle className="h-5 w-5 text-green-500" />
                     </div>
-                    <div className="ml-3">
-                      <p className="text-sm">{rec}</p>
-                    </div>
+                    <p className="ml-3 text-sm">{rec}</p>
                   </div>
                 ))}
               </div>
+              <Button 
+                onClick={generateAIInsights} 
+                disabled={isLoadingAI}
+                className="mt-4 w-full"
+                variant="outline"
+              >
+                {isLoadingAI ? "Generating..." : "Refresh AI Insights"}
+              </Button>
             </CardContent>
           </Card>
         </div>
-
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Waves className="h-5 w-5" />
-              Irrigation Schedule
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2">Field</th>
-                    <th className="text-left py-2">Scheduled Time</th>
-                    <th className="text-left py-2">Water Allocation</th>
-                    <th className="text-left py-2">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b">
-                    <td className="py-3">Field 1</td>
-                    <td className="py-3">Today 6:00 AM</td>
-                    <td className="py-3">500L</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-200">
-                        Completed
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-3">Field 2</td>
-                    <td className="py-3">Today 7:30 AM</td>
-                    <td className="py-3">400L</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800/30 dark:text-blue-200">
-                        In Progress
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-3">Field 3</td>
-                    <td className="py-3">Today 9:00 AM</td>
-                    <td className="py-3">300L</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-200">
-                        Scheduled
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
       </main>
     </div>
   )
 }
 
-export default function WaterAgentPage() {
-  return (
-    <I18nProvider>
-      <WaterAgentInner />
-    </I18nProvider>
-  )
+export default function Page() {
+  return <WaterAgentInner />
 }

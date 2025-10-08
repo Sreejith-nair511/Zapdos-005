@@ -85,7 +85,9 @@ export function Chatbot() {
   const [messages, setMessages] = useState<Message[]>(loadMessages())
   const [inputValue, setInputValue] = useState("")
   const [isTyping, setIsTyping] = useState(false)
+  const [isSending, setIsSending] = useState(false) // New state to prevent overlapping
   const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const abortControllerRef = useRef<AbortController | null>(null) // For canceling requests
 
   // Save messages whenever they change
   useEffect(() => {
@@ -98,8 +100,17 @@ export function Chatbot() {
     }
   }, [messages, isTyping])
 
-  const handleSend = () => {
-    if (inputValue.trim() === "") return
+  const handleSend = async () => {
+    if (inputValue.trim() === "" || isSending) return // Prevent sending if already sending
+
+    // Cancel any ongoing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    // Create new abort controller for this request
+    const abortController = new AbortController()
+    abortControllerRef.current = abortController
 
     // Add user message
     const userMessage: Message = {
@@ -111,21 +122,75 @@ export function Chatbot() {
     }
 
     setMessages(prev => [...prev, userMessage])
+    const userInput = inputValue;
     setInputValue("")
     setIsTyping(true)
+    setIsSending(true) // Set sending state
 
-    // Simulate AI response after a delay
-    setTimeout(() => {
-      const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)]
+    try {
+      // Add a timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("Request timeout after 15 seconds")), 15000)
+      );
+      
+      // Call the Mistral API
+      const apiPromise = fetch("/api/mistral", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: userInput }),
+        signal: abortController.signal // Attach abort signal
+      })
+
+      // Race the API call against the timeout
+      const response = await Promise.race([apiPromise, timeoutPromise]) as Response;
+
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`)
+      }
+
+      const data = await response.json()
+      
+      if (data.error) {
+        throw new Error(data.error)
+      }
+
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: randomResponse,
+        text: data.response,
         sender: "ai",
         timestamp: new Date()
       }
       setMessages(prev => [...prev, aiMessage])
+    } catch (error) {
+      // Only show error if it's not due to aborting
+      if (error instanceof Error && error.name !== "AbortError") {
+        console.error("AI processing error:", error)
+        // Fallback to mock response
+        const aiMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: "Thank you for your input. We've logged your request. An officer will contact you soon.",
+          sender: "ai",
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, aiMessage])
+      }
+    } finally {
       setIsTyping(false)
-    }, 1500)
+      setIsSending(false) // Reset sending state
+      abortControllerRef.current = null
+    }
+  }
+
+  // Function to cancel ongoing requests
+  const cancelRequest = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      abortControllerRef.current = null
+    }
+    setIsTyping(false)
+    setIsSending(false)
   }
 
   const handleQuickAction = (action: string) => {
@@ -145,6 +210,7 @@ export function Chatbot() {
 
   // Clear chat history
   const clearChat = () => {
+    cancelRequest() // Cancel any ongoing requests
     const welcomeMessage: Message[] = [
       {
         id: Date.now().toString(),
@@ -178,7 +244,9 @@ export function Chatbot() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm sm:text-base">Digital Sarpanch AI</h3>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground">Always here to help</p>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">
+                    {isSending ? "Thinking..." : isTyping ? "Typing..." : "Always here to help"}
+                  </p>
                 </div>
               </div>
               <div className="flex gap-1">
@@ -188,6 +256,7 @@ export function Chatbot() {
                   onClick={clearChat}
                   className="rounded-full h-7 w-7 sm:h-8 sm:w-8 p-0"
                   aria-label="Clear chat"
+                  disabled={isSending}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -196,7 +265,10 @@ export function Chatbot() {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    cancelRequest() // Cancel any ongoing requests
+                    setIsOpen(false)
+                  }}
                   className="rounded-full h-7 w-7 sm:h-8 sm:w-8 p-0"
                   aria-label="Close chat"
                 >
@@ -302,20 +374,25 @@ export function Chatbot() {
                     placeholder="Message Digital Sarpanch..."
                     className="w-full px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-primary pr-10 sm:pr-12 min-h-[36px] sm:min-h-[44px] max-h-[80px] sm:max-h-[120px]"
                     rows={1}
+                    disabled={isSending} // Disable input while sending
                   />
                 </div>
                 <Button 
                   size="icon"
                   onClick={handleSend}
-                  disabled={inputValue.trim() === "" || isTyping}
+                  disabled={inputValue.trim() === "" || isSending}
                   className="rounded-full h-8 w-8 sm:h-10 sm:w-10 self-end"
                   aria-label="Send message"
                 >
-                  <Send className="h-3 w-3 sm:h-4 sm:w-4" />
+                  {isSending ? (
+                    <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-3 w-3 sm:h-4 sm:w-4" />
+                  )}
                 </Button>
               </div>
               <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 sm:mt-2 text-center">
-                Powered by IBM WatsonX AI • <span className="text-green-600">● Online</span>
+                Powered by Mistral AI • <span className="text-green-600">● Online</span>
               </p>
             </div>
           </motion.div>

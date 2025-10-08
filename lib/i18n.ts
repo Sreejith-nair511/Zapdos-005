@@ -18,6 +18,7 @@ export const messages: Record<Lang, Record<string, string>> = {
     logout: "Logout",
     aiGovCenter: "AI Governance Command Center",
     devActive: "SIMULATION ACTIVE",
+    watsonxLogs: "WatsonX Logs",
   },
   hi: {
     title: "डिजिटल सरपंच",
@@ -36,6 +37,7 @@ export const messages: Record<Lang, Record<string, string>> = {
     logout: "लॉगआउट",
     aiGovCenter: "एआई गवर्नेंस कमांड सेंटर",
     devActive: "सिमुलेशन सक्रिय",
+    watsonxLogs: "वॉटसनएक्स लॉग्स",
   },
   kn: {
     title: "ಡಿಜಿಟಲ್ ಸರಪಂಚ",
@@ -54,6 +56,7 @@ export const messages: Record<Lang, Record<string, string>> = {
     logout: "ಲಾಗ್‌ ಔಟ್",
     aiGovCenter: "ಎಐ ಗವರ್ನೆನ್ಸ್ ಕಮಾಂಡ್ ಸೆಂಟರ್",
     devActive: "ಸಿಮ್ಯುಲೇಶನ್ ಸಕ್ರಿಯ",
+    watsonxLogs: "ವಾಟ್ಸನ್‌ಎಕ್ಸ್ ದಾಖಲೆಗಳು",
   },
   ta: {
     title: "டிஜிட்டல் சர்பாஞ்ச்",
@@ -72,6 +75,7 @@ export const messages: Record<Lang, Record<string, string>> = {
     logout: "வெளியேறு",
     aiGovCenter: "ஏஐ நிர்வாக கட்டளை மையம்",
     devActive: "செயற்கை ஒத்திகை செயலில்",
+    watsonxLogs: "வாட்சன்எக்ஸ் பதிவுகள்",
   },
   ml: {
     title: "ഡിജിറ്റൽ സർപ്പാഞ്ച്",
@@ -90,5 +94,6 @@ export const messages: Record<Lang, Record<string, string>> = {
     logout: "ലോഗൗട്ട്",
     aiGovCenter: "എഐ ഗവർണൻസ് കമാൻഡ് സെന്റർ",
     devActive: "സിമുലേഷൻ സജീവം",
+    watsonxLogs: "വാട്സൺഎക്സ് ലോഗുകൾ",
   },
 }
