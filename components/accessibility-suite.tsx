@@ -269,7 +269,7 @@ export function AccessibilitySuite() {
   
   return (
     <div 
-      className="fixed bottom-4 right-4 z-50"
+      className="fixed bottom-4 left-4 z-50"
       role="region" 
       aria-label="Accessibility Controls"
     >

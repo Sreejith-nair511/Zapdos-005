@@ -232,6 +232,13 @@ export function Chatbot() {
             exit={{ opacity: 0, y: 20, scale: 0.3 }}
             transition={{ duration: 0.3 }}
             className="fixed bottom-24 right-2 sm:right-4 w-full max-w-[calc(100vw-2rem)] sm:max-w-md h-[400px] sm:h-[500px] bg-card border rounded-xl shadow-2xl z-[60] flex flex-col overflow-hidden modern-bharat-card backdrop-blur-sm"
+            style={{
+              maxHeight: 'calc(100vh - 100px)',
+              maxWidth: 'min(400px, calc(100vw - 2rem))',
+              right: '1rem',
+              bottom: '6rem',
+              boxSizing: 'border-box'
+            }}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-3 sm:p-4 border-b bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20">
@@ -278,8 +285,8 @@ export function Chatbot() {
             </div>
 
             {/* Messages Area */}
-            <ScrollArea className="flex-1 p-2 sm:p-4" ref={scrollAreaRef}>
-              <div className="space-y-3 sm:space-y-4">
+            <ScrollArea className="flex-1 p-2 sm:p-4" ref={scrollAreaRef} style={{ overflowY: 'auto' }}>
+              <div className="space-y-3 sm:space-y-4" style={{ wordBreak: 'break-word' }}>
                 {messages.map((message) => (
                   <motion.div
                     key={message.id}
@@ -301,6 +308,11 @@ export function Chatbot() {
                           ? "bg-primary text-primary-foreground rounded-tr-none"
                           : "bg-secondary text-secondary-foreground rounded-tl-none"
                       }`}
+                      style={{
+                        wordBreak: 'break-word',
+                        overflowWrap: 'break-word',
+                        maxWidth: '85%'
+                      }}
                     >
                       <p className="text-xs sm:text-sm">{message.text}</p>
                       <div className="flex items-center justify-between mt-1">
@@ -364,7 +376,7 @@ export function Chatbot() {
             )}
 
             {/* Input Area */}
-            <div className="p-2 sm:p-4 border-t bg-background">
+            <div className="p-2 sm:p-4 border-t bg-background" style={{ flexShrink: 0 }}>
               <div className="flex gap-1 sm:gap-2">
                 <div className="flex-1 relative">
                   <textarea
@@ -375,6 +387,10 @@ export function Chatbot() {
                     className="w-full px-3 py-2 sm:px-4 sm:py-3 text-xs sm:text-sm border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-primary pr-10 sm:pr-12 min-h-[36px] sm:min-h-[44px] max-h-[80px] sm:max-h-[120px]"
                     rows={1}
                     disabled={isSending} // Disable input while sending
+                    style={{
+                      boxSizing: 'border-box',
+                      maxWidth: '100%'
+                    }}
                   />
                 </div>
                 <Button 
@@ -405,6 +421,11 @@ export function Chatbot() {
         className="fixed bottom-2 sm:bottom-4 right-2 sm:right-4 rounded-full p-3 sm:p-4 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 z-40"
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Close chat" : "Open chat"}
+        style={{
+          bottom: '1rem',
+          right: '1rem',
+          zIndex: 40
+        }}
       >
         <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
       </Button>
