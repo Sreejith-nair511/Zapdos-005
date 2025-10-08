@@ -14,7 +14,9 @@ import {
   Mouse,
   Palette,
   Zap,
-  X
+  X,
+  Play,
+  Pause
 } from "lucide-react"
 
 export function AccessibilitySuite() {
@@ -28,7 +30,35 @@ export function AccessibilitySuite() {
   const [isFocusVisible, setIsFocusVisible] = useState(true)
   const [isTTSActive, setIsTTSActive] = useState(false)
   const [isMinimized, setIsMinimized] = useState(true)
+  const [ttsRate, setTtsRate] = useState(1) // Speech rate (0.1 to 10)
+  const [ttsPitch, setTtsPitch] = useState(1) // Speech pitch (0 to 2)
+  const [ttsVoice, setTtsVoice] = useState<string | null>(null) // Selected voice
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
+  const voicesRef = useRef<SpeechSynthesisVoice[]>([])
+  
+  // Load available voices
+  useEffect(() => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      const loadVoices = () => {
+        voicesRef.current = window.speechSynthesis.getVoices()
+        if (voicesRef.current.length > 0 && !ttsVoice) {
+          // Select a default voice based on browser language
+          const defaultVoice = voicesRef.current.find(voice => 
+            voice.lang.startsWith(navigator.language) || 
+            voice.lang.startsWith('en')
+          ) || voicesRef.current[0]
+          setTtsVoice(defaultVoice?.name || null)
+        }
+      }
+      
+      loadVoices()
+      window.speechSynthesis.onvoiceschanged = loadVoices
+      
+      return () => {
+        window.speechSynthesis.onvoiceschanged = null
+      }
+    }
+  }, [ttsVoice])
   
   // Apply accessibility settings to the document
   useEffect(() => {
@@ -110,6 +140,11 @@ export function AccessibilitySuite() {
     if (e.altKey && e.key === '-') {
       setTextSize(prev => Math.max(0.8, prev - 0.1))
     }
+    
+    // Toggle TTS
+    if (e.altKey && e.key === 'T') {
+      toggleTTS()
+    }
   }, [])
   
   useEffect(() => {
@@ -167,7 +202,10 @@ export function AccessibilitySuite() {
   }
   
   const toggleTTS = () => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      console.warn("Speech synthesis not supported in this browser")
+      return
+    }
     
     if (isTTSActive) {
       window.speechSynthesis.cancel()
@@ -177,14 +215,33 @@ export function AccessibilitySuite() {
       const content = document.body.innerText || ""
       if (content) {
         try {
+          window.speechSynthesis.cancel()
           const u = new SpeechSynthesisUtterance(content)
           utteranceRef.current = u
+          
+          // Set TTS properties
+          u.rate = ttsRate
+          u.pitch = ttsPitch
+          
+          // Set voice if available
+          if (ttsVoice && voicesRef.current.length > 0) {
+            const selectedVoice = voicesRef.current.find(voice => voice.name === ttsVoice)
+            if (selectedVoice) {
+              u.voice = selectedVoice
+            }
+          }
+          
           u.onend = () => setIsTTSActive(false)
-          window.speechSynthesis.cancel()
+          u.onerror = (event) => {
+            console.error("TTS Error:", event)
+            setIsTTSActive(false)
+          }
+          
           window.speechSynthesis.speak(u)
           setIsTTSActive(true)
         } catch (error) {
           console.error("TTS Error:", error)
+          setIsTTSActive(false)
         }
       }
     }
@@ -194,9 +251,25 @@ export function AccessibilitySuite() {
     setIsMinimized(!isMinimized)
   }
   
+  const increaseTtsRate = () => {
+    setTtsRate(prev => Math.min(10, prev + 0.2))
+  }
+  
+  const decreaseTtsRate = () => {
+    setTtsRate(prev => Math.max(0.1, prev - 0.2))
+  }
+  
+  const increaseTtsPitch = () => {
+    setTtsPitch(prev => Math.min(2, prev + 0.1))
+  }
+  
+  const decreaseTtsPitch = () => {
+    setTtsPitch(prev => Math.max(0, prev - 0.1))
+  }
+  
   return (
     <div 
-      className="fixed bottom-4 right-20 z-50"
+      className="fixed bottom-4 right-4 z-50"
       role="region" 
       aria-label="Accessibility Controls"
     >
@@ -205,13 +278,13 @@ export function AccessibilitySuite() {
           size="sm" 
           variant="default" 
           onClick={toggleMinimize}
-          className="bg-primary text-primary-foreground rounded-full p-3 shadow-lg"
+          className="bg-primary text-primary-foreground rounded-full p-3 shadow-lg hover:bg-primary/90"
           aria-label="Open accessibility controls"
         >
           <Accessibility className="h-5 w-5" />
         </Button>
       ) : (
-        <div className="bg-card border rounded-lg shadow-lg p-4 w-80">
+        <div className="bg-card border rounded-lg shadow-lg p-4 w-80 max-h-[80vh] overflow-y-auto">
           <div className="flex justify-between items-center mb-3">
             <h3 className="font-semibold text-sm flex items-center">
               <Accessibility className="h-4 w-4 mr-2" />
@@ -221,7 +294,7 @@ export function AccessibilitySuite() {
               size="sm" 
               variant="ghost" 
               onClick={toggleMinimize}
-              className="p-1 h-auto"
+              className="p-1 h-auto hover:bg-secondary"
               aria-label="Minimize accessibility controls"
             >
               <X className="h-4 w-4" />
@@ -235,6 +308,7 @@ export function AccessibilitySuite() {
             onClick={toggleHighContrast}
             aria-pressed={isHighContrast}
             aria-label={isHighContrast ? "Disable high contrast mode" : "Enable high contrast mode"}
+            className="hover:bg-primary/90"
           >
             <Contrast className="h-4 w-4 mr-1" />
             {isHighContrast ? "Normal" : "High Contrast"}
@@ -246,6 +320,7 @@ export function AccessibilitySuite() {
             onClick={increaseTextSize}
             disabled={textSize >= 1.5}
             aria-label="Increase text size"
+            className="hover:bg-secondary/80"
           >
             <Type className="h-4 w-4 mr-1" />
             A+
@@ -257,6 +332,7 @@ export function AccessibilitySuite() {
             onClick={decreaseTextSize}
             disabled={textSize <= 0.8}
             aria-label="Decrease text size"
+            className="hover:bg-secondary/80"
           >
             <Type className="h-4 w-4 mr-1" />
             A-
@@ -267,6 +343,7 @@ export function AccessibilitySuite() {
             variant="outline"
             onClick={resetTextSize}
             aria-label="Reset text size"
+            className="hover:bg-secondary/80"
           >
             <Type className="h-4 w-4 mr-1" />
             Reset
@@ -277,7 +354,7 @@ export function AccessibilitySuite() {
             variant={isVoiceOnly ? "default" : "outline"}
             onClick={toggleVoiceOnly}
             aria-pressed={isVoiceOnly}
-            className="col-span-2"
+            className="col-span-2 hover:bg-primary/90"
             aria-label={isVoiceOnly ? "Switch to full mode" : "Switch to voice-only mode"}
           >
             <Volume2 className="h-4 w-4 mr-1" />
@@ -290,6 +367,7 @@ export function AccessibilitySuite() {
             onClick={toggleCaptions}
             aria-pressed={showCaptions}
             aria-label={showCaptions ? "Hide captions" : "Show captions"}
+            className="hover:bg-primary/90"
           >
             <Eye className="h-4 w-4 mr-1" />
             Captions
@@ -301,6 +379,7 @@ export function AccessibilitySuite() {
             onClick={toggleKeyboardMode}
             aria-pressed={isKeyboardMode}
             aria-label={isKeyboardMode ? "Disable keyboard mode" : "Enable keyboard mode"}
+            className="hover:bg-primary/90"
           >
             <Keyboard className="h-4 w-4 mr-1" />
             Keyboard
@@ -312,6 +391,7 @@ export function AccessibilitySuite() {
             onClick={toggleGrayscale}
             aria-pressed={isGrayscale}
             aria-label={isGrayscale ? "Disable grayscale mode" : "Enable grayscale mode"}
+            className="hover:bg-primary/90"
           >
             <Palette className="h-4 w-4 mr-1" />
             Grayscale
@@ -322,6 +402,7 @@ export function AccessibilitySuite() {
             variant={animationSpeed === 0 ? "default" : "outline"}
             onClick={() => changeAnimationSpeed(animationSpeed === 0 ? 1 : 0)}
             aria-label={animationSpeed === 0 ? "Enable animations" : "Disable animations"}
+            className="hover:bg-primary/90"
           >
             <Zap className="h-4 w-4 mr-1" />
             {animationSpeed === 0 ? "Animations On" : "Animations Off"}
@@ -333,6 +414,7 @@ export function AccessibilitySuite() {
             onClick={toggleFocusVisibility}
             aria-pressed={isFocusVisible}
             aria-label={isFocusVisible ? "Hide focus outlines" : "Show focus outlines"}
+            className="hover:bg-primary/90"
           >
             <Mouse className="h-4 w-4 mr-1" />
             {isFocusVisible ? "Focus Visible" : "Focus Hidden"}
@@ -343,18 +425,66 @@ export function AccessibilitySuite() {
             variant={isTTSActive ? "default" : "outline"}
             onClick={toggleTTS}
             aria-pressed={isTTSActive}
-            className="col-span-2"
+            className="col-span-2 hover:bg-primary/90"
             aria-label={isTTSActive ? "Stop text to speech" : "Start text to speech"}
           >
-            <Volume2 className="h-4 w-4 mr-1" />
+            {isTTSActive ? <Pause className="h-4 w-4 mr-1" /> : <Play className="h-4 w-4 mr-1" />}
             {isTTSActive ? "Stop TTS" : "Start TTS"}
           </Button>
+          
+          {/* TTS Controls */}
+          {isTTSActive && (
+            <div className="col-span-2 mt-2 pt-2 border-t">
+              <div className="text-xs font-medium mb-1">TTS Settings</div>
+              <div className="grid grid-cols-2 gap-1">
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={decreaseTtsRate}
+                  aria-label="Decrease speech rate"
+                  className="hover:bg-secondary/80"
+                >
+                  Rate -
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={increaseTtsRate}
+                  aria-label="Increase speech rate"
+                  className="hover:bg-secondary/80"
+                >
+                  Rate +
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={decreaseTtsPitch}
+                  aria-label="Decrease speech pitch"
+                  className="hover:bg-secondary/80"
+                >
+                  Pitch -
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={increaseTtsPitch}
+                  aria-label="Increase speech pitch"
+                  className="hover:bg-secondary/80"
+                >
+                  Pitch +
+                </Button>
+              </div>
+              <div className="text-xs mt-1 text-muted-foreground">
+                Rate: {ttsRate.toFixed(1)}, Pitch: {ttsPitch.toFixed(1)}
+              </div>
+            </div>
+          )}
         </div>
         
           <div className="mt-4 pt-3 border-t text-xs">
             <div className="flex justify-between items-center">
               <div className="text-muted-foreground">
-                <p>Keyboard shortcuts:</p>
+                <p className="font-medium">Keyboard shortcuts:</p>
                 <p>Alt+S: Skip to content</p>
                 <p>Alt+Plus: Increase text</p>
                 <p>Alt+Minus: Decrease text</p>

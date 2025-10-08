@@ -1,16 +1,15 @@
 "use client"
 
-import { I18nProvider } from "@/components/i18n-provider"
 import { AgentHeader } from "@/components/agent-header"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageToggle } from "@/components/language-toggle"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { 
-  Users, 
   Heart, 
-  Calendar, 
+  Users, 
   TrendingUp, 
+  Calendar, 
   FileText,
   FileDigit,
   AlertTriangle,
@@ -21,20 +20,20 @@ import { ReportGenerator, ReportData } from "@/lib/report-generator"
 
 function WelfareAgentInner() {
   const [reportData, setReportData] = useState({
-    beneficiaries: 1247,
-    satisfactionRate: 89,
-    schemesActive: 5,
-    pendingApplications: 23,
-    resolvedIssues: 156,
+    beneficiaries: 2450,
+    schemeEnrollment: 92,
+    disbursementRate: 87,
+    grievanceResolution: 94,
+    outreach: 78,
     alerts: [
-      { id: 1, message: "High priority application pending review", time: "11:45 AM", severity: "high" },
-      { id: 2, message: "New welfare scheme launched", time: "10:30 AM", severity: "low" },
-      { id: 3, message: "Beneficiary verification completed", time: "9:15 AM", severity: "medium" }
+      { id: 1, message: "PM-Kisan enrollment verification pending", time: "4:05 PM", severity: "medium" },
+      { id: 2, message: "MGNREGS payment delay reported in Ward 3", time: "2:45 PM", severity: "high" },
+      { id: 3, message: "Weekly welfare report generated", time: "10:30 AM", severity: "low" }
     ],
     recommendations: [
-      "Review pending applications within 24 hours",
-      "Schedule community outreach program",
-      "Update beneficiary database"
+      "Complete PM-Kisan enrollment verification today",
+      "Address MGNREGS payment delay in Ward 3 immediately",
+      "Expand outreach programs to underserved areas"
     ]
   })
 
@@ -44,14 +43,14 @@ function WelfareAgentInner() {
       timestamp: new Date().toLocaleString(),
       metrics: {
         "Beneficiaries": reportData.beneficiaries.toString(),
-        "Satisfaction Rate": `${reportData.satisfactionRate}%`,
-        "Active Schemes": reportData.schemesActive.toString(),
-        "Pending Applications": reportData.pendingApplications.toString(),
-        "Resolved Issues": reportData.resolvedIssues.toString()
+        "Scheme Enrollment": `${reportData.schemeEnrollment}%`,
+        "Disbursement Rate": `${reportData.disbursementRate}%`,
+        "Grievance Resolution": `${reportData.grievanceResolution}%`,
+        "Outreach": `${reportData.outreach}%`
       },
       alerts: reportData.alerts,
       recommendations: reportData.recommendations,
-      summary: "The Welfare Agent is managing 1,247 beneficiaries with an 89% satisfaction rate. There are 5 active schemes and 23 pending applications requiring attention."
+      summary: "The Welfare Agent is managing 2,450 beneficiaries with 92% scheme enrollment. Disbursement rate is at 87%, grievance resolution at 94%, and outreach at 78%."
     }
   }
 
@@ -88,58 +87,58 @@ function WelfareAgentInner() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 border-purple-200 dark:border-purple-800">
+          <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 border-red-200 dark:border-red-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Beneficiaries</CardTitle>
-              <Users className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+              <Users className="h-4 w-4 text-red-600 dark:text-red-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{reportData.beneficiaries}</div>
-              <p className="text-xs text-muted-foreground">Total served</p>
+              <p className="text-xs text-muted-foreground">Active accounts</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 border-green-200 dark:border-green-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Satisfaction</CardTitle>
-              <Heart className="h-4 w-4 text-green-600 dark:text-green-400" />
+              <CardTitle className="text-sm font-medium">Enrollment</CardTitle>
+              <TrendingUp className="h-4 w-4 text-green-600 dark:text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{reportData.satisfactionRate}%</div>
-              <p className="text-xs text-muted-foreground">Positive feedback</p>
+              <div className="text-2xl font-bold">{reportData.schemeEnrollment}%</div>
+              <p className="text-xs text-muted-foreground">Scheme uptake</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border-blue-200 dark:border-blue-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Schemes</CardTitle>
-              <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <CardTitle className="text-sm font-medium">Disbursement</CardTitle>
+              <Heart className="h-4 w-4 text-blue-600 dark:text-blue-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{reportData.schemesActive}</div>
-              <p className="text-xs text-muted-foreground">Currently running</p>
+              <div className="text-2xl font-bold">{reportData.disbursementRate}%</div>
+              <p className="text-xs text-muted-foreground">Payment rate</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 border-purple-200 dark:border-purple-800">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Resolution</CardTitle>
+              <CheckCircle className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{reportData.grievanceResolution}%</div>
+              <p className="text-xs text-muted-foreground">Grievance handling</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/30 dark:to-yellow-800/30 border-yellow-200 dark:border-yellow-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Apps</CardTitle>
-              <Calendar className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+              <CardTitle className="text-sm font-medium">Outreach</CardTitle>
+              <Users className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{reportData.pendingApplications}</div>
-              <p className="text-xs text-muted-foreground">Awaiting review</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30 border-red-200 dark:border-red-800">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Resolved</CardTitle>
-              <CheckCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{reportData.resolvedIssues}</div>
-              <p className="text-xs text-muted-foreground">This month</p>
+              <div className="text-2xl font-bold">{reportData.outreach}%</div>
+              <p className="text-xs text-muted-foreground">Coverage rate</p>
             </CardContent>
           </Card>
         </div>
@@ -198,93 +197,20 @@ function WelfareAgentInner() {
                 {reportData.recommendations.map((rec, index) => (
                   <div key={index} className="flex items-start p-4 bg-secondary rounded-lg">
                     <div className="flex-shrink-0 mt-1">
-                      <div className="flex items-center justify-center h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">
-                        {index + 1}
-                      </div>
+                      <CheckCircle className="h-5 w-5 text-green-500" />
                     </div>
-                    <div className="ml-3">
-                      <p className="text-sm">{rec}</p>
-                    </div>
+                    <p className="ml-3 text-sm">{rec}</p>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
         </div>
-
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              Welfare Schemes Overview
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2">Scheme Name</th>
-                    <th className="text-left py-2">Beneficiaries</th>
-                    <th className="text-left py-2">Budget Utilized</th>
-                    <th className="text-left py-2">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b">
-                    <td className="py-3">Old Age Pension</td>
-                    <td className="py-3">420</td>
-                    <td className="py-3">₹25.2 Lakhs</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-200">
-                        Active
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-3">Disability Support</td>
-                    <td className="py-3">180</td>
-                    <td className="py-3">₹12.6 Lakhs</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-200">
-                        Active
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-3">Maternity Benefits</td>
-                    <td className="py-3">210</td>
-                    <td className="py-3">₹8.4 Lakhs</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-200">
-                        Active
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-3">Student Scholarship</td>
-                    <td className="py-3">320</td>
-                    <td className="py-3">₹19.2 Lakhs</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-200">
-                        Review Pending
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
       </main>
     </div>
   )
 }
 
-export default function WelfareAgentPage() {
-  return (
-    <I18nProvider>
-      <WelfareAgentInner />
-    </I18nProvider>
-  )
+export default function Page() {
+  return <WelfareAgentInner />
 }

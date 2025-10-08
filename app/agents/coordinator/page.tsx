@@ -1,6 +1,5 @@
 "use client"
 
-import { I18nProvider } from "@/components/i18n-provider"
 import { AgentHeader } from "@/components/agent-header"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageToggle } from "@/components/language-toggle"
@@ -16,8 +15,9 @@ import {
   AlertTriangle,
   CheckCircle
 } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ReportGenerator, ReportData } from "@/lib/report-generator"
+import { generateAIRecommendations, generateAISummary } from "@/lib/ai-service"
 
 function CoordinatorAgentInner() {
   const [reportData, setReportData] = useState({
@@ -35,8 +35,39 @@ function CoordinatorAgentInner() {
       "Schedule maintenance during low activity hours",
       "Review inter-agent communication protocols",
       "Optimize resource allocation between agents"
-    ]
+    ],
+    summary: "The Coordinator Agent is managing 7 active agents with 98.5% system uptime. There have been 124 alerts with 118 resolved issues, achieving 92% coordination efficiency."
   })
+
+  const [isLoadingAI, setIsLoadingAI] = useState(false)
+
+  // Generate AI recommendations when the component mounts
+  useEffect(() => {
+    generateAIInsights()
+  }, [])
+
+  const generateAIInsights = async () => {
+    setIsLoadingAI(true)
+    try {
+      const data = generateReportData()
+      
+      // Generate AI recommendations
+      const aiRecommendations = await generateAIRecommendations(data)
+      
+      // Generate AI summary
+      const aiSummary = await generateAISummary(data)
+      
+      setReportData(prev => ({
+        ...prev,
+        recommendations: aiRecommendations,
+        summary: aiSummary
+      }))
+    } catch (error) {
+      console.error("Error generating AI insights:", error)
+    } finally {
+      setIsLoadingAI(false)
+    }
+  }
 
   const generateReportData = (): ReportData => {
     return {
@@ -51,7 +82,7 @@ function CoordinatorAgentInner() {
       },
       alerts: reportData.alerts,
       recommendations: reportData.recommendations,
-      summary: "The Coordinator Agent is managing 7 active agents with 98.5% system uptime. There have been 124 alerts with 118 resolved issues, achieving 92% coordination efficiency."
+      summary: reportData.summary
     }
   }
 
@@ -198,103 +229,28 @@ function CoordinatorAgentInner() {
                 {reportData.recommendations.map((rec, index) => (
                   <div key={index} className="flex items-start p-4 bg-secondary rounded-lg">
                     <div className="flex-shrink-0 mt-1">
-                      <div className="flex items-center justify-center h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">
-                        {index + 1}
-                      </div>
+                      <CheckCircle className="h-5 w-5 text-green-500" />
                     </div>
-                    <div className="ml-3">
-                      <p className="text-sm">{rec}</p>
-                    </div>
+                    <p className="ml-3 text-sm">{rec}</p>
                   </div>
                 ))}
               </div>
+              <Button 
+                onClick={generateAIInsights} 
+                disabled={isLoadingAI}
+                className="mt-4 w-full"
+                variant="outline"
+              >
+                {isLoadingAI ? "Generating..." : "Refresh AI Insights"}
+              </Button>
             </CardContent>
           </Card>
         </div>
-
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              Agent Coordination Matrix
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2">Agent</th>
-                    <th className="text-left py-2">Status</th>
-                    <th className="text-left py-2">Last Sync</th>
-                    <th className="text-left py-2">Coordination</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b">
-                    <td className="py-3">Farm Agent</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-200">
-                        Online
-                      </span>
-                    </td>
-                    <td className="py-3">2 mins ago</td>
-                    <td className="py-3">Good</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-3">Water Agent</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-200">
-                        Online
-                      </span>
-                    </td>
-                    <td className="py-3">5 mins ago</td>
-                    <td className="py-3">Excellent</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-3">Power Agent</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-200">
-                        Online
-                      </span>
-                    </td>
-                    <td className="py-3">1 min ago</td>
-                    <td className="py-3">Good</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-3">Welfare Agent</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-200">
-                        Online
-                      </span>
-                    </td>
-                    <td className="py-3">3 mins ago</td>
-                    <td className="py-3">Fair</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3">Market Agent</td>
-                    <td className="py-3">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-200">
-                        Maintenance
-                      </span>
-                    </td>
-                    <td className="py-3">15 mins ago</td>
-                    <td className="py-3">Needs Attention</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
       </main>
     </div>
   )
 }
 
-export default function CoordinatorAgentPage() {
-  return (
-    <I18nProvider>
-      <CoordinatorAgentInner />
-    </I18nProvider>
-  )
+export default function Page() {
+  return <CoordinatorAgentInner />
 }

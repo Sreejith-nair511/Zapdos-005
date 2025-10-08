@@ -1,6 +1,5 @@
 "use client"
 import Link from "next/link"
-import { I18nProvider } from "@/components/i18n-provider"
 import { AccessibilitySuite } from "@/components/accessibility-suite"
 import { DevRibbon } from "@/components/dev-ribbon"
 import { OfficerHeader } from "@/components/officer-header"
@@ -99,9 +98,5 @@ function OfficerInner() {
 }
 
 export default function Page() {
-  return (
-    <I18nProvider>
-      <OfficerInner />
-    </I18nProvider>
-  )
+  return <OfficerInner />
 }

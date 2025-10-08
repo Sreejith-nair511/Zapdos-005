@@ -1,6 +1,5 @@
 "use client"
 
-import { I18nProvider } from "@/components/i18n-provider"
 import { AgentHeader } from "@/components/agent-header"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageToggle } from "@/components/language-toggle"
@@ -198,77 +197,20 @@ function EducationAgentInner() {
                 {reportData.recommendations.map((rec, index) => (
                   <div key={index} className="flex items-start p-4 bg-secondary rounded-lg">
                     <div className="flex-shrink-0 mt-1">
-                      <div className="flex items-center justify-center h-6 w-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">
-                        {index + 1}
-                      </div>
+                      <CheckCircle className="h-5 w-5 text-green-500" />
                     </div>
-                    <div className="ml-3">
-                      <p className="text-sm">{rec}</p>
-                    </div>
+                    <p className="ml-3 text-sm">{rec}</p>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
         </div>
-
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              Popular Courses
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2">Course Name</th>
-                    <th className="text-left py-2">Enrollment</th>
-                    <th className="text-left py-2">Completion Rate</th>
-                    <th className="text-left py-2">Instructor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b">
-                    <td className="py-3">Digital Literacy</td>
-                    <td className="py-3">420</td>
-                    <td className="py-3">85%</td>
-                    <td className="py-3">Rajesh Kumar</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-3">Financial Literacy</td>
-                    <td className="py-3">380</td>
-                    <td className="py-3">78%</td>
-                    <td className="py-3">Priya Sharma</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-3">Vocational Skills</td>
-                    <td className="py-3">350</td>
-                    <td className="py-3">82%</td>
-                    <td className="py-3">Amit Patel</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3">Health & Hygiene</td>
-                    <td className="py-3">320</td>
-                    <td className="py-3">90%</td>
-                    <td className="py-3">Sunita Devi</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
       </main>
     </div>
   )
 }
 
-export default function EducationAgentPage() {
-  return (
-    <I18nProvider>
-      <EducationAgentInner />
-    </I18nProvider>
-  )
+export default function Page() {
+  return <EducationAgentInner />
 }

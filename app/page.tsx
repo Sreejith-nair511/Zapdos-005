@@ -8,6 +8,7 @@ import { FloatingInfoBar } from "@/components/floating-info-bar"
 import { LandingHeader } from "@/components/landing-header"
 import { StartingAnimation } from "@/components/starting-animation"
 import { Chatbot } from "@/components/chatbot"
+import { WatsonXLogs } from "@/components/watsonx-logs"
 import { Button } from "@/components/ui/button"
 import { Users, BarChart } from "lucide-react"
 
@@ -64,6 +65,7 @@ function LandingInner() {
       </footer>
       
       <Chatbot />
+      <WatsonXLogs />
     </main>
   )
 }
