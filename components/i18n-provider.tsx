@@ -40,6 +40,14 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     window.localStorage.setItem("lang", lang)
   }, [lang])
 
+  // Apply color theme on initial load
+  useEffect(() => {
+    const savedColorTheme = localStorage.getItem("colorTheme")
+    if (savedColorTheme && savedColorTheme !== "default") {
+      document.body.classList.add(`color-theme-${savedColorTheme}`)
+    }
+  }, [])
+
   const t = (key: string) => {
     const table = messages[lang] || messages.en
     return table[key] ?? key

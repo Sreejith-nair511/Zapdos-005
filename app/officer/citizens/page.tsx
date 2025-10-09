@@ -1,5 +1,5 @@
 "use client"
-import { I18nProvider } from "@/components/i18n-provider"
+import { useI18n } from "@/components/i18n-provider"
 import { AccessibilitySuite } from "@/components/accessibility-suite"
 import { DevRibbon } from "@/components/dev-ribbon"
 import { OfficerHeader } from "@/components/officer-header"
@@ -23,19 +23,21 @@ import {
 import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts"
 
 function CitizensInner() {
+  const { t } = useI18n()
+  
   // Data for the sentiment chart
   const sentimentData = [
-    { category: "Agriculture", positive: 93, neutral: 6, negative: 1 },
-    { category: "Welfare Access", positive: 90, neutral: 8, negative: 2 },
-    { category: "Education Alerts", positive: 89, neutral: 9, negative: 2 },
-    { category: "Water Management", positive: 92, neutral: 7, negative: 1 },
-    { category: "Market Intelligence", positive: 88, neutral: 9, negative: 3 },
+    { category: t("Agriculture"), positive: 93, neutral: 6, negative: 1 },
+    { category: t("Welfare Access"), positive: 90, neutral: 8, negative: 2 },
+    { category: t("Education Alerts"), positive: 89, neutral: 9, negative: 2 },
+    { category: t("Water Management"), positive: 92, neutral: 7, negative: 1 },
+    { category: t("Market Intelligence"), positive: 88, neutral: 9, negative: 3 },
   ]
 
   // Data for the overall satisfaction pie chart
   const satisfactionData = [
-    { name: "Positive", value: 91.6 },
-    { name: "Neutral/Negative", value: 8.4 },
+    { name: t("Positive"), value: 91.6 },
+    { name: t("Neutral/Negative"), value: 8.4 },
   ]
 
   const COLORS = ['#4CAF50', '#FFC107']
@@ -45,54 +47,54 @@ function CitizensInner() {
       <OfficerHeader />
 
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Citizen Engagement & Feedback</h1>
+        <h1 className="text-2xl font-bold">{t("Citizen Engagement & Feedback")}</h1>
         <div className="text-sm text-muted-foreground">
-          Active Citizens: 12,458
+          {t("Active Citizens: 501")}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Citizens</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("Total Citizens")}</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12,458</div>
-            <p className="text-xs text-muted-foreground">+5.2% from last month</p>
+            <div className="text-2xl font-bold">540</div>
+            <p className="text-xs text-muted-foreground">+5.2% {t("from last month")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active This Week</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("Active This Week")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">8,742</div>
-            <p className="text-xs text-muted-foreground">+12% from last week</p>
+            <div className="text-2xl font-bold">500</div>
+            <p className="text-xs text-muted-foreground">+12% {t("from last week")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Feedback Received</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("Feedback Received")}</CardTitle>
             <MessageSquare className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,247</div>
-            <p className="text-xs text-muted-foreground">+8.4% from last week</p>
+            <div className="text-2xl font-bold">499</div>
+            <p className="text-xs text-muted-foreground">+8.4% {t("from last week")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Satisfaction Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("Satisfaction Rate")}</CardTitle>
             <Heart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">92.4%</div>
-            <p className="text-xs text-muted-foreground">+2.1% from last month</p>
+            <p className="text-xs text-muted-foreground">+2.1% {t("from last month")}</p>
           </CardContent>
         </Card>
       </div>
@@ -101,7 +103,7 @@ function CitizensInner() {
       <section className="mb-8">
         <div className="flex items-center gap-2 mb-6">
           <Leaf className="h-5 w-5 text-green-600" />
-          <h2 className="text-2xl font-semibold">Farmers' Voices (Agriculture & Water)</h2>
+          <h2 className="text-2xl font-semibold">{t("Farmers' Voices (Agriculture & Water)")}</h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -118,27 +120,27 @@ function CitizensInner() {
                     <Badge variant="outline">Payyanur, Kerala</Badge>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    "Earlier, I had to wait for the agriculture officer to visit. Now, Digital Sarpanch tells me in advance when my crops need water — even when the network is down."
+                    {t("Earlier, I had to wait for the agriculture officer to visit. Now, Digital Sarpanch tells me in advance when my crops need water — even when the network is down.")}
                   </p>
                 </div>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm italic text-muted-foreground mb-3">
-                  "पहले मुझे अफसर के आने का इंतज़ार करना पड़ता था, अब डिजिटल सरपंच खुद बता देता है कि खेत को कब पानी चाहिए।"
+                  {t("മുമ്പ് എനിക്ക് ഓഫീസർ വരുന്നത് കാത്തിരിക്കേണ്ടി വരുമായിരുന്നു, ഇപ്പോൾ ഡിജിറ്റൽ സര്‍പ്പാഞ്ച് തന്നെയാണ് പറളുന്നത് വയലിന് എപ്പോഴാണ് വെള്ളം വേണമെന്ന്.")}
                 </p>
               <div className="grid grid-cols-3 gap-3">
                 <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                   <div className="text-green-600 font-bold text-lg">96%</div>
-                  <div className="text-xs text-muted-foreground">Satisfaction</div>
+                  <div className="text-xs text-muted-foreground">{t("Satisfaction")}</div>
                 </div>
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-center">
                   <div className="text-blue-600 font-bold text-lg">28%</div>
-                  <div className="text-xs text-muted-foreground">Water Saved</div>
+                  <div className="text-xs text-muted-foreground">{t("Water Saved")}</div>
                 </div>
                 <div className="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg text-center">
                   <div className="text-orange-600 font-bold text-lg">Malayalam</div>
-                  <div className="text-xs text-muted-foreground">IVR Language</div>
+                  <div className="text-xs text-muted-foreground">{t("IVR Language")}</div>
                 </div>
               </div>
             </CardContent>
@@ -157,7 +159,7 @@ function CitizensInner() {
                     <Badge variant="outline">Barmer, Rajasthan</Badge>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    "I got a voice call warning me about a sandstorm before it reached our village. The AI even told me how to protect my animals."
+                    {t("I got a voice call warning me about a sandstorm before it reached our village. The AI even told me how to protect my animals.")}
                   </p>
                 </div>
               </CardTitle>
@@ -169,15 +171,15 @@ function CitizensInner() {
               <div className="grid grid-cols-3 gap-3">
                 <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                   <div className="text-green-600 font-bold text-lg">94%</div>
-                  <div className="text-xs text-muted-foreground">Satisfaction</div>
+                  <div className="text-xs text-muted-foreground">{t("Satisfaction")}</div>
                 </div>
                 <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg text-center">
                   <div className="text-yellow-600 font-bold text-lg">91%</div>
-                  <div className="text-xs text-muted-foreground">Alerts Accuracy</div>
+                  <div className="text-xs text-muted-foreground">{t("Alerts Accuracy")}</div>
                 </div>
                 <div className="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg text-center">
                   <div className="text-orange-600 font-bold text-lg">Rajasthani</div>
-                  <div className="text-xs text-muted-foreground">IVR Language</div>
+                  <div className="text-xs text-muted-foreground">{t("IVR Language")}</div>
                 </div>
               </div>
             </CardContent>
@@ -189,7 +191,7 @@ function CitizensInner() {
       <section className="mb-8">
         <div className="flex items-center gap-2 mb-6">
           <School className="h-5 w-5 text-blue-600" />
-          <h2 className="text-2xl font-semibold">Education & Youth</h2>
+          <h2 className="text-2xl font-semibold">{t("Education & Youth")}</h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -218,21 +220,21 @@ function CitizensInner() {
               <div className="grid grid-cols-3 gap-3">
                 <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                   <div className="text-green-600 font-bold text-lg">+18%</div>
-                  <div className="text-xs text-muted-foreground">Attendance Rate</div>
+                  <div className="text-xs text-muted-foreground">{t("Attendance Rate")}</div>
                 </div>
                 <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg text-center">
                   <div className="text-yellow-600 font-bold text-lg">₹12,000</div>
-                  <div className="text-xs text-muted-foreground">Scholarship Disbursed</div>
+                  <div className="text-xs text-muted-foreground">{t("Scholarship Disbursed")}</div>
                 </div>
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-center">
                   <div className="text-blue-600 font-bold text-lg">Hindi</div>
-                  <div className="text-xs text-muted-foreground">IVR Language</div>
+                  <div className="text-xs text-muted-foreground">{t("IVR Language")}</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Sreelakshmi - Teacher, Kasaragod, Kerala */}
+          {/* Priya Sharma - Payyanur, Kerala */}
           <Card className="border-t-4 border-t-blue-500">
             <CardHeader>
               <CardTitle className="flex items-start gap-3">
@@ -241,8 +243,8 @@ function CitizensInner() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold">👩‍🏫 Sreelakshmi</span>
-                    <Badge variant="outline">Teacher, Kasaragod, Kerala</Badge>
+                    <span className="font-bold">👩‍🏫 Priya Sharma</span>
+                    <Badge variant="outline">Teacher, Payyanur, Kerala</Badge>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
                     "Attendance and mid-day meal data reach the district dashboard automatically. The voice alerts help even our less literate parents stay informed."
@@ -252,16 +254,16 @@ function CitizensInner() {
             </CardHeader>
             <CardContent>
               <p className="text-sm italic text-muted-foreground mb-3">
-                  "अब स्कूल की जानकारी अपने आप पंचायत में पहुँच जाती है — माता-पिता को भी कॉल पर सब पता चल जाता है।"
+                  ഇപ്പോൾ സ്കൂളിന്റെ വിവരങ്ങൾ സ്വയം പഞ്ചായത്തിലേക്ക് എത്തുന്നു — മാതാപിതാക്കൾക്കും ഫോൺ കോളിലൂടെ എല്ലാം അറിയാൻ സാധിക്കുന്നു.”
                 </p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                   <div className="text-green-600 font-bold text-lg">+40%</div>
-                  <div className="text-xs text-muted-foreground">Parent Engagement</div>
+                  <div className="text-xs text-muted-foreground">{t("Parent Engagement")}</div>
                 </div>
                 <div className="bg-indigo-50 dark:bg-indigo-900/20 p-3 rounded-lg text-center">
                   <div className="text-indigo-600 font-bold text-lg">Malayalam</div>
-                  <div className="text-xs text-muted-foreground">TTS Used</div>
+                  <div className="text-xs text-muted-foreground">{t("TTS Used")}</div>
                 </div>
               </div>
             </CardContent>
@@ -269,15 +271,15 @@ function CitizensInner() {
         </div>
       </section>
 
-      {/* Welfare & Governance Section */}
+      {/* Health & Welfare Section */}
       <section className="mb-8">
         <div className="flex items-center gap-2 mb-6">
           <Heart className="h-5 w-5 text-red-600" />
-          <h2 className="text-2xl font-semibold">Welfare & Governance</h2>
+          <h2 className="text-2xl font-semibold">{t("Health & Welfare")}</h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Meenakshi Amma - Kudumbashree Worker */}
+          {/* Meena Devi - Barmer, Rajasthan */}
           <Card className="border-t-4 border-t-red-500">
             <CardHeader>
               <CardTitle className="flex items-start gap-3">
@@ -286,7 +288,7 @@ function CitizensInner() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold">👵 Meenakshi Amma</span>
+                    <span className="font-bold">👵 Meena Devi</span>
                     <Badge variant="outline">Kudumbashree Worker</Badge>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
@@ -297,22 +299,22 @@ function CitizensInner() {
             </CardHeader>
             <CardContent>
               <p className="text-sm italic text-muted-foreground mb-3">
-                  "अब दफ्तर जाने की ज़रूरत नहीं। सिर्फ़ कॉल करो, बटन दबाओ, और एआई खुद बता देता है कि कौन सी योजना मिलेगी।"
+                 "ಈಗ ಕಚೇರಿಗೆ ಹೋಗುವ ಅಗತ್ಯವೇ ಇಲ್ಲ. ಕೇವಲ ಕರೆ ಮಾಡಿ, ಬಟನ್ ಒತ್ತಿ — ಎಐ ತಾನೇ ಹೇಳುತ್ತದೆ ಯಾವ ಯೋಜನೆ ನಿಮಗೆ ಸಿಗುತ್ತದೆ ಎಂದು.”
                 </p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                   <div className="text-green-600 font-bold text-lg">100%</div>
-                  <div className="text-xs text-muted-foreground">Scheme Awareness</div>
+                  <div className="text-xs text-muted-foreground">{t("Scheme Awareness")}</div>
                 </div>
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-center">
                   <div className="text-blue-600 font-bold text-lg">Completed</div>
-                  <div className="text-xs text-muted-foreground">PM-Kisan Enrollment</div>
+                  <div className="text-xs text-muted-foreground">{t("PM-Kisan Enrollment")}</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Abdul Rahman - Panchayat Officer, Wayanad */}
+          {/* Lakshmi - Payyanur, Kerala */}
           <Card className="border-t-4 border-t-red-500">
             <CardHeader>
               <CardTitle className="flex items-start gap-3">
@@ -321,7 +323,7 @@ function CitizensInner() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold">👨‍💼 Abdul Rahman</span>
+                    <span className="font-bold">👨‍💼 Lakshmi</span>
                     <Badge variant="outline">Panchayat Officer, Wayanad</Badge>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
@@ -337,11 +339,11 @@ function CitizensInner() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
                   <div className="text-green-600 font-bold text-lg">-40%</div>
-                  <div className="text-xs text-muted-foreground">Response Time</div>
+                  <div className="text-xs text-muted-foreground">{t("Response Time")}</div>
                 </div>
                 <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg text-center">
                   <div className="text-purple-600 font-bold text-lg">94%</div>
-                  <div className="text-xs text-muted-foreground">AI Explainability Score</div>
+                  <div className="text-xs text-muted-foreground">{t("AI Explainability Score")}</div>
                 </div>
               </div>
             </CardContent>
@@ -349,152 +351,77 @@ function CitizensInner() {
         </div>
       </section>
 
-      {/* Market & Livelihood Section */}
-      <section className="mb-8">
-        <div className="flex items-center gap-2 mb-6">
-          <TrendingUp className="h-5 w-5 text-purple-600" />
-          <h2 className="text-2xl font-semibold">Market & Livelihood</h2>
-        </div>
+      {/* Sentiment Analysis Charts */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-6">{t("Sentiment Analysis")}</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-          {/* Harbhajan Singh - Farmer, Punjab */}
-          <Card className="border-t-4 border-t-purple-500">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
             <CardHeader>
-              <CardTitle className="flex items-start gap-3">
-                <div className="bg-purple-100 p-2 rounded-full">
-                  <TrendingUp className="h-5 w-5 text-purple-600" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold">👨‍🌾 Harbhajan Singh</span>
-                    <Badge variant="outline">Farmer, Punjab (Expansion Zone)</Badge>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    "Market Agent told me mandi rates daily — I sold wheat at ₹2,400 instead of ₹2,200. It's like having a personal assistant!"
-                  </p>
-                </div>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart className="h-5 w-5 text-purple-600" />
+                {t("Citizen Sentiment by Category")}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm italic text-muted-foreground mb-3">
-                  "अब मंडी के भाव रोज़ कॉल पर मिलते हैं — 200 रुपये ज़्यादा मिले हर क्विंटल पर।"
-                </p>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg text-center">
-                  <div className="text-green-600 font-bold text-lg">₹8,000</div>
-                  <div className="text-xs text-muted-foreground">Price Gain</div>
-                </div>
-                <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg text-center">
-                  <div className="text-blue-600 font-bold text-lg">88%</div>
-                  <div className="text-xs text-muted-foreground">AI Forecast Accuracy</div>
-                </div>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsBarChart
+                    data={sentimentData}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="category" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="positive" name={t("Positive")} fill="#4CAF50" />
+                    <Bar dataKey="neutral" name={t("Neutral")} fill="#FFC107" />
+                    <Bar dataKey="negative" name={t("Negative")} fill="#F44336" />
+                  </RechartsBarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <PieChart className="h-5 w-5 text-green-600" />
+                {t("Overall Citizen Satisfaction")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={satisfactionData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                      label={({ name, percent }) => `${name}: ${(percent as number * 100).toFixed(0)}%`}
+                    >
+                      {satisfactionData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => [`${value}%`, t("Percentage")]} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
         </div>
-      </section>
-
-      {/* General Sentiment Section */}
-      <section className="mb-8">
-        <div className="flex items-center gap-2 mb-6">
-          <BarChart className="h-5 w-5 text-indigo-600" />
-          <h2 className="text-2xl font-semibold">General Sentiment (Aggregated Data)</h2>
-        </div>
-        
-        <Card className="border-t-4 border-t-indigo-500">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Info className="h-5 w-5" />
-              Overall Citizen Trust: 91.6% ⭐ National Impact Verified
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Sentiment by Category</h3>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RechartsBarChart
-                      data={sentimentData}
-                      margin={{
-                        top: 20,
-                        right: 30,
-                        left: 20,
-                        bottom: 50,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="category" angle={-45} textAnchor="end" height={60} />
-                      <YAxis domain={[0, 100]} />
-                      <Tooltip formatter={(value) => [`${value}%`, "Percentage"]} />
-                      <Legend />
-                      <Bar dataKey="positive" name="Positive" fill="#4CAF50" />
-                      <Bar dataKey="neutral" name="Neutral" fill="#FFC107" />
-                      <Bar dataKey="negative" name="Negative" fill="#F44336" />
-                    </RechartsBarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Overall Satisfaction</h3>
-                <div className="h-80 flex items-center justify-center">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={satisfactionData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                        label={({ name, percent }) => `${name}: ${(percent as number * 100).toFixed(0)}%`}
-                      >
-                        {satisfactionData.map((entry: any, index: number) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip formatter={(value) => [`${value}%`, "Percentage"]} />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
-                      <span className="font-semibold">Excellent</span>
-                    </div>
-                    <p className="text-sm mt-1">Agriculture, Water Management</p>
-                  </div>
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-blue-600" />
-                      <span className="font-semibold">High</span>
-                    </div>
-                    <p className="text-sm mt-1">Welfare Access, Education Alerts</p>
-                  </div>
-                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-purple-600" />
-                      <span className="font-semibold">Strong</span>
-                    </div>
-                    <p className="text-sm mt-1">Market Intelligence</p>
-                  </div>
-                  <div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-indigo-600" />
-                      <span className="font-semibold">⭐ 91.6%</span>
-                    </div>
-                    <p className="text-sm mt-1">Overall Citizen Trust</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </section>
 
       {/* Accessibility Suite */}
@@ -507,9 +434,5 @@ function CitizensInner() {
 }
 
 export default function Page() {
-  return (
-    <I18nProvider>
-      <CitizensInner />
-    </I18nProvider>
-  )
+  return <CitizensInner />
 }

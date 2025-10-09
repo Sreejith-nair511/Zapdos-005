@@ -231,7 +231,7 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.3 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-24 right-2 sm:right-4 w-full max-w-[calc(100vw-2rem)] sm:max-w-md h-[400px] sm:h-[500px] bg-card border rounded-xl shadow-2xl z-[60] flex flex-col overflow-hidden modern-bharat-card backdrop-blur-sm"
+            className="fixed bottom-24 right-2 sm:right-4 w-full max-w-[calc(100vw-2rem)] sm:max-w-md h-[400px] sm:h-[500px] bg-card border rounded-xl shadow-2xl z-[60] flex flex-col overflow-hidden modern-bharat-card backdrop-blur-sm chatbot-container"
             style={{
               maxHeight: 'calc(100vh - 100px)',
               maxWidth: 'min(400px, calc(100vw - 2rem))',
@@ -418,7 +418,7 @@ export function Chatbot() {
       <Button
         variant="default"
         size="lg"
-        className="fixed bottom-2 sm:bottom-4 right-2 sm:right-4 rounded-full p-3 sm:p-4 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 z-40"
+        className="fixed bottom-2 sm:bottom-4 right-2 sm:right-4 rounded-full p-3 sm:p-4 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 z-40 chatbot-icon"
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Close chat" : "Open chat"}
         style={{

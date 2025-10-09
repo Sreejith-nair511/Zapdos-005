@@ -1,5 +1,5 @@
 "use client"
-import { I18nProvider } from "@/components/i18n-provider"
+import { useI18n } from "@/components/i18n-provider"
 import { AccessibilitySuite } from "@/components/accessibility-suite"
 import { DevRibbon } from "@/components/dev-ribbon"
 import { OfficerHeader } from "@/components/officer-header"
@@ -8,13 +8,15 @@ import { FileText, Download, BarChart, PieChart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 function ReportsInner() {
+  const { t } = useI18n()
+  
   const reports = [
-    { id: 1, title: "Farm Agent Report", date: "2025-10-07", type: "PDF" },
-    { id: 2, title: "Water Agent Report", date: "2025-10-07", type: "HTML" },
-    { id: 3, title: "Power Agent Report", date: "2025-10-06", type: "PDF" },
-    { id: 4, title: "Welfare Agent Report", date: "2025-10-06", type: "HTML" },
-    { id: 5, title: "Market Agent Report", date: "2025-10-05", type: "PDF" },
-    { id: 6, title: "Education Agent Report", date: "2025-10-05", type: "HTML" },
+    { id: 1, title: t("Farm Agent Report"), date: "2025-10-07", type: "PDF" },
+    { id: 2, title: t("Water Agent Report"), date: "2025-10-07", type: "HTML" },
+    { id: 3, title: t("Power Agent Report"), date: "2025-10-06", type: "PDF" },
+    { id: 4, title: t("Welfare Agent Report"), date: "2025-10-06", type: "HTML" },
+    { id: 5, title: t("Market Agent Report"), date: "2025-10-05", type: "PDF" },
+    { id: 6, title: t("Education Agent Report"), date: "2025-10-05", type: "HTML" },
   ]
 
   return (
@@ -22,10 +24,10 @@ function ReportsInner() {
       <OfficerHeader />
 
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Reports</h1>
+        <h1 className="text-2xl font-bold">{t("Reports")}</h1>
         <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white">
           <BarChart className="h-4 w-4 mr-2" />
-          Generate New Report
+          {t("Generate New Report")}
         </Button>
       </div>
 
@@ -56,12 +58,12 @@ function ReportsInner() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <PieChart className="h-5 w-5 mr-2 text-green-500" />
-              Report Distribution
+              {t("Report Distribution")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <p className="text-muted-foreground">Chart visualization would appear here</p>
+              <p className="text-muted-foreground">{t("Chart visualization would appear here")}</p>
             </div>
           </CardContent>
         </Card>
@@ -70,12 +72,12 @@ function ReportsInner() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <BarChart className="h-5 w-5 mr-2 text-purple-500" />
-              Report Generation Trends
+              {t("Report Generation Trends")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <p className="text-muted-foreground">Chart visualization would appear here</p>
+              <p className="text-muted-foreground">{t("Chart visualization would appear here")}</p>
             </div>
           </CardContent>
         </Card>
@@ -91,9 +93,5 @@ function ReportsInner() {
 }
 
 export default function Page() {
-  return (
-    <I18nProvider>
-      <ReportsInner />
-    </I18nProvider>
-  )
+  return <ReportsInner />
 }

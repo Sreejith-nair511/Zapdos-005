@@ -1,13 +1,42 @@
 {
-  "name": "my-hack-project",
-  "version": "0.1.0",
+  "name": "digital-sarpanch",
+  "version": "1.0.0",
+  "description": "AI-Driven Rural Governance Platform - Digital Sarpanch connects rural communities with government services through voice interaction and intelligent automation",
   "private": true,
   "scripts": {
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "rm -rf .next out dist",
+    "analyze": "ANALYZE=true next build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/digital-sarpanch.git"
+  },
+  "keywords": [
+    "rural-governance",
+    "ai",
+    "india",
+    "voice-assistant",
+    "pwa",
+    "nextjs",
+    "digital-india",
+    "chatbot",
+    "accessibility"
+  ],
+  "author": "Jugggad.exe - Cambridge Institute of Technology",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-username/digital-sarpanch/issues"
+  },
+  "homepage": "https://github.com/your-username/digital-sarpanch#readme",
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
     "@google/generative-ai": "^0.24.1",

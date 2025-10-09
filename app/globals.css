@@ -211,6 +211,64 @@
       oklch(var(--indian-green) / 0.15) 100%);
   }
   
+  /* Color Theme: Vibrant */
+  .color-theme-vibrant {
+    background: linear-gradient(135deg, 
+      oklch(0.8 0.15 40) 0%, 
+      oklch(0.9 0.1 80) 100%);
+  }
+  
+  .dark .color-theme-vibrant {
+    background: linear-gradient(135deg, 
+      oklch(0.2 0.1 40) 0%, 
+      oklch(0.15 0.08 80) 100%);
+  }
+  
+  /* Color Theme: Ocean */
+  .color-theme-ocean {
+    background: linear-gradient(135deg, 
+      oklch(0.9 0.1 240) 0%, 
+      oklch(0.95 0.05 200) 100%);
+  }
+  
+  .dark .color-theme-ocean {
+    background: linear-gradient(135deg, 
+      oklch(0.15 0.08 240) 0%, 
+      oklch(0.1 0.05 200) 100%);
+  }
+  
+  /* Color Theme: Sunset */
+  .color-theme-sunset {
+    background: linear-gradient(135deg, 
+      oklch(0.8 0.15 40) 0%, 
+      oklch(0.7 0.12 60) 100%);
+  }
+  
+  .dark .color-theme-sunset {
+    background: linear-gradient(135deg, 
+      oklch(0.2 0.1 40) 0%, 
+      oklch(0.15 0.08 60) 100%);
+  }
+  
+  /* Color Theme: Indian Tricolor */
+  .color-theme-indian-tricolor {
+    background: 
+      radial-gradient(circle at center, oklch(var(--ashoka-blue) / 0.05) 0%, transparent 70%),
+      linear-gradient(180deg, 
+        oklch(var(--soft-saffron)) 0%, 
+        oklch(var(--ivory-white)) 50%, 
+        oklch(var(--mint-green)) 100%);
+  }
+  
+  .dark .color-theme-indian-tricolor {
+    background: 
+      radial-gradient(circle at center, oklch(var(--ashoka-blue) / 0.1) 0%, transparent 70%),
+      linear-gradient(180deg, 
+        oklch(var(--soft-saffron) / 0.9) 0%, 
+        oklch(var(--ivory-white) / 0.9) 50%, 
+        oklch(var(--mint-green) / 0.9) 100%);
+  }
+  
   /* Enhanced Indian flag background for citizen feedback page */
   .indian-flag-bg {
     background: linear-gradient(180deg, 
@@ -268,4 +326,95 @@
         oklch(var(--ivory-white) / 0.9) 50%, 
         oklch(var(--mint-green) / 0.9) 100%);
   }
+  
+  /* Mobile responsive fixes for accessibility suite and chatbot */
+  @media (max-width: 640px) {
+    .accessibility-suite {
+      bottom: 5rem !important;
+      left: 0.5rem !important;
+    }
+    
+    .chatbot-container {
+      width: calc(100vw - 2rem) !important;
+      height: calc(100vh - 8rem) !important;
+      left: 1rem !important;
+      right: 1rem !important;
+    }
+    
+    .chatbot-icon {
+      bottom: 1rem !important;
+      right: 1rem !important;
+    }
+  }
+  
+  /* Ensure proper mobile viewport handling */
+  @media screen and (max-width: 768px) {
+    body {
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Prevent zoom on input focus */
+    input:focus,
+    textarea:focus,
+    select:focus {
+      font-size: 16px; /* Prevents iOS Safari zoom */
+    }
+  }
+}
+
+/* High Contrast Mode */
+.high-contrast {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #000000;
+  --card-foreground: #ffffff;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
+  --primary: #ffff00;
+  --primary-foreground: #000000;
+  --secondary: #000000;
+  --secondary-foreground: #ffffff;
+  --muted: #333333;
+  --muted-foreground: #cccccc;
+  --accent: #00ffff;
+  --accent-foreground: #000000;
+  --destructive: #ff0000;
+  --destructive-foreground: #ffffff;
+  --border: #ffffff;
+  --input: #ffffff;
+  --ring: #ffff00;
+}
+
+/* Font Size Classes */
+.font-size-small {
+  font-size: 0.875rem; /* 14px */
+}
+
+.font-size-large {
+  font-size: 1.125rem; /* 18px */
+}
+
+.font-size-xlarge {
+  font-size: 1.25rem; /* 20px */
+}
+
+/* No Focus Outline */
+.no-focus-outline *:focus {
+  outline: none !important;
+}
+
+/* Animation Speed Classes */
+.animation-speed-off {
+  animation-duration: 0s !important;
+  transition-duration: 0s !important;
+}
+
+.animation-speed-slow {
+  animation-duration: 2s !important;
+  transition-duration: 2s !important;
+}
+
+.animation-speed-fast {
+  animation-duration: 0.5s !important;
+  transition-duration: 0.5s !important;
 }
