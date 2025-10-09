@@ -22,6 +22,7 @@ import { PlatformArchitecture } from "@/components/platform-architecture"
 import { WatsonXLogs } from "@/components/watsonx-logs"
 import { PilotCaseResults } from "@/components/pilot-case-results"
 import { PaddyCropScenario } from "@/components/paddy-crop-scenario"
+import { EmbeddedArchitecture } from "@/components/embedded-architecture"
 
 function DashboardInner() {
   return (
@@ -33,6 +34,9 @@ function DashboardInner() {
 
       {/* Multi-Agent Architecture Visualization */}
       <AgentArchitecture />
+      
+      {/* AI-Powered Rural Services Platform Architecture */}
+      <EmbeddedArchitecture />
       
       {/* Interactive India Map */}
       <HeroIndiaMap />

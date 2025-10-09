@@ -202,61 +202,48 @@ export function AccessibilitySuite() {
   }
   
   const toggleTTS = () => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-      console.warn("Speech synthesis not supported in this browser")
+    if (!("speechSynthesis" in window)) {
+      console.error("Speech synthesis not supported")
       return
     }
     
     if (isTTSActive) {
+      // Stop current speech
       window.speechSynthesis.cancel()
       setIsTTSActive(false)
     } else {
-      // Get the current page content and read it aloud
-      const content = document.body.innerText || ""
-      if (content) {
-        try {
-          window.speechSynthesis.cancel()
-          const u = new SpeechSynthesisUtterance(content)
-          utteranceRef.current = u
-          
-          // Set TTS properties
-          u.rate = ttsRate
-          u.pitch = ttsPitch
-          
-          // Set voice if available
-          if (ttsVoice && voicesRef.current.length > 0) {
-            const selectedVoice = voicesRef.current.find(voice => voice.name === ttsVoice)
-            if (selectedVoice) {
-              u.voice = selectedVoice
-            }
-          }
-          
-          u.onend = () => setIsTTSActive(false)
-          u.onerror = (event) => {
-            console.error("TTS Error:", event)
-            setIsTTSActive(false)
-          }
-          
-          window.speechSynthesis.speak(u)
-          setIsTTSActive(true)
-        } catch (error) {
-          console.error("TTS Error:", error)
-          setIsTTSActive(false)
+      // Start TTS with current page content
+      const text = document.body.innerText || "No content to read"
+      const utterance = new SpeechSynthesisUtterance(text)
+      
+      // Set voice if available
+      if (ttsVoice && voicesRef.current.length > 0) {
+        const voice = voicesRef.current.find(v => v.name === ttsVoice)
+        if (voice) {
+          utterance.voice = voice
         }
       }
+      
+      // Set rate and pitch
+      utterance.rate = ttsRate
+      utterance.pitch = ttsPitch
+      
+      // Event handlers
+      utterance.onstart = () => setIsTTSActive(true)
+      utterance.onend = () => setIsTTSActive(false)
+      utterance.onerror = () => setIsTTSActive(false)
+      
+      utteranceRef.current = utterance
+      window.speechSynthesis.speak(utterance)
     }
   }
   
-  const toggleMinimize = () => {
-    setIsMinimized(!isMinimized)
-  }
-  
   const increaseTtsRate = () => {
-    setTtsRate(prev => Math.min(10, prev + 0.2))
+    setTtsRate(prev => Math.min(10, prev + 0.1))
   }
   
   const decreaseTtsRate = () => {
-    setTtsRate(prev => Math.max(0.1, prev - 0.2))
+    setTtsRate(prev => Math.max(0.1, prev - 0.1))
   }
   
   const increaseTtsPitch = () => {
@@ -267,11 +254,30 @@ export function AccessibilitySuite() {
     setTtsPitch(prev => Math.max(0, prev - 0.1))
   }
   
+  const toggleMinimize = () => {
+    setIsMinimized(!isMinimized)
+  }
+  
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (utteranceRef.current) {
+        window.speechSynthesis.cancel()
+      }
+    }
+  }, [])
+  
   return (
     <div 
-      className="fixed bottom-4 left-4 z-50"
+      className="fixed bottom-4 left-4 z-50 accessibility-suite"
       role="region" 
       aria-label="Accessibility Controls"
+      style={{
+        position: 'fixed',
+        bottom: '1rem',
+        left: '1rem',
+        zIndex: 50
+      }}
     >
       {isMinimized ? (
         <Button 

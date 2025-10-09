@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useI18n } from "@/components/i18n-provider"
 import { 
   Database, 
   Globe, 
@@ -46,123 +47,125 @@ interface ArchitectureLayer {
   }[]
 }
 
-const architectureLayers: ArchitectureLayer[] = [
-  {
-    id: "data",
-    title: "Data Ingestion & Storage",
-    color: "blue",
-    icon: <Database className="h-5 w-5" />,
-    components: [
-      { id: "gov-api", name: "Government APIs", icon: <Globe className="h-4 w-4" /> },
-      { id: "weather", name: "Weather Feeds", icon: <CloudRain className="h-4 w-4" /> },
-      { id: "satellite", name: "Satellite Feeds", icon: <Satellite className="h-4 w-4" /> },
-      { id: "sensors", name: "Field Sensors", icon: <Activity className="h-4 w-4" /> },
-      { id: "raw-db", name: "Raw Data Store", icon: <Server className="h-4 w-4" /> }
-    ]
-  },
-  {
-    id: "backend",
-    title: "Backend & Processing",
-    color: "purple",
-    icon: <Server className="h-5 w-5" />,
-    components: [
-      { id: "fastapi", name: "FastAPI Backend", icon: <Code className="h-4 w-4" /> },
-      { id: "scheduler", name: "Scheduler", icon: <Clock className="h-4 w-4" /> },
-      { id: "central-db", name: "Central Database", icon: <Database className="h-4 w-4" /> },
-      { id: "api-gateway", name: "API Gateway", icon: <Cloud className="h-4 w-4" /> }
-    ]
-  },
-  {
-    id: "ai",
-    title: "AI & Intelligence",
-    color: "orange",
-    icon: <Brain className="h-5 w-5" />,
-    components: [
-      { id: "watsonx", name: "WatsonX", icon: <Brain className="h-4 w-4" /> },
-      { id: "langchain", name: "LangChain", icon: <Code className="h-4 w-4" /> },
-      { id: "xgboost", name: "XGBoost", icon: <BarChart2 className="h-4 w-4" /> },
-      { id: "lightgbm", name: "LightGBM", icon: <BarChart className="h-4 w-4" /> }
-    ]
-  },
-  {
-    id: "agents",
-    title: "Multi-Agent System",
-    color: "green",
-    icon: <UserCheck className="h-5 w-5" />,
-    components: [
-      { id: "farm", name: "Farm Agent", icon: <Leaf className="h-4 w-4" /> },
-      { id: "water", name: "Water Agent", icon: <Droplet className="h-4 w-4" /> },
-      { id: "power", name: "Power Agent", icon: <Zap className="h-4 w-4" /> },
-      { id: "welfare", name: "Welfare Agent", icon: <Gift className="h-4 w-4" /> },
-      { id: "market", name: "Market Agent", icon: <ShoppingCart className="h-4 w-4" /> },
-      { id: "education", name: "Education Agent", icon: <Book className="h-4 w-4" /> },
-      { id: "coordinator", name: "Coordinator Agent", icon: <UserCheck className="h-4 w-4" /> }
-    ]
-  },
-  {
-    id: "messaging",
-    title: "Messaging & Event Layer",
-    color: "yellow",
-    icon: <MessageCircle className="h-5 w-5" />,
-    components: [
-      { id: "kafka", name: "Kafka", icon: <MessageCircle className="h-4 w-4" /> },
-      { id: "redis", name: "Redis Streams", icon: <Database className="h-4 w-4" /> }
-    ]
-  },
-  {
-    id: "edge",
-    title: "Edge Layer",
-    color: "gray",
-    icon: <Cpu className="h-5 w-5" />,
-    components: [
-      { id: "edge-device", name: "Edge Device", icon: <Cpu className="h-4 w-4" /> },
-      { id: "local-ai", name: "Local AI Models", icon: <Brain className="h-4 w-4" /> },
-      { id: "sqlite", name: "SQLite", icon: <Database className="h-4 w-4" /> },
-      { id: "sync", name: "Sync Service", icon: <RefreshCw className="h-4 w-4" /> }
-    ]
-  },
-  {
-    id: "communication",
-    title: "Communication Layer",
-    color: "red",
-    icon: <Phone className="h-5 w-5" />,
-    components: [
-      { id: "ivr", name: "IVR", icon: <Phone className="h-4 w-4" /> },
-      { id: "sms", name: "SMS Gateway", icon: <MessageSquare className="h-4 w-4" /> },
-      { id: "tts", name: "TTS (WatsonX)", icon: <Volume2 className="h-4 w-4" /> },
-      { id: "loudspeakers", name: "Loudspeakers", icon: <Volume2 className="h-4 w-4" /> },
-      { id: "radio", name: "Community Radio", icon: <Radio className="h-4 w-4" /> }
-    ]
-  },
-  {
-    id: "explainability",
-    title: "Explainability & Safety",
-    color: "teal",
-    icon: <Shield className="h-5 w-5" />,
-    components: [
-      { id: "shap", name: "SHAP", icon: <BarChart className="h-4 w-4" /> },
-      { id: "lime", name: "LIME", icon: <BarChart2 className="h-4 w-4" /> },
-      { id: "human-review", name: "Human Review Console", icon: <UserCheck className="h-4 w-4" /> }
-    ]
-  },
-  {
-    id: "cloud",
-    title: "Cloud Infrastructure",
-    color: "black",
-    icon: <Cloud className="h-5 w-5" />,
-    components: [
-      { id: "aws", name: "AWS", icon: <Cloud className="h-4 w-4" /> },
-      { id: "gcp", name: "GCP", icon: <Cloud className="h-4 w-4" /> },
-      { id: "docker", name: "Docker", icon: <Server className="h-4 w-4" /> },
-      { id: "k8s", name: "Kubernetes", icon: <Server className="h-4 w-4" /> },
-      { id: "security", name: "Security", icon: <Lock className="h-4 w-4" /> }
-    ]
-  }
-]
-
 export function PlatformArchitecture() {
+  const { t } = useI18n()
   const [hoveredComponent, setHoveredComponent] = useState<string | null>(null)
   const [expandedLayers, setExpandedLayers] = useState<Record<string, boolean>>({})
+
+  // Define architecture layers with translations
+  const architectureLayers: ArchitectureLayer[] = [
+    {
+      id: "data",
+      title: t("Data Ingestion & Storage"),
+      color: "blue",
+      icon: <Database className="h-5 w-5" />,
+      components: [
+        { id: "gov-api", name: t("Government APIs"), icon: <Globe className="h-4 w-4" /> },
+        { id: "weather", name: t("Weather Feeds"), icon: <CloudRain className="h-4 w-4" /> },
+        { id: "satellite", name: t("Satellite Feeds"), icon: <Satellite className="h-4 w-4" /> },
+        { id: "sensors", name: t("Field Sensors"), icon: <Activity className="h-4 w-4" /> },
+        { id: "raw-db", name: t("Raw Data Store"), icon: <Server className="h-4 w-4" /> }
+      ]
+    },
+    {
+      id: "backend",
+      title: t("Backend & Processing"),
+      color: "purple",
+      icon: <Server className="h-5 w-5" />,
+      components: [
+        { id: "fastapi", name: t("FastAPI Backend"), icon: <Code className="h-4 w-4" /> },
+        { id: "scheduler", name: t("Scheduler"), icon: <Clock className="h-4 w-4" /> },
+        { id: "central-db", name: t("Central Database"), icon: <Database className="h-4 w-4" /> },
+        { id: "api-gateway", name: t("API Gateway"), icon: <Cloud className="h-4 w-4" /> }
+      ]
+    },
+    {
+      id: "ai",
+      title: t("AI & Intelligence"),
+      color: "orange",
+      icon: <Brain className="h-5 w-5" />,
+      components: [
+        { id: "watsonx", name: t("WatsonX"), icon: <Brain className="h-4 w-4" /> },
+        { id: "langchain", name: t("LangChain"), icon: <Code className="h-4 w-4" /> },
+        { id: "xgboost", name: t("XGBoost"), icon: <BarChart2 className="h-4 w-4" /> },
+        { id: "lightgbm", name: t("LightGBM"), icon: <BarChart className="h-4 w-4" /> }
+      ]
+    },
+    {
+      id: "agents",
+      title: t("Multi-Agent System"),
+      color: "green",
+      icon: <UserCheck className="h-5 w-5" />,
+      components: [
+        { id: "farm", name: t("Farm Agent"), icon: <Leaf className="h-4 w-4" /> },
+        { id: "water", name: t("Water Agent"), icon: <Droplet className="h-4 w-4" /> },
+        { id: "power", name: t("Power Agent"), icon: <Zap className="h-4 w-4" /> },
+        { id: "welfare", name: t("Welfare Agent"), icon: <Gift className="h-4 w-4" /> },
+        { id: "market", name: t("Market Agent"), icon: <ShoppingCart className="h-4 w-4" /> },
+        { id: "education", name: t("Education Agent"), icon: <Book className="h-4 w-4" /> },
+        { id: "coordinator", name: t("Coordinator Agent"), icon: <UserCheck className="h-4 w-4" /> }
+      ]
+    },
+    {
+      id: "messaging",
+      title: t("Messaging & Event Layer"),
+      color: "yellow",
+      icon: <MessageCircle className="h-5 w-5" />,
+      components: [
+        { id: "kafka", name: t("Kafka"), icon: <MessageCircle className="h-4 w-4" /> },
+        { id: "redis", name: t("Redis Streams"), icon: <Database className="h-4 w-4" /> }
+      ]
+    },
+    {
+      id: "edge",
+      title: t("Edge Layer"),
+      color: "gray",
+      icon: <Cpu className="h-5 w-5" />,
+      components: [
+        { id: "edge-device", name: t("Edge Device"), icon: <Cpu className="h-4 w-4" /> },
+        { id: "local-ai", name: t("Local AI Models"), icon: <Brain className="h-4 w-4" /> },
+        { id: "sqlite", name: t("SQLite"), icon: <Database className="h-4 w-4" /> },
+        { id: "sync", name: t("Sync Service"), icon: <RefreshCw className="h-4 w-4" /> }
+      ]
+    },
+    {
+      id: "communication",
+      title: t("Communication Layer"),
+      color: "red",
+      icon: <Phone className="h-5 w-5" />,
+      components: [
+        { id: "ivr", name: t("IVR"), icon: <Phone className="h-4 w-4" /> },
+        { id: "sms", name: t("SMS Gateway"), icon: <MessageSquare className="h-4 w-4" /> },
+        { id: "tts", name: t("TTS (WatsonX)"), icon: <Volume2 className="h-4 w-4" /> },
+        { id: "loudspeakers", name: t("Loudspeakers"), icon: <Volume2 className="h-4 w-4" /> },
+        { id: "radio", name: t("Community Radio"), icon: <Radio className="h-4 w-4" /> }
+      ]
+    },
+    {
+      id: "explainability",
+      title: t("Explainability & Safety"),
+      color: "teal",
+      icon: <Shield className="h-5 w-5" />,
+      components: [
+        { id: "shap", name: t("SHAP"), icon: <BarChart className="h-4 w-4" /> },
+        { id: "lime", name: t("LIME"), icon: <BarChart2 className="h-4 w-4" /> },
+        { id: "human-review", name: t("Human Review Console"), icon: <UserCheck className="h-4 w-4" /> }
+      ]
+    },
+    {
+      id: "cloud",
+      title: t("Cloud Infrastructure"),
+      color: "black",
+      icon: <Cloud className="h-5 w-5" />,
+      components: [
+        { id: "aws", name: t("AWS"), icon: <Cloud className="h-4 w-4" /> },
+        { id: "gcp", name: t("GCP"), icon: <Cloud className="h-4 w-4" /> },
+        { id: "docker", name: t("Docker"), icon: <Server className="h-4 w-4" /> },
+        { id: "k8s", name: t("Kubernetes"), icon: <Server className="h-4 w-4" /> },
+        { id: "security", name: t("Security"), icon: <Lock className="h-4 w-4" /> }
+      ]
+    }
+  ]
 
   const toggleLayer = (layerId: string) => {
     setExpandedLayers(prev => ({
@@ -182,7 +185,7 @@ export function PlatformArchitecture() {
     <Card className="w-full bg-gradient-to-br from-background to-secondary/10">
       <CardHeader className="pb-3 sm:pb-4">
         <CardTitle className="text-base sm:text-lg md:text-xl bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
-          AI-Powered Rural Services Platform Architecture
+          {t("AI-Powered Rural Services Platform Architecture")}
         </CardTitle>
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-6">
@@ -253,28 +256,38 @@ export function PlatformArchitecture() {
           {/* Connection Visualization - Simplified for mobile */}
           <div className="mt-5 pt-4 sm:mt-6 sm:pt-4 border-t border-border">
             <h3 className="font-semibold mb-3 text-sm sm:text-base md:text-lg bg-gradient-to-r from-green-600 to-saffron-500 bg-clip-text text-transparent">
-              Data Flow & Connections
+              {t("Data Flow & Connections")}
             </h3>
             <div className="space-y-3 text-xs sm:text-sm">
               <div className="p-3 rounded-lg bg-secondary/30">
-                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Data Ingestion:</p>
-                <p className="text-xs sm:text-sm text-foreground/80">Government APIs, Weather Feeds, Satellite Feeds, and Field Sensors → Raw Data Store</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">{t("Data Ingestion:")}</p>
+                <p className="text-xs sm:text-sm text-foreground/80">
+                  {t("Government APIs")}, {t("Weather Feeds")}, {t("Satellite Feeds")}, {t("Field Sensors")} → {t("Raw Data Store")}
+                </p>
               </div>
               <div className="p-3 rounded-lg bg-secondary/30">
-                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Processing:</p>
-                <p className="text-xs sm:text-sm text-foreground/80">Raw Data Store → FastAPI Backend → Central Database</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">{t("Processing:")}</p>
+                <p className="text-xs sm:text-sm text-foreground/80">
+                  {t("Raw Data Store")} → {t("FastAPI Backend")} → {t("Central Database")}
+                </p>
               </div>
               <div className="p-3 rounded-lg bg-secondary/30">
-                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">AI Processing:</p>
-                <p className="text-xs sm:text-sm text-foreground/80">WatsonX, LangChain, XGBoost, LightGBM → Multi-Agent System</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">{t("AI Processing:")}</p>
+                <p className="text-xs sm:text-sm text-foreground/80">
+                  {t("WatsonX")}, {t("LangChain")}, {t("XGBoost")}, {t("LightGBM")} → {t("Multi-Agent System")}
+                </p>
               </div>
               <div className="p-3 rounded-lg bg-secondary/30">
-                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Communication:</p>
-                <p className="text-xs sm:text-sm text-foreground/80">Agents → Messaging Layer → Communication Layer → Citizens</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">{t("Communication:")}</p>
+                <p className="text-xs sm:text-sm text-foreground/80">
+                  {t("Agents")} → {t("Messaging & Event Layer")} → {t("Communication Layer")} → {t("Citizens")}
+                </p>
               </div>
               <div className="p-3 rounded-lg bg-secondary/30">
-                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">Infrastructure:</p>
-                <p className="text-xs sm:text-sm text-foreground/80">All components deployed and supported by Cloud Infrastructure</p>
+                <p className="font-medium mb-1 text-xs sm:text-sm text-foreground">{t("Infrastructure:")}</p>
+                <p className="text-xs sm:text-sm text-foreground/80">
+                  {t("All components deployed and supported by Cloud Infrastructure which is present in http://localhost:3000/officer/dashboard put this section after the Multi-Agent Architecture")}
+                </p>
               </div>
             </div>
           </div>

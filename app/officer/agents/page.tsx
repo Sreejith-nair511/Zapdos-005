@@ -1,5 +1,5 @@
 "use client"
-import { I18nProvider } from "@/components/i18n-provider"
+import { useI18n } from "@/components/i18n-provider"
 import { VoiceConsole } from "@/components/voice-console"
 import { AgentNavigation } from "@/components/agent-navigation"
 import { ExplainableAIModal } from "@/components/explainable-ai-modal"
@@ -10,13 +10,15 @@ import { OfficerHeader } from "@/components/officer-header"
 import { Chatbot } from "@/components/chatbot"
 
 function AgentsInner() {
+  const { t } = useI18n()
+  
   return (
     <main className="mx-auto max-w-6xl px-4 py-6 md:py-8 grid gap-6" role="main">
       <OfficerHeader />
 
       {/* Agent Navigation */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">AI Agents</h2>
+        <h2 className="text-xl font-semibold mb-4">{t("AI Agents")}</h2>
         <AgentNavigation />
       </div>
       
@@ -42,9 +44,5 @@ function AgentsInner() {
 }
 
 export default function Page() {
-  return (
-    <I18nProvider>
-      <AgentsInner />
-    </I18nProvider>
-  )
+  return <AgentsInner />
 }
