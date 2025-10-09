@@ -7,6 +7,19 @@
 
 Digital Sarpanch is an innovative AI-powered platform designed to revolutionize rural governance in India. This Progressive Web App (PWA) provides citizens with easy access to government services, information, and assistance through voice interaction, chat, and intelligent automation.
 
+## 📚 Documentation
+
+For comprehensive documentation, please refer to:
+
+- [Detailed README](DETAILED_README.md) - Complete project overview and setup instructions
+- [API Summary](API_SUMMARY.md) - Comprehensive list of all API endpoints
+- [API Documentation](API_DOCUMENTATION.md) - Detailed API specifications
+- [Agents Documentation](AGENTS_DOCUMENTATION.md) - Information about AI agents
+- [Chatbot Documentation](CHATBOT_DOCUMENTATION.md) - Chatbot implementation details
+- [Voice Interaction](VOICE_INTERACTION.md) - Voice processing capabilities
+- [Accessibility Improvements](ACCESSIBILITY_IMPROVEMENTS.md) - Accessibility features
+- [Project Structure](PROJECT_STRUCTURE.md) - Detailed file organization
+
 ## 🌟 Key Features
 
 ### 🗣️ Voice-Activated Citizen Services
@@ -33,6 +46,12 @@ Digital Sarpanch is an innovative AI-powered platform designed to revolutionize 
 - **Accessibility Features**: High contrast, screen reader support, keyboard navigation
 - **Responsive Design**: Optimized for mobile, tablet, and desktop
 
+### 🎨 Customizable Appearance
+- **Multiple Color Themes**: Default, Vibrant, Ocean, Sunset, and Indian Tricolor themes
+- **Light/Dark Mode**: System-aware theme switching
+- **Animation Controls**: Enable/disable UI animations
+- **Accessibility Options**: Font size adjustments, high contrast mode
+
 ## 🚀 Technology Stack
 
 - **Frontend**: Next.js 15.2.4, TypeScript, Tailwind CSS, Framer Motion
@@ -53,7 +72,7 @@ Digital Sarpanch is an innovative AI-powered platform designed to revolutionize 
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/digital-sarpanch.git
+   git clone https://github.com/Sreejith-nair511/Zapdos-005.git
    cd digital-sarpanch
    ```
 
